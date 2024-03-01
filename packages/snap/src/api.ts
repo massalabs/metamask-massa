@@ -4,6 +4,7 @@ import type {
   Web3Account,
 } from '@massalabs/massa-web3';
 import { ICallData, OperationTypeId, CHAIN_ID } from '@massalabs/massa-web3';
+import { panel, text } from '@metamask/snaps-sdk';
 
 import { MassaAccount } from './account';
 import { Encoder } from './encoder';
@@ -36,11 +37,10 @@ export class RpcHandler {
       BigInt(CHAIN_ID.BuildNet),
     );
 
-    const res = await RpcHandler.sendOperation(
+    return RpcHandler.sendOperation(
       [[signedData]],
-      'send_transaction',
+      'send_operations',
     );
-    return JSON.parse(res.text()).result;
   }
 
   static async sendOperation(data: object, operation: string): Promise<any> {
@@ -51,11 +51,28 @@ export class RpcHandler {
       id: 0,
     };
 
-    return fetch('https://buildnet.massa.net/api/v2', {
+    const res = await fetch('https://buildnet.massa.net/api/v2', {
       headers: requestHeaders,
       body: JSON.stringify(body),
       method: 'POST',
     });
+    const json = (await res.json()) as unknown as { result: any; error: any };
+
+    if (json.error) {
+      await snap.request({
+        method: 'snap_dialog',
+        params: {
+          type: 'alert',
+          content: panel([
+            text('Operation error: '),
+            text(JSON.stringify(json.error)),
+          ]),
+        },
+      });
+      throw new Error(json.error.message);
+    }
+
+    return json.result;
   }
 
   public static async getNodeStatus() {
@@ -71,7 +88,10 @@ export class RpcHandler {
       body: JSON.stringify(body),
       method: 'POST',
     });
-    const json = (await res.json()) as unknown as { result: INodeStatus };
+    const json = (await res.json()) as unknown as { result: INodeStatus, error: any };
+    if (json.error) {
+      throw new Error(json.error.message);
+    }
     return json.result;
   }
 }

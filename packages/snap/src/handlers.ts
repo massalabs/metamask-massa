@@ -86,33 +86,7 @@ export const transfer: Handler<ITransactionData, string[]> = async (params) => {
     fee: BigInt(params.fee),
   };
 
-  await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'alert',
-      content: panel([
-        text('Sending transaction...'),
-        text(
-          wallet.wallet().getBaseAccount()?.address() ?? '_No address found_',
-        ),
-      ]),
-    },
-  });
-
-  try {
-    const res = await RpcHandler.sendTransaction(deserialized);
-    await snap.request({
-      method: 'snap_dialog',
-      params: {
-        type: 'alert',
-        content: panel([text('Transaction sent!')]),
-      },
-    });
-    return res;
-  } catch (error: any) {
-    console.error(error);
-    return [error.message];
-  }
+  return RpcHandler.sendTransaction(deserialized);
 };
 
 export const callSmartContract: Handler<ICallData, string> = async (
