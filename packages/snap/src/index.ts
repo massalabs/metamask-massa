@@ -1,5 +1,8 @@
-import type { OnRpcRequestHandler } from '@metamask/snaps-sdk';
+import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 import { panel, text } from '@metamask/snaps-sdk';
+import { MassaAccount } from './account';
+import { signMessage, callSmartContract, getAddress, showSecretKey, SignMessageParams, transfer } from './handlers';
+import { ICallData, ITransactionData } from '@massalabs/massa-web3';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -12,24 +15,19 @@ import { panel, text } from '@metamask/snaps-sdk';
  * @throws If the request method is not valid for this snap.
  */
 export const onRpcRequest: OnRpcRequestHandler = async ({
-  origin,
   request,
 }) => {
   switch (request.method) {
-    case 'hello':
-      return snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            text(`Hello, **${origin}**!`),
-            text('This custom confirmation is just for display purposes.'),
-            text(
-              'But you can edit the snap source code to make it do something, if you want to!',
-            ),
-          ]),
-        },
-      });
+    case 'signMessage':
+      return signMessage(request.params as unknown as SignMessageParams) as unknown as Promise<Json>;
+    case 'callSmartContract':
+      return callSmartContract(request.params as unknown as ICallData);
+    case 'transfer':
+      return transfer(request.params as unknown as ITransactionData);
+    case 'getAddress':
+      return getAddress();
+    case 'showSecretKey':
+      return showSecretKey();
     default:
       throw new Error('Method not found.');
   }

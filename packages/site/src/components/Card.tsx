@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import styled from 'styled-components';
 
 type CardProps = {
@@ -48,12 +48,13 @@ const Description = styled.div`
   margin-bottom: 2.4rem;
 `;
 
-export const Card = ({ content, disabled = false, fullWidth }: CardProps) => {
+export const Card = ({ content, disabled = false, fullWidth, children }: PropsWithChildren<CardProps>) => {
   const { title, description, button } = content;
   return (
     <CardWrapper fullWidth={fullWidth} disabled={disabled}>
       {title && <Title>{title}</Title>}
       <Description>{description}</Description>
+      {children}
       {button}
     </CardWrapper>
   );

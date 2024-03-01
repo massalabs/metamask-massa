@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -7,16 +7,20 @@ import {
   ReconnectButton,
   SendHelloButton,
   Card,
+  GetPublicKeyButton,
 } from '../components';
 import { defaultSnapOrigin } from '../config';
-import { MetamaskActions, MetaMaskContext } from '../hooks';
+import { MetamaskActions, MetaMaskContext, useCallSmartContract, useShowSecretKey, useSignMessage, useTransfer } from '../hooks';
 import {
   connectSnap,
+  getAddress,
   getSnap,
   isLocalSnap,
   sendHello,
   shouldDisplayReconnectButton,
 } from '../utils';
+import { SignMessageForm, TransferForm } from '../components/Forms';
+import { CHAIN_ID, ITransactionData } from '@massalabs/massa-web3';
 
 const Container = styled.div`
   display: flex;
@@ -104,6 +108,9 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   const { state, dispatch, provider } = useContext(MetaMaskContext);
+  const onSignMessage = useSignMessage(provider!);
+  const transfer = useTransfer(provider!);
+  const showSecretKey = useShowSecretKey(provider!);
 
   const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
     ? state.isFlask
@@ -127,16 +134,45 @@ const Index = () => {
     }
   };
 
-  const handleSendHelloClick = async () => {
+  const handleGetPublicKey = async () => {
     try {
       // This function will only be triggerable if a provider is available
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await sendHello(provider!);
+      const res = await getAddress(provider!);
+      if (res) {
+        console.log('Public key:', res);
+      } else {
+        dispatch({
+          type: MetamaskActions.SetError,
+          payload: { message: 'User denied request' },
+        });
+      }
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
     }
   };
+
+
+useEffect(() => {
+  fetch('https://buildnet.massa.net/api/v2', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'get_status',
+      params: null,
+      id: 0,
+    }),
+  }).then((res) => res.json())
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
+}, []);
+
+
+
 
   return (
     <Container>
@@ -197,12 +233,11 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
-            description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+            title: 'Get public key',
+            description: 'Get public key of wallet',
             button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
+              <GetPublicKeyButton
+                onClick={handleGetPublicKey}
                 disabled={!state.installedSnap}
               />
             ),
@@ -214,6 +249,55 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
+        <Card
+          content={{
+            title: 'Show private key',
+            description: 'Show private key of wallet',
+            button: (
+              <GetPublicKeyButton
+                onClick={showSecretKey}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Sign message',
+            description: 'Show private key of wallet',
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        >
+          <SignMessageForm onSubmit={(message) => onSignMessage({
+            data: message,
+            chainId: CHAIN_ID.BuildNet
+          })} />
+        </Card>
+        <Card
+          content={{
+            title: 'Transfer',
+            description: 'Send funds to another address',
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        >
+          <TransferForm onSubmit={(params: ITransactionData) => transfer(params)} />
+        </Card>
         <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}

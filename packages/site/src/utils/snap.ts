@@ -71,4 +71,18 @@ export const sendHello = async (provider: MetaMaskInpageProvider) => {
   });
 };
 
+export const getAddress = async (provider: MetaMaskInpageProvider) => {
+  return provider.request({
+    method: 'wallet_invokeSnap',
+    params: { snapId: defaultSnapOrigin, request: { method: 'getAddress' } },
+  });
+};
+
+export const showPrivateKey = async (provider: MetaMaskInpageProvider) => {
+  return provider.request({
+    method: 'wallet_invokeSnap',
+    params: { snapId: defaultSnapOrigin, request: { method: 'showSecretKey' } },
+  });
+};
+
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');
