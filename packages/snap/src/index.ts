@@ -1,8 +1,14 @@
+import type { ICallData, ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
-import { panel, text } from '@metamask/snaps-sdk';
-import { MassaAccount } from './account';
-import { signMessage, callSmartContract, getAddress, showSecretKey, SignMessageParams, transfer } from './handlers';
-import { ICallData, ITransactionData } from '@massalabs/massa-web3';
+
+import type { SignMessageParams } from './handlers';
+import {
+  signMessage,
+  callSmartContract,
+  getAddress,
+  showSecretKey,
+  transfer,
+} from './handlers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -14,12 +20,12 @@ import { ICallData, ITransactionData } from '@massalabs/massa-web3';
  * @returns The result of `snap_dialog`.
  * @throws If the request method is not valid for this snap.
  */
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
     case 'signMessage':
-      return signMessage(request.params as unknown as SignMessageParams) as unknown as Promise<Json>;
+      return signMessage(
+        request.params as unknown as SignMessageParams,
+      ) as unknown as Promise<Json>;
     case 'callSmartContract':
       return callSmartContract(request.params as unknown as ICallData);
     case 'transfer':
