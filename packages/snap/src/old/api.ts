@@ -6,7 +6,7 @@ import type {
 import { ICallData, OperationTypeId, CHAIN_ID } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { MassaAccount } from './account';
+import { MassaAccount } from '../account';
 import { Encoder } from './encoder';
 
 const requestHeaders: [string, string][] = [
@@ -44,7 +44,7 @@ export class RpcHandler {
   }
 
   public static async estimateGas(data: ICallData) {
-    return 
+    return
   }
 
   static async callSC(data: ICallData) {

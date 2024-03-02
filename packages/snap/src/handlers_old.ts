@@ -15,7 +15,7 @@ import {
 } from '@metamask/snaps-sdk';
 
 import { MassaAccount } from './account';
-import { RpcHandler } from './api';
+import { RpcHandler } from './old/api';
 import { CallSCParameters, CallSCResponse } from './dto';
 
 export type Handler<T, O> = (params: T) => Promise<O>;

@@ -1,15 +1,8 @@
 import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
-import { type CallSCParameters } from './dto';
-import type { SignMessageParams } from './handlers';
-import {
-  signMessage,
-  callSmartContract,
-  getAddress,
-  showSecretKey,
-  transfer,
-} from './handlers';
+import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams } from './handlers';
+import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials } from './handlers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -23,36 +16,37 @@ import {
  */
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
-    case 'signMessage':
-      return signMessage(
-        request.params as unknown as SignMessageParams,
-      ) as unknown as Promise<Json>;
-    case 'callSmartContract':
-      return callSmartContract(request.params as unknown as CallSCParameters);
-    case 'transfer':
-      return transfer(request.params as unknown as ITransactionData);
-    case 'getAddress':
-      return getAddress();
-    case 'showSecretKey':
-      return showSecretKey();
     case 'account.list':
-      return '';
+      return listAccounts();
     case 'account.balance':
-      return '';
+      return getBalance(request.params as GetBalanceParams);
     case 'account.import':
-      return {
-        response: 'ERROR',
-        message:
-          'Cannot import an account in metamask. Please create a new account on metamask',
-      };
+      return importAccount(request.params as unknown as ImportAccountParams);
     case 'account.sign':
-      return '';
+      return signMessage(request.params as unknown as SignMessageParams) as unknown as Promise<Json>;
     case 'account.callSC':
-      return '';
+      return callSmartContract(request.params as unknown as CallSCParameters);
     case 'account.sendTransaction':
-      return '';
-    case 'Provider.getNodeUrl':
-      return '';
+      return transfer(request.params as unknown as TransferParams);
+    case 'Provider.getNodeUrls':
+      return getNodeUrls();
+    case 'account.sellRolls':
+      return sellRolls(request.params as unknown as SellRollsParams);
+    case 'account.buyRolls':
+      return buyRolls(request.params as unknown as BuyRollsParams);
+    case 'account.generateNewAccount':
+      return generateAccount(request.params as unknown as GenerateAccountParams);
+    case 'account.setActive':
+      return setActiveAccount(request.params as unknown as SetActiveAccountParams);
+    case 'account.getActive':
+      return getActiveAccount();
+    case 'Provider.getNetwork':
+      return getNetwork();
+    case 'Provider.setNetwork':
+      return setNetwork(request.params as unknown as SetNetworkParams);
+
+    case 'account.showCredentials':
+      return showAccountCredentials(request.params as unknown as ShowAccountCredentialsParams);
     default:
       throw new Error('Method not found.');
   }

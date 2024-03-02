@@ -3,9 +3,9 @@ export type State = Record<string, any>;
 export class StateManager {
   static #state: State | undefined = undefined;
 
-  public static getState(key: string) {
+  public static async getState(key: string) {
     if (!this.#state) {
-      this.#state = this.#retrieveState();
+      this.#state = await this.#retrieveState();
     }
     return this.#state[key];
   }

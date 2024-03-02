@@ -11,7 +11,7 @@ import type {
 import { OperationTypeId, utils } from '@massalabs/massa-web3';
 
 import { RpcHandler } from './api';
-import { Address } from './utils';
+import { Address } from '../utils';
 
 export class Encoder {
   public static async signData(
