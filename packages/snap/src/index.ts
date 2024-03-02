@@ -1,6 +1,7 @@
-import type { ICallData, ITransactionData } from '@massalabs/massa-web3';
+import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
+import { type CallSCParameters } from './dto';
 import type { SignMessageParams } from './handlers';
 import {
   signMessage,
@@ -9,7 +10,6 @@ import {
   showSecretKey,
   transfer,
 } from './handlers';
-import { CallSCParameters } from './dto';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -35,6 +35,24 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return getAddress();
     case 'showSecretKey':
       return showSecretKey();
+    case 'account.list':
+      return '';
+    case 'account.balance':
+      return '';
+    case 'account.import':
+      return {
+        response: 'ERROR',
+        message:
+          'Cannot import an account in metamask. Please create a new account on metamask',
+      };
+    case 'account.sign':
+      return '';
+    case 'account.callSC':
+      return '';
+    case 'account.sendTransaction':
+      return '';
+    case 'Provider.getNodeUrl':
+      return '';
     default:
       throw new Error('Method not found.');
   }

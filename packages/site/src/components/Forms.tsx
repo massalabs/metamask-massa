@@ -1,15 +1,21 @@
-import { useState, useEffect, FC, FormEventHandler } from 'react';
-import { ICallData, ITransactionData } from '@massalabs/massa-web3';
-import { CallSCParameters } from 'src/hooks';
+import type { ICallData, ITransactionData } from '@massalabs/massa-web3';
+import { Args } from '@massalabs/massa-web3';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { CallSCParameters } from 'src/hooks';
 
 export const SCcallForm: FC<{ onSubmit: (message: ICallData) => void}> = ({onSubmit}) => {
-    const [form, setForm] = useState<Omit<CallSCParameters, "nickname">>({
-        fee: 0n,
-        at: '',
-        functionName: '',
-        args: []
-    });
-
+  const [form, setForm] = useState<Omit<CallSCParameters, 'nickname'>>({
+    fee: 0n,
+    functionName: '',
+    at: '',
+    args: [],
+    coins: '',
+    nonPersistentExecution: {
+      isNPE: false,
+      maxGas: '',
+    },
+  });
 
   function handleSubmit(event: any): void {
     event.preventDefault();
@@ -29,47 +35,50 @@ export const SCcallForm: FC<{ onSubmit: (message: ICallData) => void}> = ({onSub
     }
   }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder='Fee'
-                value={form.fee.toString()}
-                onChange={(event) => setForm({...form, fee: BigInt(event.target.value)})}
-            />
-            <input
-                type="text"
-                placeholder='Max Gas'
-                value={form.maxGas.toString()}
-                onChange={(event) => setForm({...form, maxGas: BigInt(event.target.value)})}
-            />
-            <input
-                type="text"
-                placeholder='Coins'
-                value={getCoins()}
-                onChange={(event) => setCoins(event.target.value)}
-            />
-            <input
-                type="text"
-                placeholder='Target Address'
-                value={form.targetAddress}
-                onChange={(event) => setForm({...form, targetAddress: event.target.value})}
-            />
-            <input
-                type="text"
-                placeholder='Function Name'
-                value={form.functionName}
-                onChange={(event) => setForm({...form, functionName: event.target.value})}
-            />
-            <input
-                type="text"
-                placeholder='Params'
-                value={(form.parameter as number[]).map(toString).join(',')}
-                onChange={(event) => setForm({...form, parameter: event.target.value.split(',').map(parseInt)})}
-            />
-            <button type="submit">Submit</button>
-        </form>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Fee"
+        value={form.fee.toString()}
+        onChange={(event) =>
+          setForm({ ...form, fee: BigInt(event.target.value) })
+        }
+      />
+      <input
+        type="text"
+        placeholder="Coins"
+        value={getCoins()}
+        onChange={(event) => setCoins(event.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Target Address"
+        value={form.at}
+        onChange={(event) => setForm({ ...form, at: event.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Function Name"
+        value={form.functionName}
+        onChange={(event) =>
+          setForm({ ...form, functionName: event.target.value })
+        }
+      />
+      <input
+        type="text"
+        placeholder="Arguments (comma separated)"
+        value={form.args.map(toString).join(',')}
+        onChange={(event) =>
+          setForm({
+            ...form,
+            args: event.target.value.split(',').map(parseInt),
+          })
+        }
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 
 export const SignMessageForm: FC<{ onSubmit: (message: string) => void}> = ({onSubmit}) => {

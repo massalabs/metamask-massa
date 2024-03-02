@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -8,9 +9,10 @@ import {
   SendHelloButton,
   Card,
   GetPublicKeyButton,
+  CallSC,
 } from '../components';
 import { defaultSnapOrigin } from '../config';
-import { MetamaskActions, MetaMaskContext, useCallSmartContract, useShowSecretKey, useSignMessage, useTransfer } from '../hooks';
+import { CallSCParameters, MetamaskActions, MetaMaskContext, useCallSmartContract, useShowSecretKey, useSignMessage, useTransfer } from '../hooks';
 import {
   connectSnap,
   getAddress,
@@ -20,7 +22,7 @@ import {
   shouldDisplayReconnectButton,
 } from '../utils';
 import { SignMessageForm, TransferForm } from '../components/Forms';
-import { CHAIN_ID, ITransactionData } from '@massalabs/massa-web3';
+import { Args, CHAIN_ID, ClientFactory, DefaultProviderUrls, EOperationStatus, EventPoller, IEventFilter, ITransactionData, fromMAS } from '@massalabs/massa-web3';
 
 const Container = styled.div`
   display: flex;
@@ -111,6 +113,7 @@ const Index = () => {
   const onSignMessage = useSignMessage(provider!);
   const transfer = useTransfer(provider!);
   const showSecretKey = useShowSecretKey(provider!);
+  const callSmartContract = useCallSmartContract(provider!);
 
   const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
     ? state.isFlask
@@ -269,6 +272,65 @@ useEffect(() => {
         />
         <Card
           content={{
+            title: 'Call Smart Contract',
+            description: 'Calls a function of a smart contract',
+            button: (
+              <CallSC
+                onClick={() => {
+                  callSmartContract({
+                    nickname: '',
+                    fee: fromMAS('10').toString(),
+                    functionName: 'myFunc',
+                    at: 'AS12HhpfWCwvDiJ1znBFtCbXKuJA473cvXoCEHsiQeJhxYBv7XbPd',
+                    args: [],
+                    coins: fromMAS('0').toString(),
+                    nonPersistentExecution: {
+                      isNPE: false,
+                      maxGas: '1000000000',
+                    },
+                  } as CallSCParameters)
+                    .then(async (res) => {
+                      const id = (res as unknown as { operationId: string })
+                        .operationId;
+                      const client = await ClientFactory.createDefaultClient(
+                        DefaultProviderUrls.BUILDNET,
+                        CHAIN_ID.BuildNet,
+                        true,
+                      );
+                      console.log(`fecthing events for id: ${id}`);
+                      await client
+                        .smartContracts()
+                        .awaitRequiredOperationStatus(
+                          id,
+                          EOperationStatus.FINAL_SUCCESS,
+                        );
+                      const events = await EventPoller.getEventsOnce({
+                          start: null,
+                          end: null,
+                          original_operation_id: id,
+                          original_caller_address: null,
+                          emitter_address: null,
+                        } as IEventFilter,
+                        client,
+                      );
+                      console.log('events:');
+                      console.log(events);
+                    })
+                    .catch((error) => console.error(error));
+                }}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            isMetaMaskReady &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
             title: 'Sign message',
             description: 'Show private key of wallet',
           }}
@@ -279,10 +341,14 @@ useEffect(() => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         >
-          <SignMessageForm onSubmit={(message) => onSignMessage({
-            data: message,
-            chainId: CHAIN_ID.BuildNet
-          })} />
+          <SignMessageForm
+            onSubmit={async (message) =>
+              await onSignMessage({
+                data: message,
+                chainId: CHAIN_ID.BuildNet,
+              })
+            }
+          />
         </Card>
         <Card
           content={{

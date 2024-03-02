@@ -1,11 +1,12 @@
-import { MetaMaskInpageProvider } from "@metamask/providers";
-import { useCallback } from "react";
-import { defaultSnapOrigin } from "../config";
-import { ICallData } from "@massalabs/massa-web3";
+/* eslint-disable @typescript-eslint/array-type */
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import { useCallback } from 'react';
+
+import { defaultSnapOrigin } from '../config';
 
 export type CallSCParameters = {
   nickname: string;
-  fee: bigint;
+  fee: string;
   functionName: string;
   at: string;
   args: Array<number>;
@@ -13,17 +14,20 @@ export type CallSCParameters = {
   nonPersistentExecution?: {
     isNPE: boolean;
     maxGas: string;
-  }
-}
+  };
+};
 
-export const useCallSmartContract = async (provider: MetaMaskInpageProvider) => {
-    return useCallback(async (data: CallSCParameters) => {
-        return provider.request({
-            method: 'wallet_invokeSnap',
-            params: {
-              snapId: defaultSnapOrigin,
-              request: { method: 'callSmartContract', params: data }
-            }
-        });
-    }, [provider]);
-}
+export const useCallSmartContract = (provider: MetaMaskInpageProvider) => {
+  return useCallback(
+    async (data: CallSCParameters) => {
+      return provider.request({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: defaultSnapOrigin,
+          request: { method: 'callSmartContract', params: data },
+        },
+      });
+    },
+    [provider],
+  );
+};

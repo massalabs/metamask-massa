@@ -103,6 +103,10 @@ export const GetPublicKeyButton = (props: ComponentProps<typeof Button>) => {
   return <Button {...props}>Get public key</Button>;
 };
 
+export const CallSC = (props: ComponentProps<typeof Button>) => {
+  return <Button {...props}>Call SC</Button>;
+};
+
 export const HeaderButtons = ({
   state,
   onConnectClick,
