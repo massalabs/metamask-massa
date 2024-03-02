@@ -15,3 +15,4 @@ export * from './get-node-urls';
 export * from './sell-rolls';
 export * from './buy-rolls';
 export * from './show-account-credentials';
+export * from './delete-account';

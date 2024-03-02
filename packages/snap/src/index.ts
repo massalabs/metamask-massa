@@ -1,8 +1,8 @@
 import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
-import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams } from './handlers';
-import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials } from './handlers';
+import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams, DeleteAccountParams } from './handlers';
+import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials, deleteAccount } from './handlers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -22,6 +22,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return getBalance(request.params as GetBalanceParams);
     case 'account.import':
       return importAccount(request.params as unknown as ImportAccountParams);
+    case 'account.delete':
+      return deleteAccount(request.params as unknown as DeleteAccountParams);
     case 'account.sign':
       return signMessage(
         request.params as unknown as SignMessageParams,
