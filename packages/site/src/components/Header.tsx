@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import { Select } from '@chakra-ui/react';
+import { useContext, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { MetamaskActions, MetaMaskContext } from '../hooks';
@@ -45,6 +46,24 @@ export const Header = ({
 }) => {
   const theme = useTheme();
   const { state, dispatch, provider } = useContext(MetaMaskContext);
+  const [currentAccount, setCurrentAccount] = useState<{
+    name: string;
+    address: string;
+  } | null>({ name: 'Account 0', address: '' });
+  const [accountList, setAccountList] = useState<
+    { name: string; address: string }[]
+  >([
+    { name: 'Account 1', address: '' },
+    { name: 'Account 2', address: '' },
+  ]);
+
+  const [currentNetwork, setCurrentNetwork] = useState<string | null>(
+    'Mainnet',
+  );
+  const [networkList, setNetworkList] = useState<string[]>([
+    'Buildnet',
+    'Testnet',
+  ]);
 
   const handleConnectClick = async () => {
     try {
@@ -67,13 +86,37 @@ export const Header = ({
     <HeaderWrapper>
       <LogoWrapper>
         <SnapLogo color={theme.colors.icon?.default} size={36} />
-        <Title>template-snap</Title>
+        <Title>Massa</Title>
       </LogoWrapper>
       <RightContainer>
         <Toggle
           onToggle={handleToggleClick}
           defaultChecked={getThemePreference()}
         />
+        <Select>
+          {currentAccount !== null ? (
+            <option value="0">{currentAccount!.name}</option>
+          ) : (
+            <option value="0">Select Account</option>
+          )}
+          {accountList.map((account, index) => (
+            <option key={index} value={index}>
+              {account.name}
+            </option>
+          ))}
+        </Select>
+        <Select>
+          {currentNetwork !== null ? (
+            <option value="0">{currentNetwork}</option>
+          ) : (
+            <option value="0">Select Network</option>
+          )}
+          {networkList.map((network, index) => (
+            <option key={index} value={index}>
+              {network}
+            </option>
+          ))}
+        </Select>
         <HeaderButtons state={state} onConnectClick={handleConnectClick} />
       </RightContainer>
     </HeaderWrapper>

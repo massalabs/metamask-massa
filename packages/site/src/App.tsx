@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import type { FunctionComponent, ReactNode } from 'react';
 import { useContext } from 'react';
 import styled from 'styled-components';
@@ -22,13 +23,12 @@ export const App: FunctionComponent<AppProps> = ({ children }) => {
   const toggleTheme = useContext(ToggleThemeContext);
 
   return (
-    <>
-      <GlobalStyle />
+    <ChakraProvider>
       <Wrapper>
         <Header handleToggleClick={toggleTheme} />
         {children}
         <Footer />
       </Wrapper>
-    </>
+    </ChakraProvider>
   );
 };

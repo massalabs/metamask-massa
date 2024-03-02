@@ -59,22 +59,23 @@ export const getSnap = async (
   }
 };
 
-/**
- * Invoke the "hello" method from the example snap.
- * @param provider - The MetaMask inpage provider.
- */
-
-export const sendHello = async (provider: MetaMaskInpageProvider) => {
-  await provider.request({
+export const getActiveAccount = async (provider: MetaMaskInpageProvider) => {
+  return provider.request({
     method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'hello' } },
+    params: {
+      snapId: defaultSnapOrigin,
+      request: { method: 'account.getActive' },
+    },
   });
 };
 
-export const getAddress = async (provider: MetaMaskInpageProvider) => {
+export const getAccountList = async (provider: MetaMaskInpageProvider) => {
   return provider.request({
     method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'getAddress' } },
+    params: {
+      snapId: defaultSnapOrigin,
+      request: { method: 'account.list' },
+    },
   });
 };
 

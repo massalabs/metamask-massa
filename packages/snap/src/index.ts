@@ -23,7 +23,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'account.import':
       return importAccount(request.params as unknown as ImportAccountParams);
     case 'account.sign':
-      return signMessage(request.params as unknown as SignMessageParams) as unknown as Promise<Json>;
+      return signMessage(
+        request.params as unknown as SignMessageParams,
+      ) as unknown as Promise<Json>;
     case 'account.callSC':
       return callSmartContract(request.params as unknown as CallSCParameters);
     case 'account.sendTransaction':
@@ -35,9 +37,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'account.buyRolls':
       return buyRolls(request.params as unknown as BuyRollsParams);
     case 'account.generateNewAccount':
-      return generateAccount(request.params as unknown as GenerateAccountParams);
+      return generateAccount(
+        request.params as unknown as GenerateAccountParams,
+      );
     case 'account.setActive':
-      return setActiveAccount(request.params as unknown as SetActiveAccountParams);
+      return setActiveAccount(
+        request.params as unknown as SetActiveAccountParams,
+      );
     case 'account.getActive':
       return getActiveAccount();
     case 'Provider.getNetwork':
@@ -46,7 +52,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return setNetwork(request.params as unknown as SetNetworkParams);
 
     case 'account.showCredentials':
-      return showAccountCredentials(request.params as unknown as ShowAccountCredentialsParams);
+      return showAccountCredentials(
+        request.params as unknown as ShowAccountCredentialsParams,
+      );
     default:
       throw new Error('Method not found.');
   }

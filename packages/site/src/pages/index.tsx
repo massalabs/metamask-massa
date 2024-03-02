@@ -1,28 +1,43 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { useContext, useEffect } from 'react';
+import { Select, ChakraProvider } from '@chakra-ui/react';
+import {
+  ClientFactory,
+  DefaultProviderUrls,
+  EOperationStatus,
+  EventPoller,
+} from '@massalabs/massa-web3';
+import type { IEventFilter, ITransactionData } from '@massalabs/massa-web3';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
   Card,
   GetPublicKeyButton,
   CallSC,
 } from '../components';
+import { SignMessageForm, TransferForm } from '../components/Forms';
 import { defaultSnapOrigin } from '../config';
-import { CallSCParameters, MetamaskActions, MetaMaskContext, useCallSmartContract, useShowSecretKey, useSignMessage, useTransfer } from '../hooks';
+import type { CallSCParameters } from '../hooks';
+import {
+  MetamaskActions,
+  MetaMaskContext,
+  useAddress,
+  useCallSmartContract,
+  useShowSecretKey,
+  useSignMessage,
+  useTransfer,
+} from '../hooks';
 import {
   connectSnap,
-  getAddress,
+  getActiveAccount,
+  getAccountList,
   getSnap,
   isLocalSnap,
-  sendHello,
   shouldDisplayReconnectButton,
 } from '../utils';
-import { SignMessageForm, TransferForm } from '../components/Forms';
-import { Args, CHAIN_ID, ClientFactory, DefaultProviderUrls, EOperationStatus, EventPoller, IEventFilter, ITransactionData, fromMAS } from '@massalabs/massa-web3';
 
 const Container = styled.div`
   display: flex;
@@ -119,6 +134,18 @@ const Index = () => {
     ? state.isFlask
     : state.snapsDetected;
 
+  const handleDropDownActive = async () => {
+    let accounts: { name: string; address: string | null }[] =
+      await getAccountList(provider!);
+    accounts = accounts.filter(
+      (account) =>
+        account.address !== null && account.address !== currentAccount?.address,
+    );
+    if (accounts) {
+      setAccountList(accounts);
+    }
+  };
+
   const handleConnectClick = async () => {
     try {
       // This function will only be triggerable if a provider is available
@@ -131,6 +158,14 @@ const Index = () => {
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
       });
+
+      const res: { name: string; address: string } = await getActiveAccount(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        provider!,
+      );
+      if (res) {
+        setCurrentAccount(res);
+      }
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
@@ -141,7 +176,7 @@ const Index = () => {
     try {
       // This function will only be triggerable if a provider is available
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const res = await getAddress(provider!);
+      const res = await getActiveAccount(provider!);
       if (res) {
         console.log('Public key:', res);
       } else {
@@ -156,224 +191,15 @@ const Index = () => {
     }
   };
 
-
-useEffect(() => {
-  fetch('https://buildnet.massa.net/api/v2', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      jsonrpc: '2.0',
-      method: 'get_status',
-      params: null,
-      id: 0,
-    }),
-  }).then((res) => res.json())
-    .then((res) => console.log(res))
-    .catch((err) => console.error(err));
-}, []);
-
-
-
-
   return (
-    <Container>
-      <Heading>
-        Welcome to <Span>template-snap</Span>
-      </Heading>
-      <Subtitle>
-        Get started by editing <code>src/index.ts</code>
-      </Subtitle>
-      <CardContainer>
-        {state.error && (
-          <ErrorMessage>
-            <b>An error happened:</b> {state.error.message}
-          </ErrorMessage>
-        )}
-        {!isMetaMaskReady && (
-          <Card
-            content={{
-              title: 'Install',
-              description:
-                'Snaps is pre-release software only available in MetaMask Flask, a canary distribution for developers with access to upcoming features.',
-              button: <InstallFlaskButton />,
-            }}
-            fullWidth
-          />
-        )}
-        {!state.installedSnap && (
-          <Card
-            content={{
-              title: 'Connect',
-              description:
-                'Get started by connecting to and installing the example snap.',
-              button: (
-                <ConnectButton
-                  onClick={handleConnectClick}
-                  disabled={!isMetaMaskReady}
-                />
-              ),
-            }}
-            disabled={!isMetaMaskReady}
-          />
-        )}
-        {shouldDisplayReconnectButton(state.installedSnap) && (
-          <Card
-            content={{
-              title: 'Reconnect',
-              description:
-                'While connected to a local running snap this button will always be displayed in order to update the snap if a change is made.',
-              button: (
-                <ReconnectButton
-                  onClick={handleConnectClick}
-                  disabled={!state.installedSnap}
-                />
-              ),
-            }}
-            disabled={!state.installedSnap}
-          />
-        )}
-        <Card
-          content={{
-            title: 'Get public key',
-            description: 'Get public key of wallet',
-            button: (
-              <GetPublicKeyButton
-                onClick={handleGetPublicKey}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        <Card
-          content={{
-            title: 'Show private key',
-            description: 'Show private key of wallet',
-            button: (
-              <GetPublicKeyButton
-                onClick={showSecretKey}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        <Card
-          content={{
-            title: 'Call Smart Contract',
-            description: 'Calls a function of a smart contract',
-            button: (
-              <CallSC
-                onClick={() => {
-                  callSmartContract({
-                    nickname: '',
-                    fee: fromMAS('10').toString(),
-                    functionName: 'myFunc',
-                    at: 'AS12HhpfWCwvDiJ1znBFtCbXKuJA473cvXoCEHsiQeJhxYBv7XbPd',
-                    args: [],
-                    coins: fromMAS('0').toString(),
-                    nonPersistentExecution: {
-                      isNPE: false,
-                      maxGas: '1000000000',
-                    },
-                  } as CallSCParameters)
-                    .then(async (res) => {
-                      const id = (res as unknown as { operationId: string })
-                        .operationId;
-                      const client = await ClientFactory.createDefaultClient(
-                        DefaultProviderUrls.BUILDNET,
-                        CHAIN_ID.BuildNet,
-                        true,
-                      );
-                      console.log(`fecthing events for id: ${id}`);
-                      await client
-                        .smartContracts()
-                        .awaitRequiredOperationStatus(
-                          id,
-                          EOperationStatus.FINAL_SUCCESS,
-                        );
-                      const events = await EventPoller.getEventsOnce({
-                          start: null,
-                          end: null,
-                          original_operation_id: id,
-                          original_caller_address: null,
-                          emitter_address: null,
-                        } as IEventFilter,
-                        client,
-                      );
-                      console.log('events:');
-                      console.log(events);
-                    })
-                    .catch((error) => console.error(error));
-                }}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        <Card
-          content={{
-            title: 'Sign message',
-            description: 'Show private key of wallet',
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        >
-          <SignMessageForm
-            onSubmit={async (message) =>
-              await onSignMessage({
-                data: message,
-                chainId: CHAIN_ID.BuildNet,
-              })
-            }
-          />
-        </Card>
-        <Card
-          content={{
-            title: 'Transfer',
-            description: 'Send funds to another address',
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        >
-          <TransferForm onSubmit={(params: ITransactionData) => transfer(params)} />
-        </Card>
-        <Notice>
-          <p>
-            Please note that the <b>snap.manifest.json</b> and{' '}
-            <b>package.json</b> must be located in the server root directory and
-            the bundle must be hosted at the location specified by the location
-            field.
-          </p>
-        </Notice>
-      </CardContainer>
-    </Container>
+      <Container>
+        <Heading>
+
+        </Heading>
+        <CardContainer>
+
+        </CardContainer>
+      </Container>
   );
 };
 
