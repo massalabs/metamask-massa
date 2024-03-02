@@ -7,6 +7,9 @@ export class StateManager {
     if (!this.#state) {
       this.#state = await this.#retrieveState();
     }
+    if (!this.#state) {
+      return undefined;
+    }
     return this.#state[key];
   }
 

@@ -16,3 +16,6 @@ export * from './sell-rolls';
 export * from './buy-rolls';
 export * from './show-account-credentials';
 export * from './delete-account';
+export * from './add-token';
+export * from './delete-token';
+export * from './get-tokens';

@@ -1,8 +1,8 @@
 import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
-import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams, DeleteAccountParams } from './handlers';
-import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials, deleteAccount } from './handlers';
+import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams, DeleteAccountParams, AddTokenParams, DeleteTokenParams, GetTokensParams } from './handlers';
+import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials, deleteAccount, addToken, deleteToken, getTokens } from './handlers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -52,11 +52,18 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return getNetwork();
     case 'Provider.setNetwork':
       return setNetwork(request.params as unknown as SetNetworkParams);
-
     case 'account.showCredentials':
       return showAccountCredentials(
         request.params as unknown as ShowAccountCredentialsParams,
       );
+    case 'account.addToken':
+      return addToken(request.params as unknown as AddTokenParams);
+    case 'account.deleteToken':
+      return deleteToken(request.params as unknown as DeleteTokenParams);
+    case 'account.getTokens':
+      return getTokens(request.params as unknown as GetTokensParams);
+    case 'account.getOperations':
+      return '';
     default:
       throw new Error('Method not found.');
   }
