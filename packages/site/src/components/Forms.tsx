@@ -1,13 +1,13 @@
 import { useState, useEffect, FC, FormEventHandler } from 'react';
 import { ICallData, ITransactionData } from '@massalabs/massa-web3';
+import { CallSCParameters } from 'src/hooks';
 
 export const SCcallForm: FC<{ onSubmit: (message: ICallData) => void}> = ({onSubmit}) => {
-    const [form, setForm] = useState<ICallData>({
+    const [form, setForm] = useState<Omit<CallSCParameters, "nickname">>({
         fee: 0n,
-        maxGas: 0n,
-        targetAddress: '',
+        at: '',
         functionName: '',
-        parameter: []
+        args: []
     });
 
 

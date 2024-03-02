@@ -43,7 +43,15 @@ export class RpcHandler {
     );
   }
 
-  static async sendOperation(data: object, operation: string): Promise<any> {
+  public static async estimateGas(data: ICallData) {
+    return 
+  }
+
+  static async callSC(data: ICallData) {
+    return RpcHandler.sendOperation(data, 'call_smart_contract');
+  }
+
+  private static async sendOperation(data: object, operation: string): Promise<any> {
     const body = {
       jsonrpc: '2.0',
       method: operation,

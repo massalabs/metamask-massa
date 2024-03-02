@@ -27,10 +27,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@massalabs/massa-web3": "^3.0.2",
     "@metamask/key-tree": "^9.0.0",
     "@metamask/snaps-sdk": "^3.0.1",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "massa-web3": "https://github.com/0xMemoryGrinder/massa-web3"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",

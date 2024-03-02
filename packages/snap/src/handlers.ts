@@ -16,6 +16,7 @@ import {
 
 import { MassaAccount } from './account';
 import { RpcHandler } from './api';
+import { CallSCParameters, CallSCResponse } from './dto';
 
 export type Handler<T, O> = (params: T) => Promise<O>;
 
@@ -43,6 +44,7 @@ export type SignMessageParams = {
   chainId: bigint;
 };
 
+
 export const signMessage: Handler<SignMessageParams, ISignature> = async ({ data, chainId}) => {
   const wallet = await MassaAccount.getWalletClient();
   const address = (await MassaAccount.getAccount()).address!;
@@ -65,7 +67,7 @@ export const signMessage: Handler<SignMessageParams, ISignature> = async ({ data
 };
 
 export const transfer: Handler<ITransactionData, string[]> = async (params) => {
-  const wallet = await MassaAccount.getWeb3Client();
+  const client = await MassaAccount.getWeb3Client();
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -86,12 +88,10 @@ export const transfer: Handler<ITransactionData, string[]> = async (params) => {
     fee: BigInt(params.fee),
   };
 
-  return RpcHandler.sendTransaction(deserialized);
+  return client.wallet().sendTransaction(deserialized);
 };
 
-export const callSmartContract: Handler<ICallData, string> = async (
-  params: ICallData,
-) => {
+export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = async (params) => {
   const client = await MassaAccount.getWeb3Client();
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -107,5 +107,16 @@ export const callSmartContract: Handler<ICallData, string> = async (
   if (!confirm) {
     throw new Error('User denied calling smart contract');
   }
-  return client.smartContracts().callSmartContract(params);
+  const deserialized: ICallData = {
+    fee: BigInt(params.fee),
+    maxGas: params.nonPersistentExecution?.maxGas !== undefined ? BigInt(params.nonPersistentExecution.maxGas) : null as unknown as bigint,
+    coins: params.coins !== undefined ? BigInt(params.coins) : BigInt(0),
+    targetAddress: params.at,
+    functionName: params.functionName,
+    parameter: params.args,
+  }
+
+  return {
+    operationId: await client.smartContracts().callSmartContract(deserialized)
+  }
 };

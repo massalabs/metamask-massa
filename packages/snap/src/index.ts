@@ -9,6 +9,7 @@ import {
   showSecretKey,
   transfer,
 } from './handlers';
+import { CallSCParameters } from './dto';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -27,7 +28,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
         request.params as unknown as SignMessageParams,
       ) as unknown as Promise<Json>;
     case 'callSmartContract':
-      return callSmartContract(request.params as unknown as ICallData);
+      return callSmartContract(request.params as unknown as CallSCParameters);
     case 'transfer':
       return transfer(request.params as unknown as ITransactionData);
     case 'getAddress':
