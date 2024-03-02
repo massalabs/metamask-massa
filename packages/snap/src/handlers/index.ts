@@ -19,3 +19,5 @@ export * from './delete-account';
 export * from './add-token';
 export * from './delete-token';
 export * from './get-tokens';
+export * from './get-operations';
+export * from './clear-operations';

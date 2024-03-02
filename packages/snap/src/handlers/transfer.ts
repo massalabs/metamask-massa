@@ -1,3 +1,4 @@
+import { addAccountOperation } from "../operations";
 import { MassaAccount } from "../account";
 import { Handler } from "./handler";
 import { ITransactionData } from "@massalabs/massa-web3";
@@ -7,6 +8,10 @@ export type TransferParams = {
   recipientAddress: string;
   amount: string;
   fee: string;
+};
+
+export type TransferResponse = {
+  operationId: string;
 };
 
 const coerceParams = (params: TransferParams): ITransactionData => {
@@ -26,7 +31,7 @@ const coerceParams = (params: TransferParams): ITransactionData => {
   };
 }
 
-export const transfer: Handler<TransferParams, string[]> = async (params) => {
+export const transfer: Handler<TransferParams, TransferResponse> = async (params) => {
   const client = await MassaAccount.getWeb3Client();
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -43,5 +48,14 @@ export const transfer: Handler<TransferParams, string[]> = async (params) => {
     throw new Error('User denied sending transaction');
   }
 
-  return client.wallet().sendTransaction(coerceParams(params));
+  const operations = await client.wallet().sendTransaction(coerceParams(params));
+  if (!operations.length) {
+    throw new Error('No operations returned');
+  }
+  const address = (await MassaAccount.getAccount()).address!;
+  await addAccountOperation(address, operations[0]!);
+
+  return {
+    operationId: operations[0]!
+  }
 };

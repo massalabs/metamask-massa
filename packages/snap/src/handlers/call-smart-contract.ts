@@ -2,6 +2,7 @@ import { MassaAccount } from "../account";
 import { Handler } from "./handler";
 import { panel, text } from "@metamask/snaps-sdk";
 import { ICallData } from "@massalabs/massa-web3";
+import { addAccountOperation } from "../operations";
 
 export type CallSCParameters = {
   nickname: string;
@@ -48,6 +49,7 @@ const coerceParams = (params: CallSCParameters): ICallData => {
 // TODO: retrieve correct account from nickname
 export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = async (params) => {
   const client = await MassaAccount.getWeb3Client();
+  const account = await MassaAccount.getAccount();
   const callData = coerceParams(params);
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -63,8 +65,9 @@ export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = asyn
   if (!confirm) {
     throw new Error('User denied calling smart contract');
   }
-
+  const operationId = await client.smartContracts().callSmartContract(callData);
+  await addAccountOperation(account.address!, operationId);
   return {
-    operationId: await client.smartContracts().callSmartContract(callData)
+    operationId
   }
 };
