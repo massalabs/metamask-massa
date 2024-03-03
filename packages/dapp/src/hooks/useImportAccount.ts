@@ -1,6 +1,5 @@
 import { useCallback, useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
-import useSWR from 'swr';
 import { defaultSnapOrigin } from '@/config';
 
 export type ImportAccountParams = {

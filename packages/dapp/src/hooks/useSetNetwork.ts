@@ -2,20 +2,22 @@ import { useCallback, useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
 
-export type DeleteAccountParams = {
-  publicKey: string;
-  privateKey: string
-}
+export type SetNetworkParams = {
+  network: string; // chainId
+};
 
-export const useDeleteAccount = () => {
+export type SetNetworkResponse = {
+  network: string; // chainId
+};
+export const useSetNetwork = () => {
   const { provider } = useContext(MetaMaskContext);
 
-  return useCallback((params: DeleteAccountParams) => provider?.request({
+  return useCallback((params: SetNetworkParams) => provider?.request<SetNetworkResponse>({
     method: "wallet_invokeSnap",
     params: {
       snapId: defaultSnapOrigin,
       request: {
-        method:"account.delete",
+        method:"account.setNetwork",
         params
       }
     }

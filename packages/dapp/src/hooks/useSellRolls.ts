@@ -2,20 +2,24 @@ import { useCallback, useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
 
-export type DeleteAccountParams = {
-  publicKey: string;
-  privateKey: string
-}
+export type SellRollsParams = {
+  fee: string;
+  amount: string;
+};
 
-export const useDeleteAccount = () => {
+export type SellRollsResponse = {
+  operationId: string;
+};
+
+export const useSellRolls = () => {
   const { provider } = useContext(MetaMaskContext);
 
-  return useCallback((params: DeleteAccountParams) => provider?.request({
+  return useCallback((params: SellRollsParams) => provider?.request<SellRollsResponse>({
     method: "wallet_invokeSnap",
     params: {
       snapId: defaultSnapOrigin,
       request: {
-        method:"account.delete",
+        method:"account.sellRolls",
         params
       }
     }
