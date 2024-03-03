@@ -3,6 +3,7 @@ import { MassaAccount } from "../account";
 import { Handler } from "./handler";
 import { ITransactionData } from "@massalabs/massa-web3";
 import { panel, text } from "@metamask/snaps-sdk";
+import { getActiveClient } from "../accounts/clients";
 
 export type TransferParams = {
   recipientAddress: string;
@@ -32,7 +33,7 @@ const coerceParams = (params: TransferParams): ITransactionData => {
 }
 
 export const transfer: Handler<TransferParams, TransferResponse> = async (params) => {
-  const client = await MassaAccount.getWeb3Client();
+  const client = await getActiveClient();
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
