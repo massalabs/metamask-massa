@@ -3,6 +3,8 @@ import { Handler } from "./handler";
 import { panel, text } from "@metamask/snaps-sdk";
 import { ICallData } from "@massalabs/massa-web3";
 import { addAccountOperation } from "../operations";
+import { getClientByName } from "../accounts/clients";
+import { getAccountByName } from "../accounts/manage-account";
 
 export type CallSCParameters = {
   nickname: string;
@@ -48,8 +50,13 @@ const coerceParams = (params: CallSCParameters): ICallData => {
 }
 // TODO: retrieve correct account from nickname
 export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = async (params) => {
-  const client = await MassaAccount.getWeb3Client();
-  const account = await MassaAccount.getAccount();
+  const client = await getClientByName(params.nickname);
+  const account = await getAccountByName(params.nickname);
+
+  if (!account || !client) {
+    throw new Error('Client not found');
+  }
+
   const callData = coerceParams(params);
   const confirm = await snap.request({
     method: 'snap_dialog',

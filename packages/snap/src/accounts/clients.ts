@@ -33,6 +33,22 @@ export async function getClient(address: string, chainId?: bigint): Promise<Clie
   );
 }
 
+export async function getClientByName(name: string, chainId?: bigint): Promise<Client | undefined> {
+  const accounts = await listAccounts();
+  const chain = chainId || (await getActiveChainId());
+
+  const account = accounts.find((a) => a.name === name);
+  if (!account) {
+    return;
+  }
+  return await ClientFactory.createDefaultClient(
+    chain === CHAIN_ID.MainNet ? DefaultProviderUrls.MAINNET : DefaultProviderUrls.BUILDNET,
+    chain,
+    true,
+    account,
+  );
+}
+
 export async function getActiveClient(): Promise<Client> {
   const activeAccount = await getActiveAccount();
   const chain = await getActiveChainId();
