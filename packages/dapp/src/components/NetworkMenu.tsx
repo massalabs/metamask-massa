@@ -1,9 +1,9 @@
-import { useNetwork } from '@/hooks/useNetwork';
+import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
 import { useSetNetwork } from '@/hooks/useSetNetwork';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, MenuItem, Button, Spinner } from '@chakra-ui/react';
 import { CHAIN_ID } from '@massalabs/massa-web3';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const networkList = [
   {id: CHAIN_ID.MainNet, name: 'Mainnet'},
@@ -12,11 +12,6 @@ const networkList = [
 
 export const NetworkMenu = () => {
   const {data: activeNetwork } = useNetwork();
-  const [currentNetwork, setCurrentNetwork] = useState<string | null>(null);
-  const [networkList, setNetworkList] = useState<string[]>([
-    'Mainnet',
-    'Buildnet',
-  ]);
   const setNetwork = useSetNetwork();
   const handleSetNetwork = async (network: string) => {
     let netId;;
@@ -25,18 +20,27 @@ export const NetworkMenu = () => {
     } else  {
       netId = CHAIN_ID.BuildNet;
     }
-    const res = await setNetwork({ network: netId.toString() });
+    setNetwork({ network: netId.toString() });
   }
+  const activeNetworkDisplay = useMemo(() => {
+    if (activeNetwork === undefined) {
+      return;
+    }
+    return networkList.find((network) => network.id === BigInt(activeNetwork.network))?.name;
+  }, [activeNetwork]);
 
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-        {currentNetwork! ?? networkList[0]}
+        {activeNetworkDisplay ?? <Spinner />}
       </MenuButton>
       <MenuList>
         {networkList.map((network) => (
-          <MenuItem key={network} onClick={() => handleSetNetwork(network)}>
-            {network}
+          <MenuItem key={network.id} onClick={async () => {
+            await setNetwork({network: network.id.toString()})
+            invalidateNetwork();
+          }}>
+            {network.name}
           </MenuItem>
         ))}
       </MenuList>
