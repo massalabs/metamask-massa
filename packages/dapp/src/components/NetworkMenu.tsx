@@ -22,12 +22,14 @@ export const NetworkMenu = () => {
     }
     setNetwork({ network: netId.toString() });
   }
+  console.log('activeNetwork', activeNetwork);
   const activeNetworkDisplay = useMemo(() => {
+    console.log('inside memoe network', activeNetwork?.network);
     if (activeNetwork === undefined) {
       return;
     }
     return networkList.find((network) => network.id === BigInt(activeNetwork.network))?.name;
-  }, [activeNetwork]);
+  }, [activeNetwork?.network]);
 
   return (
     <Menu>

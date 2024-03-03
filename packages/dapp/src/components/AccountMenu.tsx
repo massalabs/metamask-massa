@@ -33,7 +33,7 @@ export const AccountMenu = () => {
             {account!.name}
           </MenuItem>
         ))}
-        <Flex justifyContent={'space-between'}>
+        <Flex justifyContent={'space-between'} m={4} gap={4}>
           <Button onClick={onImportOpen} leftIcon={<DownloadIcon/>}>
             Import Account
           </Button>

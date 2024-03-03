@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
 import useSWR, { mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
@@ -21,6 +21,10 @@ export const useNetwork = () => {
     });
     return res as NetworkResponse;
   }
+
+  useEffect(() => {
+    mutate('Provider.getNetwork');
+  }, [provider]);
 
   return useSWR('Provider.getNetwork', fetcher);
 }
