@@ -1,3 +1,5 @@
+import { invalidateAccountList } from '@/hooks/useAccountList';
+import { invalidateActiveAccount } from '@/hooks/useActiveAccount';
 import { useGenerateNewAccount } from '@/hooks/useGenerateNewAccount';
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 import { useMemo, useRef, useState } from 'react';
@@ -32,9 +34,11 @@ export const GenerateAccountModal = ({isOpen, onClose}: {isOpen: boolean, onClos
           </ModalBody>
           <ModalFooter>
             <Button disabled={!isFormValid} colorScheme='blue' mr={3} onClick={
-              () => {
-                  generateAccount({name: accountName});
-                  onClose()
+              async () => {
+                await generateAccount({name: accountName});
+                invalidateAccountList();
+                invalidateActiveAccount();
+                onClose();
               }
             }>
               Confirm

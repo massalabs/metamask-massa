@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ImportAccountModal } from './ImportAccountModal';
 import { GenerateAccountModal } from './GenerateAccountModal';
 import { useAccountList } from '@/hooks/useAccountList';
-import { useActiveAccount } from '@/hooks/useActiveAccount';
+import { useActiveAccount, invalidateActiveAccount } from '@/hooks/useActiveAccount';
 import { useSetActiveAccount } from '@/hooks/useSetActiveAccount';
 
 export const AccountMenu = () => {
@@ -24,7 +24,7 @@ export const AccountMenu = () => {
         {!accountsListLoading && accountsList?.map((account) => (
           <MenuItem
             key={account!.address}
-            onClick={() => setActiveAccount({ address: account!.address })}
+            onClick={() => setActiveAccount({ address: account!.address })?.then(invalidateActiveAccount)}
           >
             {account!.name}
           </MenuItem>

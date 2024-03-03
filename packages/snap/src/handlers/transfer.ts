@@ -7,8 +7,8 @@ import { getActiveClient } from "../accounts/clients";
 
 export type TransferParams = {
   recipientAddress: string;
-  amount: string;
-  fee: string;
+  amount: bigint;
+  fee: bigint;
 };
 
 export type TransferResponse = {
@@ -40,16 +40,20 @@ export const transfer: Handler<TransferParams, TransferResponse> = async (params
       type: 'confirmation',
       content: panel([
         text('Do you want to send the following transaction?'),
-        text(JSON.stringify(params)),
+        text(`Recipient: ${params.recipientAddress}`),
+        text(`Amount: ${params.amount}`),
+        text(`Fee: ${params.fee}`),
       ]),
-    },
-  });
+     },
+   });
 
-  if (!confirm) {
-    throw new Error('User denied sending transaction');
-  }
+   if (!confirm) {
+     throw new Error('User denied sending transaction');
+   }
 
-  const operations = await client.wallet().sendTransaction(coerceParams(params));
+  const deserialized = coerceParams(params);
+
+  const operations = await client.wallet().sendTransaction(deserialized);
   if (!operations.length) {
     throw new Error('No operations returned');
   }

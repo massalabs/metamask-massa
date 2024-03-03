@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 export const NetworkMenu = () => {
   const [currentNetwork, setCurrentNetwork] = useState<string | null>(null);
-
   const [networkList, setNetworkList] = useState<string[]>([
     'Mainnet',
     'Buildnet',

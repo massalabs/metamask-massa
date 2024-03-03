@@ -17,6 +17,9 @@ export class StateManager {
     if (!this.#state) {
       this.#state = await this.#retrieveState();
     }
+    if (!this.#state) {
+      this.#state = {};
+    }
     this.#state[key] = value;
     await this.#persistState();
   }

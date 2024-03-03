@@ -1,6 +1,8 @@
 'use client';
 
-import { SunIcon } from '@chakra-ui/icons';
+import { useActiveAccount } from '@/hooks/useActiveAccount';
+import { useOperations } from '@/hooks/useOperations';
+import { SunIcon, WarningIcon } from '@chakra-ui/icons';
 import {
   Divider,
   Box,
@@ -16,7 +18,8 @@ import {
   useCounter,
   Flex,
   Button,
-  Text
+  Text,
+  Skeleton
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
@@ -24,32 +27,35 @@ export const OperationTab = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
 
-  const [operations, setOperations] = useState([
-    { status: 'Pending', id: 'OP1234', type: 'Transfer' },
-    { status: 'Pending', id: 'OP5678', type: 'Contract Call' },
-    { status: 'Success', id: 'OP91011', type: 'Transfer' },
-    { status: 'Success', id: 'OP121314', type: 'Contract Call' },
-    { status: 'Pending', id: 'OP151617', type: 'Transfer' },
-    { status: 'Pending', id: 'OP181920', type: 'Contract Call' },
-    { status: 'Success', id: 'OP212223', type: 'Transfer' },
-    { status: 'Success', id: 'OP242526', type: 'Contract Call' },
-    { status: 'Pending', id: 'OP272829', type: 'Transfer' },
-    { status: 'Pending', id: 'OP303132', type: 'Contract Call' },
-    { status: 'Pending', id: 'OP1234', type: 'Transfer' },
-    { status: 'Pending', id: 'OP5678', type: 'Contract Call' },
-    { status: 'Success', id: 'OP91011', type: 'Transfer' },
-    { status: 'Success', id: 'OP121314', type: 'Contract Call' },
-    { status: 'Pending', id: 'OP151617', type: 'Transfer' },
-    { status: 'Pending', id: 'OP181920', type: 'Contract Call' },
-    { status: 'Success', id: 'OP212223', type: 'Transfer' },
-    { status: 'Success', id: 'OP242526', type: 'Contract Call' },
-    { status: 'Pending', id: 'OP272829', type: 'Transfer' },
-    { status: 'Pending', id: 'OP303132', type: 'Contract Call' },
-  ])
+  const {isLoading: isLoadingActiveAccount, data: activeAccount} = useActiveAccount();
+  const {isLoading: isLoadingOperations, data: operationsData} = useOperations({address: activeAccount?.address});
 
-  useEffect(() => {
-    setMaxPages(Math.ceil(operations.length / 5) - 1)
-  }, [operations])
+  const getSkeletalOperations = () => {
+    const array = Array.from({ length: 5 });
+    return array.map(() => (
+      <Tr>
+        <Td>
+          <Skeleton />
+        </Td>
+        <Td>
+          <Skeleton />
+        </Td>
+        <Td>
+          <Skeleton />
+        </Td>
+      </Tr>
+    ));
+  }
+  const retreiveOperations = () => {
+    console.log(operationsData);
+    return ((operationsData!)[activeAccount!.address!] ?? []).slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
+      <Tr key={i}>
+        <Td><WarningIcon/></Td>
+        <Td>{op}</Td>
+        <Td><WarningIcon/></Td>
+      </Tr>
+    ))
+  }
 
   return (
     <Box w={'full'}>
@@ -66,14 +72,11 @@ export const OperationTab = () => {
               <Th>Type</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {operations.slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
-              <Tr key={i}>
-                <Td>{op.status}</Td>
-                <Td>{op.id}</Td>
-                <Td>{op.type}</Td>
-              </Tr>
-            ))}
+          <Tbody> {
+          isLoadingActiveAccount || isLoadingOperations || activeAccount === undefined || operationsData === undefined
+              ? getSkeletalOperations()
+              : retreiveOperations()
+          }
           </Tbody>
         </Table>
       </TableContainer>

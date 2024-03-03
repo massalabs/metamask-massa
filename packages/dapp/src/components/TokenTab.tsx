@@ -21,20 +21,49 @@ import {
   Flex,
   Icon,
   useDisclosure,
+  Skeleton,
 } from '@chakra-ui/react';
 import { TxModal } from './SendTransactionModal';
 import { useState } from 'react';
 import { AddTokenModal } from './AddTokenModal';
+import { useActiveAccount } from '@/hooks/useActiveAccount';
+import { useTokens } from '@/hooks/useTokens';
+export type AccountToken = { name: string, address: string, decimals: number };
 
 export const TokenTab = () => {
   const { isOpen: isTxOpen, onOpen: onTxOpen, onClose: onTxClose } = useDisclosure();
   const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure();
+  const {isLoading: isLoadingActiveAccount, data: activeAccount} = useActiveAccount();
+  const {isLoading: isLoadingTokenList, data: tokenList} = useTokens({address: activeAccount?.address});
 
+  const getTokenList = () => {
+    if (isLoadingTokenList) {
+      const array = Array.from({ length: 5 });
+      return array.map(() => (
+        <Tr>
+          <Td>
+            <Skeleton />
+          </Td>
+          <Td isNumeric>
+            <Skeleton />
+          </Td>
+        </Tr>
+      ));
+    }
+    // return ((tokenList) as AccountToken[])?.map((token) => (
+    //   <Tr key={token.address}>
+    //     <Td>{token.name}</Td>
+    //     <Td isNumeric>{token.decimals}</Td>
+    //   </Tr>
+    // ));
+  }
 
   return (
     <Box w={'full'} h='33vh'>
       <Flex justifyContent={'space-between'}>
-        <Heading mb={3} pl={3}>Account 0</Heading>
+        <Heading mb={3} pl={3}>{
+          isLoadingActiveAccount ? <Skeleton /> : activeAccount?.name
+        }</Heading>
         <Button rightIcon={<AtSignIcon />} onClick={onTxOpen}>
           Send
         </Button>
@@ -50,6 +79,7 @@ export const TokenTab = () => {
             </Tr>
           </Thead>
           <Tbody>
+            {getTokenList()}
           </Tbody>
         </Table>
       </TableContainer>

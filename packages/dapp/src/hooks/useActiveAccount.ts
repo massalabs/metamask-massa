@@ -1,11 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
 import { Account } from '@/types/account';
 
 export const useActiveAccount = () => {
   const { provider } = useContext(MetaMaskContext);
+
+  useEffect(() => {
+    if (provider) {
+    invalidateActiveAccount();
+    }
+  }, [provider]);
 
   return useSWR('account.getActive', () => provider?.request<Account>({
     method:"wallet_invokeSnap",
@@ -16,4 +22,7 @@ export const useActiveAccount = () => {
       },
     }
   }));
+}
+export const invalidateActiveAccount = () => {
+  mutate('account.getActive')
 }

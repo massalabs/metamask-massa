@@ -1,5 +1,7 @@
 'use client';
 
+import { invalidateAccountList } from '@/hooks/useAccountList';
+import { invalidateActiveAccount } from '@/hooks/useActiveAccount';
 import { useImportAccount } from '@/hooks/useImportAccount';
 import { LockIcon, ViewIcon } from '@chakra-ui/icons';
 import { Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
@@ -69,12 +71,14 @@ export const ImportAccountModal = ({isOpen, onClose}: {isOpen: boolean, onClose:
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3} disabled={!isFormValid} onClick={
-              () => {
-                  importAccount({
+              async () => {
+                  await importAccount({
                     publicKey,
                     privateKey: secretKey
-                  })
-                  onClose()
+                  });
+                  invalidateAccountList();
+                  invalidateActiveAccount();
+                  onClose();
                 }
             }>
               Import

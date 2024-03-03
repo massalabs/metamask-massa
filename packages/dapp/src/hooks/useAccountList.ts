@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
 import { Account } from '@/types/account';
 
@@ -17,4 +17,8 @@ export const useAccountList = () => {
           },
     }
   }));
+}
+
+export const invalidateAccountList = () => {
+  mutate('account.list');
 }
