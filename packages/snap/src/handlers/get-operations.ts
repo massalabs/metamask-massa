@@ -7,16 +7,16 @@ export type GetOperationsParams = {
 }
 
 export type GetOperationsResponse = {
-  tokens: string[];
+  operations: string[];
 }
 
 export const getOperations: Handler<GetOperationsParams, GetOperationsResponse> = async (params) => {
   const account = params.address ? await getAccount(params.address) : await getActiveAccount();
 
   if (!account) {
-    throw new Error(`Account not found: ${params.address}`);
+    throw new Error(`Account not found: ${params?.address ?? '(no address provided)'}`);
   }
   return {
-    tokens: await getAccountOperations(account.address!),
+    operations: await getAccountOperations(account.address!),
   };
 }

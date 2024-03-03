@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
+import { AccountToken } from '@/types/account-token';
 
-export type AccountToken = { name: string, address: string, decimals: number };
 
 export type AddTokenParams = AccountToken & {
   accountAddress?: string;

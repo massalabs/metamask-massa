@@ -32,8 +32,8 @@ export const OperationTab = () => {
 
   const getSkeletalOperations = () => {
     const array = Array.from({ length: 5 });
-    return array.map(() => (
-      <Tr>
+    return array.map((_, idx) => (
+      <Tr key={idx}>
         <Td>
           <Skeleton />
         </Td>
@@ -48,7 +48,7 @@ export const OperationTab = () => {
   }
   const retreiveOperations = () => {
     console.log(operationsData);
-    return ((operationsData!)[activeAccount!.address!] ?? []).slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
+    return (operationsData?.operations ?? []).slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
       <Tr key={i}>
         <Td><WarningIcon/></Td>
         <Td>{op}</Td>

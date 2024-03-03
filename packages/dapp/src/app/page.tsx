@@ -25,7 +25,7 @@ export default function Home() {
     >
       <Flex justifyContent={'center'} flexWrap={'wrap'}>
         <Flex
-          flexGrow={1}
+          w={{ base: '100%', md: '50%' }}
           borderRightWidth={bValues?.x}
           borderBottomWidth={bValues?.y}
           borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'}
@@ -34,7 +34,7 @@ export default function Home() {
           <TokenTab />
         </Flex>
         <Flex
-          flexGrow={1}
+          w={{ base: '100%', md: '50%' }}
           borderLeftWidth={bValues?.x}
           borderTopWidth={bValues?.y}
           borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'}

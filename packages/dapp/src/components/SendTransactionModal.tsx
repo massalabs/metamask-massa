@@ -1,6 +1,7 @@
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 import { useMemo, useRef, useState } from 'react';
 import { useTransfer, TransferParams } from '@/hooks/useTransfer';
+import { invalidateOperations } from '@/hooks/useOperations';
 
 export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: boolean) => void}) => {
   const initialRef = useRef(null)
@@ -76,8 +77,10 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3} disabled={!isFormValid} onClick={
-              () => {
-                transfer({recipientAddress, amount, fee});
+              async () => {
+                const res = await transfer({recipientAddress, amount, fee});
+                console.log('transfer res', res);
+                invalidateOperations();
                 onClose(false)
               }
             }>

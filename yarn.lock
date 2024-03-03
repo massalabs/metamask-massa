@@ -7043,6 +7043,7 @@ __metadata:
     "@chakra-ui/react": ^2.8.2
     "@emotion/react": ^11.11.4
     "@emotion/styled": ^11.11.0
+    "@massalabs/massa-web3": ^3.0.2
     "@metamask/providers": ^15.0.0
     "@types/node": ^20
     "@types/react": ^18

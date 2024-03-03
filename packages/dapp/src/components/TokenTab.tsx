@@ -34,13 +34,13 @@ export const TokenTab = () => {
   const { isOpen: isTxOpen, onOpen: onTxOpen, onClose: onTxClose } = useDisclosure();
   const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure();
   const {isLoading: isLoadingActiveAccount, data: activeAccount} = useActiveAccount();
-  const {isLoading: isLoadingTokenList, data: tokenList} = useTokens({address: activeAccount?.address});
+  const {isLoading: isLoadingTokenList, data: tokenList} = useTokens();
 
   const getTokenList = () => {
     if (isLoadingTokenList) {
       const array = Array.from({ length: 5 });
-      return array.map(() => (
-        <Tr>
+      return array.map((_, idx) => (
+        <Tr key={idx}>
           <Td>
             <Skeleton />
           </Td>
@@ -50,12 +50,12 @@ export const TokenTab = () => {
         </Tr>
       ));
     }
-    // return ((tokenList) as AccountToken[])?.map((token) => (
-    //   <Tr key={token.address}>
-    //     <Td>{token.name}</Td>
-    //     <Td isNumeric>{token.decimals}</Td>
-    //   </Tr>
-    // ));
+    return (tokenList?.tokens as AccountToken[])?.map((token) => (
+      <Tr key={token.address}>
+        <Td>{token.name}</Td>
+        <Td isNumeric>{token.decimals}</Td>
+      </Tr>
+    ));
   }
 
   return (

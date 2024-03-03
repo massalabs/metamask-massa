@@ -2,8 +2,8 @@ import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
 import type { GetBalanceParams, SignMessageParams, TransferParams, ImportAccountParams, CallSCParameters, GenerateAccountParams, SetActiveAccountParams, SetNetworkParams, SellRollsParams, BuyRollsParams, ShowAccountCredentialsParams, DeleteAccountParams, AddTokenParams, DeleteTokenParams, GetTokensParams, GetOperationsParams, ClearOperationsParams } from './handlers';
-import { getBalance, listAccounts, signMessage, transfer, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials, deleteAccount, addToken, deleteToken, getTokens, getOperations, clearOperations } from './handlers';
-
+import { getBalance, listAccounts, transfer, signMessage, callSmartContract, importAccount, generateAccount, getActiveAccount, setActiveAccount, getNetwork, setNetwork, getNodeUrls, sellRolls, buyRolls, showAccountCredentials, deleteAccount, addToken, deleteToken, getTokens, getOperations, clearOperations } from './handlers';
+//import { transfer } from './handlers_old';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -70,3 +70,4 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       throw new Error('Method not found.');
   }
 };
+
