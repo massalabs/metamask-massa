@@ -1,4 +1,4 @@
-import { removeAccountToken } from "src/tokens";
+import { removeAccountToken } from "../tokens";
 import { Handler } from "./handler";
 
 export type DeleteTokenParams = {
@@ -19,7 +19,7 @@ const coerceParams = (params: DeleteTokenParams): DeleteTokenParams => {
     throw new Error("Invalid params: accountAddress must be a string");
   }
   return params;
-}
+};
 
 export const deleteToken: Handler<DeleteTokenParams, DeleteTokenResponse> = async (params) => {
   const res = await removeAccountToken(params.accountAddress, params.address);
