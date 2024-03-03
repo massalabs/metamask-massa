@@ -1,19 +1,36 @@
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
 
-export const useAccountBalance = (params: { address: string }) => {
-  const { provider } = useContext(MetaMaskContext);
+export type AccountBalanceResponse = {
+  finalBalance: string;
+  candidateBalance: string;
+};
 
-  return useSWR('account.balance', () => provider?.request({
-    method:"wallet_invokeSnap",
-    params: {
-      snapId: defaultSnapOrigin,
-      request: {
-        method: 'account.balance',
-        params
-      },
+export const useAccountBalance = (params: { address?: string }) => {
+  const { provider } = useContext(MetaMaskContext);
+  const fetcher = useCallback(() => provider?.request({
+      method:"wallet_invokeSnap",
+      params: {
+        snapId: defaultSnapOrigin,
+        request: {
+          method: 'account.balance',
+          params
+        },
+      }
+    }) as Promise<AccountBalanceResponse>
+  , [provider, params])
+
+  useEffect(() => {
+    if (provider && params.address) {
+      invalidateAccountBalance();
     }
-  }));
+  }, [provider, params.address]);
+
+  return useSWR('account.balance', fetcher);
+}
+
+export const invalidateAccountBalance = () => {
+  mutate('account.balance')
 }
