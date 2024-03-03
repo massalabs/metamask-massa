@@ -3,8 +3,8 @@ import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
 
 export type SignMessageParams = {
-  data: string | Buffer;
-  chainId: string;
+  address: string;
+  data: number[];
 };
 
 export type SignMessageResponse = {

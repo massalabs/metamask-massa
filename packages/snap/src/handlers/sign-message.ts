@@ -1,16 +1,13 @@
+import { getClientWallet } from "../accounts/clients";
 import { MassaAccount } from "../account";
 import { Handler } from "./handler";
 import { Args, ISignature } from "@massalabs/massa-web3";
 import { panel, text } from "@metamask/snaps-sdk";
+import { getNetwork } from "./get-network";
 
 export type SignMessageParams = {
-  data: string | Buffer;
-  chainId: string;
-};
-
-type SignMessageInternalParams = {
-  data: string | Buffer;
-  chainId: bigint;
+  address: string;
+  data: number[];
 };
 
 export type SignMessageResponse = {
@@ -18,25 +15,28 @@ export type SignMessageResponse = {
   publicKey: string;
 };
 
-const coerceParams = (params: SignMessageParams): SignMessageInternalParams => {
-  if (!params.data || !params.chainId) {
+const coerceParams = (params: SignMessageParams): SignMessageParams => {
+  if (!params.data || !params.address) {
     throw new Error('Data and chainId are required');
-  } else if (typeof params.data !== 'string' && !Buffer.isBuffer(params.data)) {
-    throw new Error('Data must be a string or Buffer');
-  } else if (typeof params.chainId !== 'string') {
-    throw new Error('ChainId must be a string');
+  } else if (!Array.isArray(params.data)) {
+    throw new Error('Data must be an array');
+  } else if (typeof params.address !== 'string') {
+    throw new Error('Address must be a string');
   }
-  return {
-    data: params.data,
-    chainId: BigInt(params.chainId),
-  };
+
+  return params;
 }
 
 
 export const signMessage: Handler<SignMessageParams, SignMessageResponse> = async (params) => {
-  const wallet = await MassaAccount.getWalletClient();
-  const address = (await MassaAccount.getAccount()).address!;
-  const { data, chainId } = coerceParams(params);
+  const { data, address } = coerceParams(params);
+  const wallet = await getClientWallet(address);
+
+  if (!wallet) {
+    throw new Error(`Account not found: ${address}`);
+  }
+
+  const { network: chainId } = await getNetwork();
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -52,7 +52,7 @@ export const signMessage: Handler<SignMessageParams, SignMessageResponse> = asyn
     throw new Error('User denied signing message');
   }
 
-  const sig = await wallet.signMessage(data, chainId, address);
+  const sig = await wallet.signMessage(Buffer.from(data), BigInt(chainId), address);
   return {
     signature: sig.base58Encoded.split('').map((c) => c.charCodeAt(0)),
     publicKey: sig.publicKey,
