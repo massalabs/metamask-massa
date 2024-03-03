@@ -8,7 +8,7 @@ export type AccountList = Account[]
 
 export const useAccountList = () => {
   const { provider } = useContext(MetaMaskContext);
-  return useSWR('account.list', () => provider?.request({
+  return useSWR('account.list', () => provider?.request<AccountList>({
     method:"wallet_invokeSnap",
     params: {
       snapId: defaultSnapOrigin,

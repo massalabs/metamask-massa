@@ -20,27 +20,25 @@ import {
   Tr,
   Flex,
   Icon,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { TxModal } from './SendTransactionModal';
 import { useState } from 'react';
+import { AddTokenModal } from './AddTokenModal';
 
 export const TokenTab = () => {
-  const [txModal, setTxModal] = useState(false);
+  const { isOpen: isTxOpen, onOpen: onTxOpen, onClose: onTxClose } = useDisclosure();
+  const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure();
 
-  const openTransactionModal = () => {
-    setTxModal(!txModal);
-  }
 
   return (
     <Box w={'full'} h='33vh'>
       <Flex justifyContent={'space-between'}>
         <Heading mb={3} pl={3}>Account 0</Heading>
-        <Button rightIcon={<AtSignIcon />} onClick={openTransactionModal}>
+        <Button rightIcon={<AtSignIcon />} onClick={onTxOpen}>
           Send
         </Button>
-        <TxModal isOpen={txModal} onClose={() => {
-          setTxModal(false)
-        }}/>
+        <TxModal isOpen={isTxOpen} onClose={onTxClose}/>
       </Flex>
       <Divider />
       <TableContainer maxH={'full'} scrollBehavior={'smooth'} overflowY={'scroll'}>
@@ -51,95 +49,23 @@ export const TokenTab = () => {
               <Th isNumeric>Balance</Th>
             </Tr>
           </Thead>
-          <Tbody  >
-            <Tr>
-              <Td>Massa</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>Bearby</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
+          <Tbody>
           </Tbody>
         </Table>
       </TableContainer>
       <Divider />
-      <Button
-        aria-label={'Add Token'}
-        leftIcon={<AddIcon color={'green.300'} />}
-        bgColor={'gray.350'}
-        mt={4}
-      >
-          Add Token
-      </Button>
+      <Flex justifyContent={'space-between'}>
+        <Button
+          aria-label={'Add Token'}
+          leftIcon={<AddIcon color={'green.300'} />}
+          bgColor={'gray.350'}
+          mt={4}
+          onClick={onAddOpen}
+        >
+            Add Token
+        </Button>
+        <AddTokenModal isOpen={isAddOpen} onClose={onAddClose}/>
+      </Flex>
     </Box>
   );
 };

@@ -13,11 +13,11 @@ import { defaultSnapOrigin } from '@/config';
 import { MetaMaskContext } from '@/hooks/MetamaskContext';
 
 export const Header = () => {
-  const { state } = useContext(MetaMaskContext);
+  const { state, provider } = useContext(MetaMaskContext);
   const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
     ? state.isFlask
     : state.snapsDetected;
-  const ready = isMetaMaskReady && state.installedSnap;
+  const ready = isMetaMaskReady && state.installedSnap && provider !== undefined;
 
   return (
     <Flex justifyContent={'space-between'} p={5} flexWrap={'wrap'}>
@@ -31,6 +31,7 @@ export const Header = () => {
         <Heading pb={1}>Massa</Heading>
       </Flex>
       <Flex gap={4} align={'center'}>
+        <ConnectMetamaskButton />
         <ThemeSwitch />
         {!ready && <ConnectMetamaskButton />}
         {ready && <AccountMenu />}

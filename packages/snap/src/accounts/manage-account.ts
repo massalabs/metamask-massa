@@ -5,10 +5,10 @@ import { getHDAccount } from "./hd-deriver";
 export type Account = IAccount & { name: string };
 
 export async function listAccounts(): Promise<Account[]> {
-  const accounts: Account[] = await StateManager.getState("accounts");
+  const accounts: Account[] = await StateManager.getState("accounts") || [];
   const hdAccount = await getHDAccount();
 
-  if (!accounts || accounts.length === 0 || !accounts.find((a) => a.address === hdAccount.address)) {
+  if (accounts.length === 0 || !accounts.find((a) => a.address === hdAccount.address)) {
     accounts.push({ ...hdAccount, name: "Account 0"});
     await StateManager.setState("accounts", accounts);
   }
