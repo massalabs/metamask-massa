@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { MetaMaskContext } from './MetamaskContext';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
 import { AccountToken } from '@/types/account-token';
 
@@ -25,4 +25,8 @@ export const useTokens = (params?: { address?: string }) => {
   }
 
   return useSWR('account.getTokens', fetcher);
+}
+
+export const invalidateTokens = () => {
+  mutate('account.getTokens');
 }

@@ -4,6 +4,7 @@ import useSWR, { Fetcher, mutate } from 'swr';
 import { defaultSnapOrigin } from '@/config';
 import { Account } from '@/types/account';
 import { invalidateOperations } from './useOperations';
+import { invalidateTokens } from './useTokens';
 
 export type ActiveAccountResponse = {
   name: string;
@@ -18,6 +19,7 @@ export const useActiveAccount = () => {
     if (provider) {
     invalidateActiveAccount();
     invalidateOperations();
+    invalidateTokens();
     }
   }, [provider]);
 

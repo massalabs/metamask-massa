@@ -14,23 +14,24 @@ import {
   Th,
   Thead,
   Tr,
-  useBreakpointValue,
-  useCounter,
   Flex,
   Button,
   Text,
-  Skeleton,
-  Link,
   Tooltip,
-  Spinner
+  Spinner,
+  useColorMode
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { OperationRow } from './OperationRow';
+import { useOperationsData } from '@/hooks/useOperationsData';
 
 export const OperationTab = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
+  const {colorMode} = useColorMode();
 
   const {isLoading: isLoadingOperations, data: operationsData} = useOperations();
+  const operations = useOperationsData(operationsData?.operations ?? []);
 
   const getSkeletalOperations = () => {
     const array = Array.from({ length: 5 });
@@ -48,16 +49,12 @@ export const OperationTab = () => {
       </Tr>
     ));
   }
-  const retreiveOperations = () => {
-    console.log(operationsData);
-    return (operationsData?.operations ?? []).slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
-      <Tr key={i}>
-        <Td><WarningIcon/></Td>
-        <Td><Tooltip label={op}>{op.slice(0, 25)+'...'}</Tooltip></Td>
-        <Td><WarningIcon/></Td>
-      </Tr>
+
+  const retreiveOperations = useMemo(() => {
+    return operations.reverse().slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
+      <OperationRow key={i} operation={op} />
     ))
-  }
+  }, [operationsData, pageIndex, operations]);
 
   return (
     <Box w={'full'}>
@@ -69,15 +66,18 @@ export const OperationTab = () => {
         <Table variant="striped" colorScheme="blackAlpha">
           <Thead bg="teal">
             <Tr>
-              <Th>Status</Th>
-              <Th>Id</Th>
-              <Th>Type</Th>
+              <Th color={colorMode === 'light' ? 'black' : 'white'
+              }>Status</Th>
+              <Th color={colorMode === 'light' ? 'black' : 'white'
+              }>Id</Th>
+              <Th color={colorMode === 'light' ? 'black' : 'white'
+              }>Type</Th>
             </Tr>
           </Thead>
           <Tbody> {
           isLoadingOperations
               ? getSkeletalOperations()
-              : retreiveOperations()
+              : retreiveOperations
           }
           </Tbody>
         </Table>

@@ -1,4 +1,5 @@
-import { useAddToken, AccountToken } from '@/hooks/useAddToken';
+import { useAddToken } from '@/hooks/useAddToken';
+import { AccountToken } from '@/types/account-token';
 import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 import { useMemo, useRef, useState} from 'react';
 
