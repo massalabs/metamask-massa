@@ -6,6 +6,7 @@ import { GenerateAccountModal } from './GenerateAccountModal';
 import { useAccountList } from '@/hooks/useAccountList';
 import { useActiveAccount, invalidateActiveAccount } from '@/hooks/useActiveAccount';
 import { useSetActiveAccount } from '@/hooks/useSetActiveAccount';
+import { invalidateOperations } from '@/hooks/useOperations';
 
 export const AccountMenu = () => {
   const { isOpen: isImportOpen, onOpen: onImportOpen, onClose: onImportClose} = useDisclosure();
@@ -24,7 +25,10 @@ export const AccountMenu = () => {
         {!accountsListLoading && accountsList?.map((account) => (
           <MenuItem
             key={account!.address}
-            onClick={() => setActiveAccount({ address: account!.address })?.then(invalidateActiveAccount)}
+            onClick={() => setActiveAccount({ address: account!.address })?.then(() =>  {
+              invalidateActiveAccount();
+              invalidateOperations();
+            })}
           >
             {account!.name}
           </MenuItem>

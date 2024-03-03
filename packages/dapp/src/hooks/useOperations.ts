@@ -7,7 +7,7 @@ export type OperationsResponse = {
   operations: string[];
 }
 
-export const useOperations = (params: { address?: string }) => {
+export const useOperations = (params?: { address?: string }) => {
   const { provider } = useContext(MetaMaskContext);
   const fetcher: Fetcher<OperationsResponse, string> = async (method: string) => {
     const res = await provider?.request<OperationsResponse>({

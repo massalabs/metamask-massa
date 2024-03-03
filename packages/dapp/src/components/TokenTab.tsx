@@ -1,27 +1,24 @@
 'use client';
 
-import { AddIcon, AtSignIcon } from '@chakra-ui/icons';
+import { AddIcon, AtSignIcon, CopyIcon } from '@chakra-ui/icons';
 import {
   Box,
   Divider,
   Heading,
-  List,
-  ListItem,
-  IconButton,
   Button,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
   Flex,
-  Icon,
   useDisclosure,
-  Skeleton,
+  Spinner,
+  Text,
+  IconButton,
+  Link
 } from '@chakra-ui/react';
 import { TxModal } from './SendTransactionModal';
 import { useState } from 'react';
@@ -42,10 +39,10 @@ export const TokenTab = () => {
       return array.map((_, idx) => (
         <Tr key={idx}>
           <Td>
-            <Skeleton />
+            <Spinner />
           </Td>
           <Td isNumeric>
-            <Skeleton />
+            <Spinner />
           </Td>
         </Tr>
       ));
@@ -60,10 +57,18 @@ export const TokenTab = () => {
 
   return (
     <Box w={'full'} h='33vh'>
-      <Flex justifyContent={'space-between'}>
+      <Flex justifyContent={'space-between'} align={'center'}>
         <Heading mb={3} pl={3}>{
-          isLoadingActiveAccount ? <Skeleton /> : activeAccount?.name
+          isLoadingActiveAccount ? <Spinner /> : activeAccount?.name
         }</Heading>
+        <Flex mt={2} mr={10}>
+          <Link mt={2} as='u'>
+            {isLoadingActiveAccount ? <Spinner /> : activeAccount?.address.slice(0, 6) + '...' + activeAccount?.address.slice(-4)}
+          </Link>
+          <IconButton  aria-label={'copy'} icon={<CopyIcon />} bg={'transparent'} onClick={() => {
+          activeAccount?.address && navigator.clipboard.writeText(activeAccount?.address);
+          }}/>
+        </Flex>
         <Button rightIcon={<AtSignIcon />} onClick={onTxOpen}>
           Send
         </Button>

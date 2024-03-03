@@ -19,29 +19,31 @@ import {
   Flex,
   Button,
   Text,
-  Skeleton
+  Skeleton,
+  Link,
+  Tooltip,
+  Spinner
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const OperationTab = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
 
-  const {isLoading: isLoadingActiveAccount, data: activeAccount} = useActiveAccount();
-  const {isLoading: isLoadingOperations, data: operationsData} = useOperations({address: activeAccount?.address});
+  const {isLoading: isLoadingOperations, data: operationsData} = useOperations();
 
   const getSkeletalOperations = () => {
     const array = Array.from({ length: 5 });
     return array.map((_, idx) => (
       <Tr key={idx}>
         <Td>
-          <Skeleton />
+          <Spinner />
         </Td>
         <Td>
-          <Skeleton />
+          <Spinner />
         </Td>
         <Td>
-          <Skeleton />
+          <Spinner />
         </Td>
       </Tr>
     ));
@@ -51,7 +53,7 @@ export const OperationTab = () => {
     return (operationsData?.operations ?? []).slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
       <Tr key={i}>
         <Td><WarningIcon/></Td>
-        <Td>{op}</Td>
+        <Td><Tooltip label={op}>{op.slice(0, 25)+'...'}</Tooltip></Td>
         <Td><WarningIcon/></Td>
       </Tr>
     ))
@@ -73,7 +75,7 @@ export const OperationTab = () => {
             </Tr>
           </Thead>
           <Tbody> {
-          isLoadingActiveAccount || isLoadingOperations || activeAccount === undefined || operationsData === undefined
+          isLoadingOperations
               ? getSkeletalOperations()
               : retreiveOperations()
           }

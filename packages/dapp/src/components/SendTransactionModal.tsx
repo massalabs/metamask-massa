@@ -11,6 +11,7 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
   const [amount, setAmount] = useState<string>('0');
   const [fee, setFee] = useState<string>('0');
   const transfer = useTransfer();
+
   const isFormValid = useMemo(() => {
     if (recipientAddress === '' || amount === '' || fee === '') {
       //TODO: Show error message
@@ -51,12 +52,7 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
               <FormLabel>Amount in MAS</FormLabel>
               <Input placeholder='Amount in MAS' value={amount} onChange={
                 (evt) => {
-                  if (evt.target.value === '') {
-                    setAmount('0');
-                  }
-                  else {
                     setAmount(evt.target.value)
-                  }
                 }
               }/>
             </FormControl>
@@ -64,12 +60,7 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
               <FormLabel>Fee</FormLabel>
               <Input placeholder='Fee' value={fee} onChange={
                 (evt) => {
-                  if (evt.target.value === '') {
-                    setFee('0');
-                  }
-                  else {
                     setFee(evt.target.value)
-                  }
                 }
               }/>
             </FormControl>
@@ -79,7 +70,6 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
             <Button colorScheme='blue' mr={3} disabled={!isFormValid} onClick={
               async () => {
                 const res = await transfer({recipientAddress, amount, fee});
-                console.log('transfer res', res);
                 invalidateOperations();
                 onClose(false)
               }

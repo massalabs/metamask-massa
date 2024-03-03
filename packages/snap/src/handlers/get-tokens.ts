@@ -11,7 +11,7 @@ export type GetTokensResponse = {
 }
 
 export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (params) => {
-  const account = params.address ? await getAccount(params.address) : await getActiveAccount();
+  const account = (params?.address !== undefined) ? await getAccount(params.address!) : await getActiveAccount();
 
   if (!account) {
     throw new Error(`Account not found: ${params.address}`);
