@@ -11,7 +11,7 @@ export const useNetwork = () => {
     params: {
       snapId: defaultSnapOrigin,
       request: {
-        method: 'account.getNetwork',
+        method: 'Provider.getNetwork',
       },
     }
   }));
