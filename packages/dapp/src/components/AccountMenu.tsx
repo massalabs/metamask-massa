@@ -8,6 +8,7 @@ import { useActiveAccount, invalidateActiveAccount } from '@/hooks/useActiveAcco
 import { useSetActiveAccount } from '@/hooks/useSetActiveAccount';
 import { invalidateOperations } from '@/hooks/useOperations';
 import { useShowCredentials } from '@/hooks/useShowCredentials';
+import { invalidateTokens } from '@/hooks/useTokens';
 
 export const AccountMenu = () => {
   const { isOpen: isImportOpen, onOpen: onImportOpen, onClose: onImportClose} = useDisclosure();
@@ -28,17 +29,21 @@ export const AccountMenu = () => {
         {!accountsListLoading && accountsList?.map((account) => (
           <MenuItem
             key={account!.address}
+            onClick={() => setActiveAccount({ address: account!.address })?.then(() =>  {
+              invalidateActiveAccount();
+              invalidateOperations();
+              invalidateTokens();
+            })}
           >
             <Flex justify={'space-between'} align={"center"} w={'full'}>
               <Text flexGrow={1}
-                onClick={() => setActiveAccount({ address: account!.address })?.then(() =>  {
-                  invalidateActiveAccount();
-                  invalidateOperations();
-                })}
               >{account!.name}</Text>
               <Box borderRadius={'lg'} bg={showIconBg} p={2}>
                 <DownloadIcon  onClick={
-                  () => showCredentials({address: account!.address})
+                  (e) => {
+                    e.preventDefault()
+                    showCredentials({address: account!.address})
+                  }
                 }/>
               </Box>
             </Flex>

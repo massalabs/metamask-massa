@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export const TokenRow = ({ token }: { token: AccountToken }) => {
   const { isLoading: isLoadingAccount, data: account } = useActiveAccount();
-  const [balance, setBalance] = useState<number>(3413);
+  const [balance, setBalance] = useState<number>(0);
   const client = useMassaClient();
 
   const setBalanceFromClient = async () => {
