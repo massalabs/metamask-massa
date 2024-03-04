@@ -24,6 +24,8 @@ export const useOperationsData  = (operationIds: string[]) => {
     setOperationsInfos();
   }, [operationIds, client]);
 
-  return operationsData;
-
+  return {
+    data: operationsData,
+    reset: () => setOperationsInfos()
+  };
 }

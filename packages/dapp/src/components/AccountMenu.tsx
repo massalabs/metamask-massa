@@ -38,13 +38,13 @@ export const AccountMenu = () => {
             <Flex justify={'space-between'} align={"center"} w={'full'}>
               <Text flexGrow={1}
               >{account!.name}</Text>
-              <Box borderRadius={'lg'} bg={showIconBg} p={2}>
-                <DownloadIcon  onClick={
-                  (e) => {
-                    e.preventDefault()
-                    showCredentials({address: account!.address})
-                  }
-                }/>
+              <Box borderRadius={'lg'} bg={showIconBg} p={2} onClick={
+                (e) => {
+                  e.preventDefault()
+                  showCredentials({address: account!.address})
+                }
+              }>
+                <DownloadIcon />
               </Box>
             </Flex>
           </MenuItem>

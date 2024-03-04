@@ -1,8 +1,8 @@
 'use client';
 
 import { useActiveAccount } from '@/hooks/useActiveAccount';
-import { useOperations } from '@/hooks/useOperations';
-import { SunIcon, WarningIcon } from '@chakra-ui/icons';
+import { invalidateOperations, useOperations } from '@/hooks/useOperations';
+import { RepeatIcon, SunIcon, WarningIcon } from '@chakra-ui/icons';
 import {
   Divider,
   Box,
@@ -21,7 +21,8 @@ import {
   Spinner,
   useColorMode,
   useColorModeValue,
-  Skeleton
+  Skeleton,
+  IconButton
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { OperationRow } from './OperationRow';
@@ -33,9 +34,8 @@ export const OperationTab = () => {
   const {colorMode} = useColorMode();
   const headerBg = useColorModeValue('teal.400', 'teal.600');
 
-
   const {isLoading: isLoadingOperations, data: operationsData} = useOperations();
-  const operations = useOperationsData(operationsData?.operations ?? []);
+  const {data: operations, reset} = useOperationsData(operationsData?.operations ?? []);
 
   const getSkeletalOperations = () => {
     const array = Array.from({ length: 7});
@@ -55,16 +55,19 @@ export const OperationTab = () => {
   }
 
   const retreiveOperations = useMemo(() => {
-    return operations.reverse().slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
+    return operations.toReversed().slice(pageIndex * 5, pageIndex * 5 + 5).map((op, i) => (
       <OperationRow key={i} operation={op} />
     ))
   }, [operationsData, pageIndex, operations]);
 
   return (
     <Box w={'full'}>
-      <Heading mb={3} pl={3}>
-        Operations
-      </Heading>
+      <Flex justifyContent={'space-between'} align={'center'}>
+        <Heading mb={3} pl={3}>
+          Operations
+        </Heading>
+        <IconButton aria-label="Refresh" icon={<RepeatIcon />} onClick={reset}/>
+      </Flex>
       <Divider />
       <TableContainer maxW={'full'}>
         <Table>
