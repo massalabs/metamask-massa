@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example",
+  "description": "A snap to manage Massa accounts",
+  "proposedName": "Massa",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "sY6yZ3BYh9qUyVk1xVAsI1IZRBr21R7Ryl3ebDjyBsA=",
+    "shasum": "deXly4+jrFKSfI1jmO2yCXaOorkkLRfUzpYjvNDyqks=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

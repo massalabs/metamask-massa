@@ -19,7 +19,9 @@ import {
   Text,
   Tooltip,
   Spinner,
-  useColorMode
+  useColorMode,
+  useColorModeValue,
+  Skeleton
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { OperationRow } from './OperationRow';
@@ -29,22 +31,24 @@ export const OperationTab = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [maxPages, setMaxPages] = useState(0);
   const {colorMode} = useColorMode();
+  const headerBg = useColorModeValue('teal.400', 'teal.600');
+
 
   const {isLoading: isLoadingOperations, data: operationsData} = useOperations();
   const operations = useOperationsData(operationsData?.operations ?? []);
 
   const getSkeletalOperations = () => {
-    const array = Array.from({ length: 5 });
+    const array = Array.from({ length: 7});
     return array.map((_, idx) => (
       <Tr key={idx}>
         <Td>
-          <Spinner />
+          <Skeleton />
         </Td>
         <Td>
-          <Spinner />
+          <Skeleton />
         </Td>
         <Td>
-          <Spinner />
+          <Skeleton />
         </Td>
       </Tr>
     ));
@@ -62,9 +66,9 @@ export const OperationTab = () => {
         Operations
       </Heading>
       <Divider />
-      <TableContainer>
-        <Table variant="striped" colorScheme="blackAlpha">
-          <Thead bg="teal">
+      <TableContainer maxW={'full'}>
+        <Table>
+          <Thead bg={headerBg}>
             <Tr>
               <Th color={colorMode === 'light' ? 'black' : 'white'
               }>Status</Th>
@@ -75,7 +79,7 @@ export const OperationTab = () => {
             </Tr>
           </Thead>
           <Tbody> {
-          isLoadingOperations
+          isLoadingOperations || !operationsData || operationsData.operations.length === 0
               ? getSkeletalOperations()
               : retreiveOperations
           }

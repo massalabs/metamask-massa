@@ -5,7 +5,7 @@ import { defaultSnapOrigin } from '@/config';
 import { AccountToken } from '@/types/account-token';
 
 export type TokensResponse = {
-  tokens: AccountToken[];
+  tokens: string[];
 }
 
 export const useTokens = (params?: { address?: string }) => {

@@ -4,7 +4,8 @@ import { defaultSnapOrigin } from '@/config';
 import { AccountToken } from '@/types/account-token';
 
 
-export type AddTokenParams = AccountToken & {
+export type AddTokenParams = {
+  address: string
   accountAddress?: string;
 };
 

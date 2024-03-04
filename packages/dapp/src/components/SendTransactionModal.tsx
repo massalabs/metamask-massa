@@ -2,6 +2,7 @@ import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButt
 import { useMemo, useRef, useState } from 'react';
 import { useTransfer, TransferParams } from '@/hooks/useTransfer';
 import { invalidateOperations } from '@/hooks/useOperations';
+import { fromMAS } from '@massalabs/massa-web3';
 
 export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: boolean) => void}) => {
   const initialRef = useRef(null)
@@ -69,7 +70,7 @@ export const TxModal = ({isOpen, onClose}: {isOpen: boolean, onClose: (abort: bo
           <ModalFooter>
             <Button colorScheme='blue' mr={3} disabled={!isFormValid} onClick={
               async () => {
-                const res = await transfer({recipientAddress, amount, fee});
+              const res = await transfer({recipientAddress, amount: fromMAS(amount).toString(), fee: fromMAS(fee).toString()});
                 invalidateOperations();
                 onClose(false)
               }

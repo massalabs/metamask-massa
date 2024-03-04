@@ -1,9 +1,9 @@
 'use client';
 
 import { useContext, useState } from 'react';
-import { Flex, Icon, Heading, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Icon, Heading, useBreakpointValue, Show } from '@chakra-ui/react';
 import { SunIcon } from '@chakra-ui/icons';
-
+import { Image } from '@chakra-ui/next-js';
 import { NetworkMenu } from './NetworkMenu';
 import { AccountMenu } from './AccountMenu';
 import { ThemeSwitch } from './ThemeSwitch';
@@ -20,23 +20,17 @@ export const Header = () => {
   const ready = isMetaMaskReady && state.installedSnap && provider !== undefined;
 
   return (
-    <Flex justifyContent={'space-between'} p={5} flexWrap={'wrap'}>
-      <Flex
-        gap={4}
-        align={'center'}
-        alignItems={'center'}
-        alignContent={'center'}
-      >
-        <Icon as={SunIcon} w={8} h={8} />
-        <Heading pb={1}>Massa</Heading>
+    <>
+      <Flex justifyContent={'space-between'} p={5} flexWrap={'wrap'} bg={'grey.100'}>
+        <Image src="/MassaLogo.png" alt="Logo" width={200} height={42} />
+        <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
+          <ThemeSwitch />
+            {!ready && <ConnectMetamaskButton />}
+            {ready && <AccountMenu />}
+            {ready && <NetworkMenu />}
+        </Flex>
       </Flex>
-      <Flex gap={4} align={'center'}>
-        <ConnectMetamaskButton />
-        <ThemeSwitch />
-        {!ready && <ConnectMetamaskButton />}
-        {ready && <AccountMenu />}
-        {ready && <NetworkMenu />}
-      </Flex>
-    </Flex>
+
+    </>
   );
 };

@@ -7,9 +7,10 @@ import { Td, Tr } from "@chakra-ui/react";
 import { Args, IReadData } from "@massalabs/massa-web3";
 import { useEffect, useState } from "react";
 
-export const TokenRow = ({ token }: { token: AccountToken }) => {
+export const TokenRow = ({ token }: { token: string }) => {
   const { isLoading: isLoadingAccount, data: account } = useActiveAccount();
   const [balance, setBalance] = useState<number>(0);
+  const [tokenName, setTokenName] = useState<string>('');
   const client = useMassaClient();
 
   const setBalanceFromClient = async () => {
@@ -17,16 +18,24 @@ export const TokenRow = ({ token }: { token: AccountToken }) => {
       return;
     }
     let readData = {
-      targetAddress: token.address,
+      targetAddress: token,
       targetFunction: 'decimals',
       parameter: [],
       maxGas: BigInt(1000000000),
       callerAddress: account!.address,
     } as IReadData;
 
+    console.log(token);
     const dRes = await client.smartContracts().readSmartContract(readData);
     const decimals = new Args(dRes!.returnValue).nextU8();
 
+    readData.targetFunction = 'symbol';
+    console.log(readData);
+    const nRes = await client.smartContracts().readSmartContract(readData);
+    console.log(nRes!.returnValue);
+    const name = new TextDecoder().decode(nRes!.returnValue);
+    console.log(name);
+    setTokenName(name);
 
     const serAddr = new Args().addString(account!.address).serialize();
     readData.parameter = serAddr;
@@ -43,8 +52,8 @@ export const TokenRow = ({ token }: { token: AccountToken }) => {
 
   return (
       isLoadingAccount ? <Tr><Td>Loading...</Td></Tr> :
-      <Tr key={token.address}>
-        <Td>{token.name}</Td>
+      <Tr key={token}>
+        <Td>{tokenName}</Td>
         <Td isNumeric>{Number(balance)}</Td>
       </Tr>
   );

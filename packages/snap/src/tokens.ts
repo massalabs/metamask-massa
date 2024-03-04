@@ -1,9 +1,8 @@
 import { StateManager } from "./state-manager";
 
-export type AccountToken = { name: string, address: string, decimals: number };
-export type AccountsTokens = Record<string, AccountToken[]>;
+export type AccountsTokens = Record<string, string[]>;
 
-export async function getAccountTokens(address: string): Promise<AccountToken[]> {
+export async function getAccountTokens(address: string): Promise<string[]> {
   const accountsTokens: AccountsTokens = await StateManager.getState("accountTokens") || {};
 
   if (!accountsTokens) {
@@ -14,11 +13,11 @@ export async function getAccountTokens(address: string): Promise<AccountToken[]>
   return accountsTokens[address] || [];
 }
 
-export async function addAccountToken(address: string, token: AccountToken) {
+export async function addAccountToken(address: string, token: string) {
   const accountsTokens: AccountsTokens = await StateManager.getState("accountTokens") || {};
   const tokens = accountsTokens[address] || [];
 
-  if (tokens.find((t) => t.address === token.address)) {
+  if (tokens.find((t) => t === token)) {
     return;
   }
   tokens.push(token);
@@ -29,7 +28,7 @@ export async function addAccountToken(address: string, token: AccountToken) {
 export async function removeAccountToken(account: string, tokenAddress: string) {
   const accountsTokens: AccountsTokens = await StateManager.getState("accountTokens") || {};
   const tokens = accountsTokens[account] || [];
-  const index = tokens.findIndex((t) => t.address === tokenAddress);
+  const index = tokens.findIndex((t) => t === tokenAddress);
 
   if (index !== -1) {
     tokens.splice(index, 1);

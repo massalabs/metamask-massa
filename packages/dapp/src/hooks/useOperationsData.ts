@@ -10,8 +10,14 @@ export const useOperationsData  = (operationIds: string[]) => {
     if (!client) {
       return;
     }
-    const res = await client.publicApi().getOperations(operationIds);
-    setOperationsData(res!);
+    try {
+      const res = await client.publicApi().getOperations(operationIds);
+      setOperationsData(res!);
+    }
+    catch (e) {
+      console.error(e);
+      setOperationsData([]);
+    }
   }
 
   useEffect( () => {

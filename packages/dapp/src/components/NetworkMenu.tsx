@@ -1,5 +1,7 @@
 import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
+import { invalidateOperations } from '@/hooks/useOperations';
 import { useSetNetwork } from '@/hooks/useSetNetwork';
+import { invalidateTokens } from '@/hooks/useTokens';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Menu, MenuButton, MenuList, MenuItem, Button, Spinner } from '@chakra-ui/react';
 import { CHAIN_ID } from '@massalabs/massa-web3';
@@ -39,6 +41,8 @@ export const NetworkMenu = () => {
           <MenuItem key={network.id} onClick={async () => {
             await setNetwork({network: network.id.toString()})
             invalidateNetwork();
+            invalidateTokens();
+            invalidateOperations();
           }}>
             {network.name}
           </MenuItem>

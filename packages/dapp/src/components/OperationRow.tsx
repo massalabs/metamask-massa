@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { AlertIcon, Td, Tooltip, Tr } from "@chakra-ui/react";
+import { AlertIcon, Link, Td, Tooltip, Tr } from "@chakra-ui/react";
 import { IOperationData, ITransactionOpType } from "@massalabs/massa-web3";
 import { ICallSmartContractOpType, IExecSmartContractOpType, IRollBuyOpType, IRollSellOpType } from "@massalabs/massa-web3/dist/esm/interfaces/OperationTypes";
 import { useMemo } from "react";
@@ -35,7 +35,7 @@ export const OperationRow = ({ operation }: { operation: IOperationData}) => {
   return (
       <Tr key={operation.id}>
         <Td>{getStatusIcon}</Td>
-        <Td><Tooltip label={operation.id}>{operation.id.slice(0, 25)+'...'}</Tooltip></Td>
+        <Td><Link href={`https://massexplo.io/tx/${operation.id}`}>{operation.id.slice(0, 25)+'...'}</Link></Td>
         <Td>{getOperationType}</Td>
       </Tr>
   );

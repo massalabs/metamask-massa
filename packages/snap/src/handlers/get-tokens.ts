@@ -1,5 +1,5 @@
 import { getAccount, getActiveAccount } from "../accounts/manage-account";
-import { AccountToken, getAccountTokens } from "../tokens";
+import { getAccountTokens } from "../tokens";
 import { Handler } from "./handler";
 
 export type GetTokensParams = {
@@ -7,7 +7,7 @@ export type GetTokensParams = {
 }
 
 export type GetTokensResponse = {
-  tokens: AccountToken[];
+  tokens: string[];
 }
 
 export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (params) => {

@@ -20,6 +20,7 @@ export default function Home() {
       p={4}
       mt={10}
       maxW="6xl"
+size={'lg'}
       borderRadius={'lg'}
       flexWrap={'wrap'}
     >
