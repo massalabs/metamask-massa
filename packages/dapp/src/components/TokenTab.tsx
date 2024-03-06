@@ -51,7 +51,7 @@ export const TokenTab = () => {
   }, [accountBalance, isLoadingAccountBalance, activeAccount]);
 
   return (
-    <Box w={'full'} minH='33vh'>
+    <Flex flexDirection={"column"} w={"full"} h={'full'} flexGrow={1} gap={3} p={4}>
       <Flex justifyContent={'space-between'} align={'center'}>
         <Heading pl={3}>{
             isLoadingActiveAccount ? <Spinner /> : (activeAccount?.name || 'My Account')
@@ -74,8 +74,8 @@ export const TokenTab = () => {
         <TxModal isOpen={isTxOpen} onClose={onTxClose}/>
       </Flex>
       <Divider />
-      <TableContainer maxH={'full'} scrollBehavior={'smooth'} overflowY={'scroll'} >
-        <Table>
+      <TableContainer flex={1} flexDirection={"column"} flexGrow={1}  w={"full"} scrollBehavior={'smooth'} overflowY={'scroll'} >
+        <Table h={"full"} w={"full"}>
           <Thead bg={headerBg} position={'sticky'} top={0}>
             <Tr>
               <Th color={colorMode === 'light' ? 'black' : 'white'
@@ -111,7 +111,7 @@ export const TokenTab = () => {
         </Table>
       </TableContainer>
       <Divider />
-      <Flex justifyContent={'space-between'}>
+      <Flex justifyContent={'space-between'} position={'sticky'} bottom={0}>
         <Button
           aria-label={'Add Token'}
           leftIcon={<AddIcon color={'green.300'} />}
@@ -123,6 +123,6 @@ export const TokenTab = () => {
         </Button>
         <AddTokenModal isOpen={isAddOpen} onClose={onAddClose}/>
       </Flex>
-    </Box>
+    </Flex>
   );
 };

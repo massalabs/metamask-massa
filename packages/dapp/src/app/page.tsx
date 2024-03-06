@@ -14,36 +14,23 @@ export default function Home() {
   const {colorMode} = useColorMode();
 
   return (
-    <Container
-      border={'white'}
+    <Flex
+      flexDir={"column"}
+      align={'center'}
+      flexGrow={1}
+      justify={"center"}
+      w={{base: "100%", lg: "60%"}}
+      borderRadius={"lg"}
       bg={colorMode === 'light' ? 'gray.200' : 'gray.700'}
       p={4}
-      mt={10}
-      maxW="6xl"
-size={'lg'}
-      borderRadius={'lg'}
-      flexWrap={'wrap'}
+      gap={4}
+      mx={3}
+      my={10}
+      h={'full'}
     >
-      <Flex justifyContent={'center'} flexWrap={'wrap'}>
-        <Flex
-          w={{ base: '100%', md: '50%' }}
-          borderRightWidth={bValues?.x}
-          borderBottomWidth={bValues?.y}
-          borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'}
-          p={4}
-        >
-          <TokenTab />
-        </Flex>
-        <Flex
-          w={{ base: '100%', md: '50%' }}
-          borderLeftWidth={bValues?.x}
-          borderTopWidth={bValues?.y}
-          borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'}
-          p={4}
-        >
-          <OperationTab />
-        </Flex>
-      </Flex>
-    </Container>
+      <TokenTab />
+      <Divider orientation={'horizontal'} borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'} />
+      <OperationTab />
+    </Flex>
   );
 }

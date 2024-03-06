@@ -61,7 +61,7 @@ export const OperationTab = () => {
   }, [operationsData, pageIndex, operations]);
 
   return (
-    <Box w={'full'}>
+    <Flex flexDirection="column" w={'full'} flexGrow={1} gap={3} p={4}>
       <Flex justifyContent={'space-between'} align={'center'}>
         <Heading mb={3} pl={3}>
           Operations
@@ -69,27 +69,29 @@ export const OperationTab = () => {
         <IconButton aria-label="Refresh" icon={<RepeatIcon />} onClick={reset}/>
       </Flex>
       <Divider />
-      <TableContainer maxW={'full'}>
-        <Table>
-          <Thead bg={headerBg}>
-            <Tr>
-              <Th color={colorMode === 'light' ? 'black' : 'white'
-              }>Status</Th>
-              <Th color={colorMode === 'light' ? 'black' : 'white'
-              }>Id</Th>
-              <Th color={colorMode === 'light' ? 'black' : 'white'
-              }>Type</Th>
-            </Tr>
-          </Thead>
-          <Tbody> {
-          isLoadingOperations || !operationsData || operationsData.operations.length === 0
-              ? getSkeletalOperations()
-              : retreiveOperations
-          }
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <Flex justifyContent={'space-between'} mt={3} gap={6} align={'center'}>
+      <Flex flexDirection={"column"} w={"full"} flexGrow={1} align={'center'}>
+        <TableContainer flex={1} flexDirection={"column"} w={"full"} flexGrow={1}>
+          <Table>
+            <Thead bg={headerBg}>
+              <Tr>
+                <Th color={colorMode === 'light' ? 'black' : 'white'
+                }>Status</Th>
+                <Th color={colorMode === 'light' ? 'black' : 'white'
+                }>Id</Th>
+                <Th color={colorMode === 'light' ? 'black' : 'white'
+                }>Type</Th>
+              </Tr>
+            </Thead>
+            <Tbody> {
+            isLoadingOperations || !operationsData || operationsData.operations.length === 0
+                ? getSkeletalOperations()
+                : retreiveOperations
+            }
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Flex>
+      <Flex justifyContent={'space-between'} mt={3} gap={6} align={'center'} position={'sticky'} bottom={0}>
           <Button onClick={() => {
             if (pageIndex > 0)
               setPageIndex(pageIndex - 1)
@@ -100,6 +102,6 @@ export const OperationTab = () => {
               setPageIndex(pageIndex + 1)
           }}>Next</Button>
       </Flex>
-    </Box>
+    </Flex>
   );
 };

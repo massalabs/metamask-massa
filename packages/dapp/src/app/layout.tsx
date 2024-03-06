@@ -6,6 +6,7 @@ import './globals.css';
 import { Providers } from './providers';
 
 import { Header } from '@/components/Header';
+import { Flex } from '@chakra-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,8 +24,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header />
-          {children}
+          <Flex direction="column" minHeight="100vh" align={"center"}>
+            <Header />
+            {children}
+          </Flex>
         </Providers>
       </body>
     </html>
