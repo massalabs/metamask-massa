@@ -12,7 +12,6 @@ module.exports = {
       files: ['*.js'],
       extends: ['@metamask/eslint-config-nodejs'],
     },
-
     {
       files: ['*.ts', '*.tsx'],
       extends: ['@metamask/eslint-config-typescript'],

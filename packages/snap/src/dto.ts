@@ -6,14 +6,14 @@ export type CallSCParameters = {
   fee: bigint;
   functionName: string;
   at: string;
-  args: Array<number>;
+  args: number[];
   coins: string;
   nonPersistentExecution?: {
     isNPE: boolean;
     maxGas: string;
-  }
-}
+  };
+};
 
 export type CallSCResponse = {
   operationId: string;
-}
+};

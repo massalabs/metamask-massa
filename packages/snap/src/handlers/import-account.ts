@@ -1,6 +1,7 @@
-import { WalletClient } from "@massalabs/massa-web3";
-import { Handler } from "./handler";
-import { addAccount } from "../accounts/manage-account";
+import { WalletClient } from '@massalabs/massa-web3';
+
+import { addAccount } from '../accounts/manage-account';
+import type { Handler } from './handler';
 
 export type ImportAccountParams = {
   privateKey: string;

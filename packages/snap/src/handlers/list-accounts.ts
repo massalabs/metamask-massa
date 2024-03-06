@@ -1,6 +1,6 @@
 import type { Account } from '../accounts/manage-account';
-import type { Handler } from './handler';
 import { listAccounts as manageListAccounts } from '../accounts/manage-account';
+import type { Handler } from './handler';
 
 export type ListAccountsResponseItem = Pick<Account, 'address' | 'name'>;
 

@@ -10,8 +10,8 @@ import type {
 } from '@massalabs/massa-web3';
 import { OperationTypeId, utils } from '@massalabs/massa-web3';
 
-import { RpcHandler } from './api';
 import { Address } from '../utils';
+import { RpcHandler } from './api';
 
 export class Encoder {
   public static async signData(

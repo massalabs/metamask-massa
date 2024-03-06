@@ -1,5 +1,8 @@
-import { Handler } from "./handler";
-import { setActiveAccount as activeAccount, getAccount } from "../accounts/manage-account";
+import {
+  setActiveAccount as activeAccount,
+  getAccount,
+} from '../accounts/manage-account';
+import type { Handler } from './handler';
 
 export type SetActiveAccountParams = {
   address: string;
@@ -10,14 +13,19 @@ export type SetActiveAccountResponse = {
   address: string;
 };
 
-const coerceParams = (params: SetActiveAccountParams): SetActiveAccountParams => {
-  if (!params.address || typeof params.address !== "string") {
-    throw new Error("Invalid params: address must be a string");
+const coerceParams = (
+  params: SetActiveAccountParams,
+): SetActiveAccountParams => {
+  if (!params.address || typeof params.address !== 'string') {
+    throw new Error('Invalid params: address must be a string');
   }
   return params;
-}
+};
 
-export const setActiveAccount: Handler<SetActiveAccountParams, SetActiveAccountResponse> = async (params) => {
+export const setActiveAccount: Handler<
+  SetActiveAccountParams,
+  SetActiveAccountResponse
+> = async (params) => {
   const { address } = coerceParams(params);
   const account = await getAccount(address);
 
@@ -29,4 +37,4 @@ export const setActiveAccount: Handler<SetActiveAccountParams, SetActiveAccountR
     name: account.name,
     address,
   };
-}
+};

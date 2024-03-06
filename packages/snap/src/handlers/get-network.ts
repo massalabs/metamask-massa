@@ -1,6 +1,7 @@
-import { getActiveChainId } from "../active-chain";
-import { Handler } from "./handler";
-import { CHAIN_ID } from "@massalabs/massa-web3";
+import { CHAIN_ID } from '@massalabs/massa-web3';
+
+import { getActiveChainId } from '../active-chain';
+import type { Handler } from './handler';
 
 export type GetNetworkResponse = {
   network: string; // chainId
@@ -11,4 +12,4 @@ export const getNetwork: Handler<void, GetNetworkResponse> = async () => {
   return {
     network: chainId.toString(),
   };
-}
+};

@@ -1,23 +1,26 @@
 'use client';
 
-import { useContext, useState } from 'react';
-import { Flex, Icon, Heading, useBreakpointValue, Show } from '@chakra-ui/react';
-import { SunIcon } from '@chakra-ui/icons';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Image } from '@chakra-ui/next-js';
-import { NetworkMenu } from './NetworkMenu';
+import { Flex } from '@chakra-ui/react';
+import { useContext } from 'react';
+
 import { AccountMenu } from './AccountMenu';
-import { ThemeSwitch } from './ThemeSwitch';
 import { ConnectMetamaskButton } from './ConnectMetamaskButton';
-import { isLocalSnap } from '@/utils';
+import { NetworkMenu } from './NetworkMenu';
+import { ThemeSwitch } from './ThemeSwitch';
+
 import { defaultSnapOrigin } from '@/config';
 import { MetaMaskContext } from '@/hooks/MetamaskContext';
+import { isLocalSnap } from '@/utils';
 
 export const Header = () => {
   const { state, provider } = useContext(MetaMaskContext);
   const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
     ? state.isFlask
     : state.snapsDetected;
-  const ready = isMetaMaskReady && state.installedSnap && provider !== undefined;
+  const ready =
+    isMetaMaskReady && state.installedSnap && provider !== undefined;
 
   return (
     <>
@@ -25,12 +28,11 @@ export const Header = () => {
         <Image src="/MassaLogo.png" alt="Logo" width={200} height={42} />
         <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
           <ThemeSwitch />
-            {!ready && <ConnectMetamaskButton />}
-            {ready && <AccountMenu />}
-            {ready && <NetworkMenu />}
+          {!ready && <ConnectMetamaskButton />}
+          {ready && <AccountMenu />}
+          {ready && <NetworkMenu />}
         </Flex>
       </Flex>
-
     </>
   );
 };

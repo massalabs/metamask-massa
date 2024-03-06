@@ -1,17 +1,22 @@
-import { getAccount, getActiveAccount } from "../accounts/manage-account";
-import { getAccountTokens } from "../tokens";
-import { Handler } from "./handler";
+import { getAccount, getActiveAccount } from '../accounts/manage-account';
+import { getAccountTokens } from '../tokens';
+import type { Handler } from './handler';
 
 export type GetTokensParams = {
   address?: string;
-}
+};
 
 export type GetTokensResponse = {
   tokens: string[];
-}
+};
 
-export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (params) => {
-  const account = (params?.address !== undefined) ? await getAccount(params.address!) : await getActiveAccount();
+export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (
+  params,
+) => {
+  const account =
+    params?.address !== undefined
+      ? await getAccount(params.address)
+      : await getActiveAccount();
 
   if (!account) {
     throw new Error(`Account not found: ${params.address}`);
@@ -19,4 +24,4 @@ export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (par
   return {
     tokens: await getAccountTokens(account.address!),
   };
-}
+};

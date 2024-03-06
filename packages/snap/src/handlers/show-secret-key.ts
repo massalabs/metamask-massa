@@ -1,7 +1,8 @@
-import { DialogResult, panel, text } from "@metamask/snaps-sdk";
-import { Handler } from "./handler";
-import { MassaAccount } from "../account";
+import type { DialogResult } from '@metamask/snaps-sdk';
+import { panel, text } from '@metamask/snaps-sdk';
 
+import { MassaAccount } from '../account';
+import type { Handler } from './handler';
 
 export const showSecretKey: Handler<void, DialogResult> = async () => {
   const account = await MassaAccount.getAccount();

@@ -1,30 +1,38 @@
-import { MassaAccount } from "../account";
-import { Handler } from "./handler";
-import { panel, text } from "@metamask/snaps-sdk";
-import { ICallData } from "@massalabs/massa-web3";
-import { addAccountOperation } from "../operations";
-import { getClientByName } from "../accounts/clients";
-import { getAccountByName } from "../accounts/manage-account";
+import type { ICallData } from '@massalabs/massa-web3';
+import { panel, text } from '@metamask/snaps-sdk';
+
+import { MassaAccount } from '../account';
+import { getClientByName } from '../accounts/clients';
+import { getAccountByName } from '../accounts/manage-account';
+import { addAccountOperation } from '../operations';
+import type { Handler } from './handler';
 
 export type CallSCParameters = {
   nickname: string;
   fee: string;
   functionName: string;
   at: string;
-  args: Array<number>;
+  args: number[];
   coins: string;
   nonPersistentExecution?: {
     isNPE: boolean;
     maxGas: string;
-  }
-}
+  };
+};
 
 export type CallSCResponse = {
   operationId: string;
-}
+};
 
 const coerceParams = (params: CallSCParameters): ICallData => {
-  if (!params.nickname || !params.fee || !params.functionName || !params.at || !params.args || !params.coins) {
+  if (
+    !params.nickname ||
+    !params.fee ||
+    !params.functionName ||
+    !params.at ||
+    !params.args ||
+    !params.coins
+  ) {
     throw new Error('All fields are required');
   } else if (typeof params.nickname !== 'string') {
     throw new Error('Nickname must be a string');
@@ -41,15 +49,21 @@ const coerceParams = (params: CallSCParameters): ICallData => {
   }
   return {
     fee: BigInt(params.fee),
-    maxGas: params.nonPersistentExecution?.maxGas !== undefined ? BigInt(params.nonPersistentExecution.maxGas) : null as unknown as bigint,
+    maxGas:
+      params.nonPersistentExecution?.maxGas !== undefined
+        ? BigInt(params.nonPersistentExecution.maxGas)
+        : (null as unknown as bigint),
     coins: BigInt(params.coins),
     targetAddress: params.at,
     functionName: params.functionName,
     parameter: params.args,
   };
-}
+};
 // TODO: retrieve correct account from nickname
-export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = async (params) => {
+export const callSmartContract: Handler<
+  CallSCParameters,
+  CallSCResponse
+> = async (params) => {
   const client = await getClientByName(params.nickname);
   const account = await getAccountByName(params.nickname);
 
@@ -75,6 +89,6 @@ export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = asyn
   const operationId = await client.smartContracts().callSmartContract(callData);
   await addAccountOperation(account.address!, operationId);
   return {
-    operationId
-  }
+    operationId,
+  };
 };

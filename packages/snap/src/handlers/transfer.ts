@@ -1,9 +1,10 @@
-import { addAccountOperation } from "../operations";
-import { MassaAccount } from "../account";
-import { Handler } from "./handler";
-import { ITransactionData } from "@massalabs/massa-web3";
-import { panel, text } from "@metamask/snaps-sdk";
-import { getActiveClient } from "../accounts/clients";
+import type { ITransactionData } from '@massalabs/massa-web3';
+import { panel, text } from '@metamask/snaps-sdk';
+
+import { MassaAccount } from '../account';
+import { getActiveClient } from '../accounts/clients';
+import { addAccountOperation } from '../operations';
+import type { Handler } from './handler';
 
 export type TransferParams = {
   recipientAddress: string;
@@ -30,9 +31,11 @@ const coerceParams = (params: TransferParams): ITransactionData => {
     amount: BigInt(params.amount),
     fee: BigInt(params.fee),
   };
-}
+};
 
-export const transfer: Handler<TransferParams, TransferResponse> = async (params) => {
+export const transfer: Handler<TransferParams, TransferResponse> = async (
+  params,
+) => {
   const client = await getActiveClient();
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -44,12 +47,12 @@ export const transfer: Handler<TransferParams, TransferResponse> = async (params
         text(`Amount: ${params.amount}`),
         text(`Fee: ${params.fee}`),
       ]),
-     },
-   });
+    },
+  });
 
-   if (!confirm) {
-     throw new Error('User denied sending transaction');
-   }
+  if (!confirm) {
+    throw new Error('User denied sending transaction');
+  }
 
   const deserialized = coerceParams(params);
 
@@ -61,6 +64,6 @@ export const transfer: Handler<TransferParams, TransferResponse> = async (params
   await addAccountOperation(address, operations[0]!);
 
   return {
-    operationId: operations[0]!
-  }
+    operationId: operations[0]!,
+  };
 };

@@ -2,8 +2,9 @@ import type {
   ITransactionData,
   INodeStatus,
   Web3Account,
+  ICallData,
 } from '@massalabs/massa-web3';
-import { ICallData, OperationTypeId, CHAIN_ID } from '@massalabs/massa-web3';
+import { OperationTypeId, CHAIN_ID } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
 import { MassaAccount } from '../account';
@@ -37,21 +38,19 @@ export class RpcHandler {
       BigInt(CHAIN_ID.BuildNet),
     );
 
-    return RpcHandler.sendOperation(
-      [[signedData]],
-      'send_operations',
-    );
+    return RpcHandler.sendOperation([[signedData]], 'send_operations');
   }
 
-  public static async estimateGas(data: ICallData) {
-    return
-  }
+  public static async estimateGas(data: ICallData) {}
 
   static async callSC(data: ICallData) {
     return RpcHandler.sendOperation(data, 'call_smart_contract');
   }
 
-  private static async sendOperation(data: object, operation: string): Promise<any> {
+  private static async sendOperation(
+    data: object,
+    operation: string,
+  ): Promise<any> {
     const body = {
       jsonrpc: '2.0',
       method: operation,
@@ -96,7 +95,10 @@ export class RpcHandler {
       body: JSON.stringify(body),
       method: 'POST',
     });
-    const json = (await res.json()) as unknown as { result: INodeStatus, error: any };
+    const json = (await res.json()) as unknown as {
+      result: INodeStatus;
+      error: any;
+    };
     if (json.error) {
       throw new Error(json.error.message);
     }

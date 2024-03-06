@@ -50,20 +50,20 @@ export class MassaAccount {
   }
 
   private static async setAccount() {
-      const account = await this.getPrivateKey();
+    const account = await this.getPrivateKey();
 
-      if (!account?.privateKey) {
-        throw new Error('No private key found');
-      }
+    if (!account?.privateKey) {
+      throw new Error('No private key found');
+    }
 
-      const bytes = new TextEncoder().encode(account.privateKey.slice(0, 32));
+    const bytes = new TextEncoder().encode(account.privateKey.slice(0, 32));
 
-      const version = Uint8Array.from(
-        utils.crypto.varintEncode(KEYS_VERSION_NUMBER),
-      );
-      const encoded = utils.crypto.base58Encode(
-        Uint8Array.from([...version, ...bytes]),
-      );
+    const version = Uint8Array.from(
+      utils.crypto.varintEncode(KEYS_VERSION_NUMBER),
+    );
+    const encoded = utils.crypto.base58Encode(
+      Uint8Array.from([...version, ...bytes]),
+    );
     const secretKey = SECRET_KEY_PREFIX + encoded;
 
     this.account = await WalletClient.getAccountFromSecretKey(secretKey);

@@ -15,8 +15,8 @@ import {
 } from '@metamask/snaps-sdk';
 
 import { MassaAccount } from './account';
+import type { CallSCParameters, CallSCResponse } from './dto';
 import { RpcHandler } from './old/api';
-import { CallSCParameters, CallSCResponse } from './dto';
 
 export type Handler<T, O> = (params: T) => Promise<O>;
 
@@ -44,8 +44,10 @@ export type SignMessageParams = {
   chainId: bigint;
 };
 
-
-export const signMessage: Handler<SignMessageParams, ISignature> = async ({ data, chainId}) => {
+export const signMessage: Handler<SignMessageParams, ISignature> = async ({
+  data,
+  chainId,
+}) => {
   const wallet = await MassaAccount.getWalletClient();
   const address = (await MassaAccount.getAccount()).address!;
   const confirm = await snap.request({
@@ -91,7 +93,10 @@ export const transfer: Handler<ITransactionData, string[]> = async (params) => {
   return client.wallet().sendTransaction(deserialized);
 };
 
-export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = async (params) => {
+export const callSmartContract: Handler<
+  CallSCParameters,
+  CallSCResponse
+> = async (params) => {
   const client = await MassaAccount.getWeb3Client();
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -109,14 +114,17 @@ export const callSmartContract: Handler<CallSCParameters, CallSCResponse> = asyn
   }
   const deserialized: ICallData = {
     fee: BigInt(params.fee),
-    maxGas: params.nonPersistentExecution?.maxGas !== undefined ? BigInt(params.nonPersistentExecution.maxGas) : null as unknown as bigint,
+    maxGas:
+      params.nonPersistentExecution?.maxGas !== undefined
+        ? BigInt(params.nonPersistentExecution.maxGas)
+        : (null as unknown as bigint),
     coins: params.coins !== undefined ? BigInt(params.coins) : BigInt(0),
     targetAddress: params.at,
     functionName: params.functionName,
     parameter: params.args,
-  }
+  };
 
   return {
-    operationId: await client.smartContracts().callSmartContract(deserialized)
-  }
+    operationId: await client.smartContracts().callSmartContract(deserialized),
+  };
 };

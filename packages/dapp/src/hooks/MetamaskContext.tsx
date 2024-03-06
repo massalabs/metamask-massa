@@ -1,12 +1,6 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { ReactNode, Reducer } from 'react';
-import {
-  createContext,
-  useEffect,
-  useReducer,
-  useState,
-  Dispatch,
-} from 'react';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { ReactNode, Reducer, Dispatch } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 
 import type { Snap } from '../types';
 import { getSnapsProvider, getSnap, isFlask } from '../utils';

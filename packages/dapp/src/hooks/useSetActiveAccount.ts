@@ -1,5 +1,7 @@
 import { useCallback, useContext } from 'react';
+
 import { MetaMaskContext } from './MetamaskContext';
+
 import { defaultSnapOrigin } from '@/config';
 
 export type SetActiveAccountParams = {
@@ -14,14 +16,18 @@ export type SetActiveAccountResponse = {
 export const useSetActiveAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 
-  return useCallback((params: SetActiveAccountParams) => provider?.request<SetActiveAccountResponse>({
-    method: "wallet_invokeSnap",
-    params: {
-      snapId: defaultSnapOrigin,
-      request: {
-        method:"account.setActive",
-        params
-      }
-    }
-  }), [provider]);
-}
+  return useCallback(
+    async (params: SetActiveAccountParams) =>
+      provider?.request<SetActiveAccountResponse>({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
+            method: 'account.setActive',
+            params,
+          },
+        },
+      }),
+    [provider],
+  );
+};

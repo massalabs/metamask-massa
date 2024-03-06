@@ -1,9 +1,10 @@
-import { getClientWallet } from "../accounts/clients";
-import { MassaAccount } from "../account";
-import { Handler } from "./handler";
-import { Args, ISignature } from "@massalabs/massa-web3";
-import { panel, text } from "@metamask/snaps-sdk";
-import { getNetwork } from "./get-network";
+import { Args, ISignature } from '@massalabs/massa-web3';
+import { panel, text } from '@metamask/snaps-sdk';
+
+import { MassaAccount } from '../account';
+import { getClientWallet } from '../accounts/clients';
+import { getNetwork } from './get-network';
+import type { Handler } from './handler';
 
 export type SignMessageParams = {
   address: string;
@@ -25,10 +26,12 @@ const coerceParams = (params: SignMessageParams): SignMessageParams => {
   }
 
   return params;
-}
+};
 
-
-export const signMessage: Handler<SignMessageParams, SignMessageResponse> = async (params) => {
+export const signMessage: Handler<
+  SignMessageParams,
+  SignMessageResponse
+> = async (params) => {
   const { data, address } = coerceParams(params);
   const wallet = await getClientWallet(address);
 
@@ -52,9 +55,13 @@ export const signMessage: Handler<SignMessageParams, SignMessageResponse> = asyn
     throw new Error('User denied signing message');
   }
 
-  const sig = await wallet.signMessage(Buffer.from(data), BigInt(chainId), address);
+  const sig = await wallet.signMessage(
+    Buffer.from(data),
+    BigInt(chainId),
+    address,
+  );
   return {
     signature: sig.base58Encoded.split('').map((c) => c.charCodeAt(0)),
     publicKey: sig.publicKey,
-  }
+  };
 };

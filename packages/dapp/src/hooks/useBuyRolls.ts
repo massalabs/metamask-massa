@@ -1,5 +1,7 @@
 import { useCallback, useContext } from 'react';
+
 import { MetaMaskContext } from './MetamaskContext';
+
 import { defaultSnapOrigin } from '@/config';
 
 export type BuyRollsParams = {
@@ -14,14 +16,18 @@ export type BuyRollsResponse = {
 export const useBuyRolls = () => {
   const { provider } = useContext(MetaMaskContext);
 
-  return useCallback((params: BuyRollsParams) => provider?.request<BuyRollsResponse>({
-    method: "wallet_invokeSnap",
-    params: {
-      snapId: defaultSnapOrigin,
-      request: {
-        method:"account.buyRolls",
-        params
-      }
-    }
-  }), [provider]);
-}
+  return useCallback(
+    async (params: BuyRollsParams) =>
+      provider?.request<BuyRollsResponse>({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
+            method: 'account.buyRolls',
+            params,
+          },
+        },
+      }),
+    [provider],
+  );
+};

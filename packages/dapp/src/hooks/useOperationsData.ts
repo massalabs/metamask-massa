@@ -1,8 +1,9 @@
-import { IOperationData } from "@massalabs/massa-web3"
-import { useEffect, useState } from "react";
-import { useMassaClient } from "./useMassaClient";
+import type { IOperationData } from '@massalabs/massa-web3';
+import { useEffect, useState } from 'react';
 
-export const useOperationsData  = (operationIds: string[]) => {
+import { useMassaClient } from './useMassaClient';
+
+export const useOperationsData = (operationIds: string[]) => {
   const [operationsData, setOperationsData] = useState<IOperationData[]>([]);
   const client = useMassaClient();
 
@@ -12,20 +13,19 @@ export const useOperationsData  = (operationIds: string[]) => {
     }
     try {
       const res = await client.publicApi().getOperations(operationIds);
-      setOperationsData(res!);
-    }
-    catch (e) {
+      setOperationsData(res);
+    } catch (e) {
       console.error(e);
       setOperationsData([]);
     }
-  }
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     setOperationsInfos();
   }, [operationIds, client]);
 
   return {
     data: operationsData,
-    reset: () => setOperationsInfos()
+    reset: async () => setOperationsInfos(),
   };
-}
+};

@@ -1,11 +1,24 @@
-import { utils, KEYS_VERSION_NUMBER, SECRET_KEY_PREFIX, WalletClient, IAccount, SecretKey } from '@massalabs/massa-web3';
-import { JsonSLIP10Node } from '@metamask/key-tree';
+import type { IAccount } from '@massalabs/massa-web3';
+import {
+  utils,
+  KEYS_VERSION_NUMBER,
+  SECRET_KEY_PREFIX,
+  WalletClient,
+  SecretKey,
+} from '@massalabs/massa-web3';
+import type { JsonSLIP10Node } from '@metamask/key-tree';
 
+/**
+ *
+ */
 export async function getHDAccount(): Promise<IAccount> {
   const secretKey = await retrieveSecretKey();
   return WalletClient.getAccountFromSecretKey(secretKey);
 }
 
+/**
+ *
+ */
 async function retrieveSecretKey(): Promise<string> {
   const account = await retrieveSlip10Path();
 
@@ -24,6 +37,9 @@ async function retrieveSecretKey(): Promise<string> {
   return SECRET_KEY_PREFIX + encoded;
 }
 
+/**
+ *
+ */
 async function retrieveSlip10Path(): Promise<JsonSLIP10Node> {
   const entropy = await snap.request({
     method: 'snap_getBip32Entropy',

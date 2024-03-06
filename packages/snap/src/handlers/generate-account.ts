@@ -1,5 +1,5 @@
-import { generateNewAccount } from "../accounts/manage-account";
-import { Handler } from "./handler";
+import { generateNewAccount } from '../accounts/manage-account';
+import type { Handler } from './handler';
 
 export type GenerateAccountParams = {
   name: string;
@@ -11,17 +11,20 @@ export type GenerateAccountResponse = {
 };
 
 const coerceParams = (params: GenerateAccountParams): GenerateAccountParams => {
-  if (!params.name || typeof params.name !== "string") {
-    throw new Error("Invalid params: name must be a string");
+  if (!params.name || typeof params.name !== 'string') {
+    throw new Error('Invalid params: name must be a string');
   }
   return params;
-}
+};
 
-export const generateAccount: Handler<GenerateAccountParams, GenerateAccountResponse> = async (params) => {
+export const generateAccount: Handler<
+  GenerateAccountParams,
+  GenerateAccountResponse
+> = async (params) => {
   const { name } = coerceParams(params);
   const account = await generateNewAccount(name);
   return {
     name: account.name,
-    address: account.address!
+    address: account.address!,
   };
-}
+};
