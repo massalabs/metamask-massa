@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Flex direction="column" minHeight="100vh" align={"center"}>
+          <Flex direction="column" minHeight="100vh" align={'center'}>
             <Header />
             {children}
           </Flex>

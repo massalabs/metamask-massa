@@ -24,9 +24,9 @@ import { useMemo, useState } from 'react';
 
 import { OperationRow } from './OperationRow';
 
+import { useClearOperations } from '@/hooks/useClearOperations';
 import { useOperations } from '@/hooks/useOperations';
 import { useOperationsData } from '@/hooks/useOperationsData';
-import { useClearOperations } from '@/hooks/useClearOperations';
 
 export const OperationTab = () => {
   const [pageIndex, setPageIndex] = useState(0);

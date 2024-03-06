@@ -24,7 +24,13 @@ export const Header = () => {
 
   return (
     <>
-      <Flex justifyContent={'space-between'} w={"full"} p={5} flexWrap={'wrap'} bg={'grey.100'}>
+      <Flex
+        justifyContent={'space-between'}
+        w={'full'}
+        p={5}
+        flexWrap={'wrap'}
+        bg={'grey.100'}
+      >
         <Image src="/MassaLogo.png" alt="Logo" width={200} height={42} />
         <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
           <ThemeSwitch />

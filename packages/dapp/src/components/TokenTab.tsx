@@ -66,7 +66,14 @@ export const TokenTab = () => {
   }, [accountBalance, isLoadingAccountBalance, activeAccount]);
 
   return (
-    <Flex flexDirection={"column"} w={"full"} h={'full'} flexGrow={1} gap={3} p={4}>
+    <Flex
+      flexDirection={'column'}
+      w={'full'}
+      h={'full'}
+      flexGrow={1}
+      gap={3}
+      p={4}
+    >
       <Flex justifyContent={'space-between'} align={'center'}>
         <Heading pl={3}>
           {isLoadingActiveAccount ? (
@@ -113,8 +120,15 @@ export const TokenTab = () => {
         <TxModal isOpen={isTxOpen} onClose={onTxClose} />
       </Flex>
       <Divider />
-      <TableContainer flex={1} flexDirection={"column"} flexGrow={1}  w={"full"} scrollBehavior={'smooth'} overflowY={'scroll'} >
-        <Table h={"full"} w={"full"}>
+      <TableContainer
+        flex={1}
+        flexDirection={'column'}
+        flexGrow={1}
+        w={'full'}
+        scrollBehavior={'smooth'}
+        overflowY={'scroll'}
+      >
+        <Table h={'full'} w={'full'}>
           <Thead bg={headerBg} position={'sticky'} top={0}>
             <Tr>
               <Th color={colorMode === 'light' ? 'black' : 'white'}>Token</Th>

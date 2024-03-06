@@ -1,17 +1,17 @@
 'use client';
 
+import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton, Td, Tr } from '@chakra-ui/react';
 import type { IReadData } from '@massalabs/massa-web3';
 import { Args } from '@massalabs/massa-web3';
 import { useEffect, useState } from 'react';
 
 import { useActiveAccount } from '@/hooks/useActiveAccount';
-import { useMassaClient } from '@/hooks/useMassaClient';
-import { AccountToken } from '@/types/account-token';
-import { DeleteIcon } from '@chakra-ui/icons';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { useDeleteToken } from '@/hooks/useDeleteToken';
+import { useMassaClient } from '@/hooks/useMassaClient';
 import { invalidateTokens } from '@/hooks/useTokens';
+import { AccountToken } from '@/types/account-token';
 
 export const TokenRow = ({ token }: { token: string }) => {
   const { isLoading: isLoadingAccount, data: account } = useActiveAccount();
@@ -73,7 +73,7 @@ export const TokenRow = ({ token }: { token: string }) => {
           icon={<DeleteIcon />}
           onClick={() => {
             deleteToken({
-              accountAddress: account!.address,
+              accountAddress: account.address,
               address: token,
             }).then((res) => {
               console.log(res);
