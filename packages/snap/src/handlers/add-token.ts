@@ -17,7 +17,7 @@ const coerceParams = (params: AddTokenParams): AddTokenParams => {
     throw new Error('Invalid params: address must be a string');
   }
   if (params.accountAddress && typeof params.accountAddress !== 'string') {
-    throw new Error('Invalid params: address must be a string');
+    throw new Error('Invalid params: accountAddress must be a string');
   }
   return params;
 };
@@ -29,6 +29,10 @@ export const addToken: Handler<AddTokenParams, AddTokenResponse> = async (
   const account = accountAddress
     ? await getAccount(accountAddress)
     : await getActiveAccount();
+
+  if (!account) {
+    throw new Error('Account not found');
+  }
   await addAccountToken(account!.address!, address);
   return {
     address,

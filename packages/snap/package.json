@@ -41,6 +41,7 @@
     "@metamask/eslint-config-typescript": "^12.0.0",
     "@metamask/snaps-cli": "^6.0.2",
     "@metamask/snaps-jest": "^6.0.1",
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.45.0",

@@ -1,0 +1,14 @@
+- [ ] buy rolls
+- [ ] call SC + get operations
+- [ ] clear operations
+- [x] delete token
+- [x] generate account
+- [x] get balance
+- [x] get node urls
+- [x] import account
+- [ ] sell rolls
+- [x] set active account
+- [x] set network
+- [ ] show account credentials
+- [-] sign message
+- [ ] transfer
