@@ -6,6 +6,10 @@ export type GetActiveAccountResponse = {
   address: string;
 };
 
+/**
+ * @description Gets the active account
+ * @returns The active account name and address
+ */
 export const getActiveAccount: Handler<
   void,
   GetActiveAccountResponse

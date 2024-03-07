@@ -10,6 +10,12 @@ export type GetOperationsResponse = {
   operations: string[];
 };
 
+/**
+ * @description Gets the operations for the active account or the account with the given address
+ * @param params - The get operations parameters (optional address, defaults to the active account)
+ * @returns The operations registered for the account
+ * @throws If the account is not found (usually due to not being imported in metamask)
+ */
 export const getOperations: Handler<
   GetOperationsParams,
   GetOperationsResponse

@@ -12,6 +12,12 @@ export type SellRollsResponse = {
   operationId: string;
 };
 
+/**
+ * @description Coerce the sell rolls parameters by ensuring the parameters are present and are the correct type
+ * @param params - The sell rolls parameters
+ * @returns The sell rolls parameters
+ * @throws If the fee or amount is missing or not a string
+ */
 const coerceParams = (params: SellRollsParams): IRollsData => {
   if (!params.fee || typeof params.fee !== 'string') {
     throw new Error('Invalid params: fee must be a string');
@@ -24,7 +30,11 @@ const coerceParams = (params: SellRollsParams): IRollsData => {
     amount: BigInt(params.amount),
   };
 };
-
+/**
+ * @description Sells rolls using 'massa-web3' and adds the operation to the account
+ * @param params - The sell rolls parameters
+ * @returns The operation id
+ */
 export const sellRolls: Handler<SellRollsParams, SellRollsResponse> = async (
   params,
 ) => {

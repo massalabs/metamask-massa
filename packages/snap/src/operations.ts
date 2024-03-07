@@ -4,8 +4,9 @@ import { StateManager } from './state-manager';
 export type AccountsOperations = Record<string, string[]>;
 
 /**
- *
- * @param address
+ * @description Get operations for the given account address
+ * @param address - Account address as a string prefixed with 'AU'
+ * @returns Array of operation ids as as string array prefixed with 'OP'
  */
 export async function getAccountOperations(address: string): Promise<string[]> {
   const accountsOperations: AccountsOperations =
@@ -20,9 +21,10 @@ export async function getAccountOperations(address: string): Promise<string[]> {
 }
 
 /**
- *
- * @param address
- * @param operation
+ * @description Add operation to account with the given operation id for the given account address
+ * Does nothing if the operation is already added
+ * @param address - Account address as a string prefixed with 'AU'
+ * @param operation - Operation id as a string prefixed with 'OP'
  */
 export async function addAccountOperation(address: string, operation: string) {
   const accountsOperations: AccountsOperations =
@@ -38,8 +40,8 @@ export async function addAccountOperation(address: string, operation: string) {
 }
 
 /**
- *
- * @param account
+ * @description Remove operation from account with the given operation id for the given account address
+ * @param account - Account address as a string prefixed with 'AU'
  */
 export async function clearAccountOperations(account: string) {
   const accountsOperations: AccountsOperations =

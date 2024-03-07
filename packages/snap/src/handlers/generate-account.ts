@@ -17,6 +17,11 @@ const coerceParams = (params: GenerateAccountParams): GenerateAccountParams => {
   return params;
 };
 
+/**
+ * @description Generates a new account with the given name
+ * @param params - The generate account parameters
+ * @returns The generated account name and address
+ */
 export const generateAccount: Handler<
   GenerateAccountParams,
   GenerateAccountResponse

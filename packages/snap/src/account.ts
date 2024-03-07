@@ -9,6 +9,11 @@ import {
   CHAIN_ID,
 } from '@massalabs/massa-web3';
 
+/**
+ * @description MassaAccount class to handle account and client related operations
+ * @class MassaAccount
+ * @exports MassaAccount
+ */
 export class MassaAccount {
   static walletClient: WalletClient | null = null;
 
@@ -16,6 +21,10 @@ export class MassaAccount {
 
   static account: IAccount | null = null;
 
+  /**
+   * @description Get WalletClient instance (creates one if not initialized yet)
+   * @returns WalletClient instance
+   */
   public static async getWalletClient() {
     if (!this.walletClient) {
       await this.setWalletClient();
@@ -23,6 +32,10 @@ export class MassaAccount {
     return this.walletClient!;
   }
 
+  /**
+   * @description Get account instance (creates one if not initialized yet)
+   * @returns IAccount instance
+   */
   public static async getAccount() {
     if (!this.account) {
       await this.setAccount();
@@ -30,6 +43,10 @@ export class MassaAccount {
     return this.account!;
   }
 
+  /**
+   * @description Get Web3Client instance (creates one if not initialized yet)
+   * @returns Client instance
+   */
   public static async getWeb3Client() {
     if (!this.web3Client) {
       await this.setWalletClient();
@@ -37,6 +54,10 @@ export class MassaAccount {
     return this.web3Client!;
   }
 
+  /**
+   * @description Set WalletClient instance
+   * @returns WalletClient instance
+   */
   private static async setWalletClient() {
     const account = await this.getAccount();
     this.web3Client = await ClientFactory.createDefaultClient(
@@ -49,6 +70,11 @@ export class MassaAccount {
     this.walletClient.addAccountsToWallet([account]);
   }
 
+  /**
+   * @description Set account instance
+   * @returns IAccount instance
+   * @throws Error if no private key found
+   */
   private static async setAccount() {
     const account = await this.getPrivateKey();
 
@@ -68,7 +94,10 @@ export class MassaAccount {
 
     this.account = await WalletClient.getAccountFromSecretKey(secretKey);
   }
-
+  /**
+   * @description Get private key of active account
+   * @returns Private key as a string
+   */
   private static async getPrivateKey() {
     const entropy = await snap.request({
       method: 'snap_getBip32Entropy',

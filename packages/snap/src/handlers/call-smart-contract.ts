@@ -23,6 +23,12 @@ export type CallSCResponse = {
   operationId: string;
 };
 
+/**
+ * Coerce the call smart contract parameters by ensuring the parameters are present and are the correct type
+ * @param params - The call smart contract parameters
+ * @returns The call smart contract parameters
+ * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
+ */
 const coerceParams = (params: CallSCParameters): ICallData => {
   if (
     !params.nickname ||
@@ -58,6 +64,13 @@ const coerceParams = (params: CallSCParameters): ICallData => {
   };
 };
 // TODO: retrieve correct account from nickname
+/**
+ * @description Calls a smart contract with the given parameters
+ * @param params - The call smart contract parameters (see `CallSCParameters` type and massa standard)
+ * @returns The operation id
+ * @throws If the user denies the transaction
+ * @throws If the client or account is not found
+ */
 export const callSmartContract: Handler<
   CallSCParameters,
   CallSCResponse

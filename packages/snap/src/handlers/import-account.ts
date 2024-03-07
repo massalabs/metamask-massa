@@ -22,6 +22,11 @@ const coerceParams = (params: ImportAccountParams): ImportAccountParams => {
   return params;
 };
 
+/**
+ * @description Imports an account using the given private key
+ * @param params - The import account parameters
+ * @returns The imported account address
+ */
 export const importAccount: Handler<
   ImportAccountParams,
   ImportAccountResponse

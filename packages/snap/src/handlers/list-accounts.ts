@@ -6,6 +6,10 @@ export type ListAccountsResponseItem = Pick<Account, 'address' | 'name'>;
 
 export type ListAccountsResponse = ListAccountsResponseItem[];
 
+/**
+ * @description Lists the accounts in the wallet
+ * @returns The accounts in the wallet
+ */
 export const listAccounts: Handler<void, ListAccountsResponse> = async () => {
   const accounts = await manageListAccounts();
 

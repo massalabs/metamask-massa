@@ -24,7 +24,11 @@ const coerceParams = (params: BuyRollsParams): IRollsData => {
     amount: BigInt(params.amount),
   };
 };
-
+/**
+ * @description Buys rolls with the given amount and fee
+ * @param params - The buy rolls parameters (fee and amount)
+ * @returns The operation id of the buy rolls operation
+ */
 export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
   params,
 ) => {

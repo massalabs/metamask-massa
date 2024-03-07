@@ -10,6 +10,11 @@ export type DeleteAccountResponse = {
   message?: string;
 };
 
+/**
+ * @description Deletes the account with the given address from the active account or the account with the given address
+ * @param params - The delete account parameters
+ * @returns The response of the operation (OK if successful, ERROR if the account to delete is not found)
+ */
 export const deleteAccount: Handler<
   DeleteAccountParams,
   DeleteAccountResponse

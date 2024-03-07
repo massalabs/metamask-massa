@@ -14,6 +14,11 @@ export type SignMessageResponse = {
   publicKey: string;
 };
 
+/**
+ * @description Coerce the sign message parameters by ensuring the parameters are present and are the correct type
+ * @param params - The sign message parameters
+ * @returns The sign message parameters
+ */
 const coerceParams = (params: SignMessageParams): SignMessageParams => {
   if (!params.data || !params.address) {
     throw new Error('Data and chainId are required');
@@ -26,6 +31,12 @@ const coerceParams = (params: SignMessageParams): SignMessageParams => {
   return params;
 };
 
+/**
+ * @description Signs a message with the given address using 'massa-web3'
+ * @param params - The sign message parameters
+ * @returns The signature and public key used to sign the message
+ * @throws If the account is not found
+ */
 export const signMessage: Handler<
   SignMessageParams,
   SignMessageResponse

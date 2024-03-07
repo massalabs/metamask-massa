@@ -8,6 +8,11 @@ export type ShowAccountCredentialsParams = {
   address?: string;
 };
 
+/**
+ * @description Shows the credentials of the active account with an alert dialog in metamask
+ * @param address - The address of the account to show the credentials for
+ * @returns The dialog with the account credentials
+ */
 export const showAccountCredentials: Handler<
   ShowAccountCredentialsParams,
   Json

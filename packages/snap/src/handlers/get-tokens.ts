@@ -10,6 +10,12 @@ export type GetTokensResponse = {
   tokens: string[];
 };
 
+/**
+ * @description Gets the tokens for the active account or the account with the given address
+ * @param params - The get tokens parameters (optional address, defaults to the active account)
+ * @returns The tokens registered for the account
+ * @throws If the account is not found (usually due to not being imported in metamask)
+ */
 export const getTokens: Handler<GetTokensParams, GetTokensResponse> = async (
   params,
 ) => {

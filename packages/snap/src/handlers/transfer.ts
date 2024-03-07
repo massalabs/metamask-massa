@@ -16,6 +16,12 @@ export type TransferResponse = {
   operationId: string;
 };
 
+/**
+ * Coerce the transfer parameters by ensuring the parameters are present and are the correct type
+ * @param params - The transfer parameters
+ * @returns The transaction data
+ * @throws If the recipient address, amount, or fee is missing or not a string
+ */
 const coerceParams = (params: TransferParams): ITransactionData => {
   if (!params.recipientAddress || !params.amount || !params.fee) {
     throw new Error('Recipient address is required');
@@ -33,6 +39,13 @@ const coerceParams = (params: TransferParams): ITransactionData => {
   };
 };
 
+/**
+ * Makes a transaction using 'massa-web3' and adds the operation to the account
+ * @param params - The transfer parameters
+ * @returns The operation id
+ * @throws If the user denies the transaction
+ * @throws If no operations are returned (likely do to a to a fail in 'massa-web3' check parameters)
+ */
 export const transfer: Handler<TransferParams, TransferResponse> = async (
   params,
 ) => {

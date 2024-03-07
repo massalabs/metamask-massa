@@ -10,6 +10,12 @@ export type GetBalanceResponse = {
   candidateBalance: string;
 };
 
+/**
+ * @description Coerces the get balance parameters to the expected format
+ * @param params - The get balance parameters
+ * @returns The coerced parameters
+ * @throws If the parameters are invalid
+ */
 const coerceParams = (params: GetBalanceParams): string => {
   if (!params.address || typeof params.address !== 'string') {
     throw new Error('Invalid params: address must be a string');
@@ -17,6 +23,12 @@ const coerceParams = (params: GetBalanceParams): string => {
   return params.address;
 };
 
+/**
+ * @description Get the balance of the given address
+ * @param params - The address to get the balance of
+ * @returns The final and candidate balances of the account
+ * @throws If the account is not found (usually due to not being imported in metamask)
+ */
 export const getBalance: Handler<GetBalanceParams, GetBalanceResponse> = async (
   params,
 ) => {

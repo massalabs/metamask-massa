@@ -3,8 +3,9 @@ import { StateManager } from './state-manager';
 export type AccountsTokens = Record<string, string[]>;
 
 /**
- *
- * @param address
+ * @description Get tokens for the given account address
+ * @param address - Account address as a string prefixed with 'AU'
+ * @returns Array of token smart contract addresses as strings prefixed with 'AS'
  */
 export async function getAccountTokens(address: string): Promise<string[]> {
   const accountsTokens: AccountsTokens =
@@ -19,9 +20,9 @@ export async function getAccountTokens(address: string): Promise<string[]> {
 }
 
 /**
- *
- * @param address
- * @param token
+ * @description Add token to account with the given token smart contract address for the given account address
+ * @param address - Account address as a string prefixed with 'AU'
+ * @param token - Token smart contract address as a string prefixed with 'AS'
  */
 export async function addAccountToken(address: string, token: string) {
   const accountsTokens: AccountsTokens =
@@ -37,9 +38,10 @@ export async function addAccountToken(address: string, token: string) {
 }
 
 /**
- *
- * @param account
- * @param tokenAddress
+ * @description Remove token from account with the given token smart contract address for the given account address
+ * @param account - Account address as a string prefixed with 'AU'
+ * @param tokenAddress - Token smart contract address as a string prefixed with 'AS'
+ * @returns True if the token was removed, false if the token was not found
  */
 export async function removeAccountToken(
   account: string,
