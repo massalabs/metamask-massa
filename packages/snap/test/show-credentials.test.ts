@@ -1,6 +1,7 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { importFixAccount } from './utils/importFixAccount';
+import { panel, text } from '@metamask/snaps-sdk';
 
 describe('onRpcRequest', () => {
   describe('show-credentials', () => {
@@ -9,6 +10,7 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
       const account = await importFixAccount(request);
 
+
       const response = request({
         method: 'account.showCredentials',
         origin,
@@ -16,11 +18,19 @@ describe('onRpcRequest', () => {
           address: account.address,
         },
       });
+      const ui = await response.getInterface();
+      expect(ui.type).toBe('alert');
+      expect(ui).toRender(
+        panel([
+          text('**Account Credentials:**'),
+          text(`Name: Account 1`),
+          text(`Address: ${account.address}`),
+          text(`Public Key: ${account.publicKey}`),
+          text(`Secret Key: ${account.privateKey}`),
+        ]),
+      );
 
-      expect(await response).toRespondWith({
-        address: account.address,
-        publicKey: account.publicKey,
-      });
+      await ui.ok();
     });
 
     it('should not show credentials for not imported account', async () => {

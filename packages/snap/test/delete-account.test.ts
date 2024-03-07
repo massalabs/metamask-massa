@@ -14,7 +14,7 @@ describe('onRpcRequest', () => {
         origin,
         params: {
           address: accounts[0]!.address,
-        }
+        },
       });
 
       expect(await response).toRespondWith({
