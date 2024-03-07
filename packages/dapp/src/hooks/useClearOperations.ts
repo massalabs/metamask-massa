@@ -13,6 +13,11 @@ export type ClearOperationsResponse = {
   message?: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to clear the operations of an account
+ * @param params - The clear operations parameters (optional address, defaults to the current active account)
+ * @returns The response of the operation
+ */
 export const useClearOperations = () => {
   const { provider } = useContext(MetaMaskContext);
 

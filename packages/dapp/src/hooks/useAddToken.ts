@@ -12,6 +12,11 @@ export type AddTokenParams = {
 
 export type AddTokenResponse = AccountToken;
 
+/**
+ * @description Hook that calls the metamask provider to add a token
+ * @param params - The add token parameters (address of the token and accountAddress which is optional and defaults to the current active account)
+ * @returns The response of the operation
+ */
 export const useAddToken = () => {
   const { provider } = useContext(MetaMaskContext);
 

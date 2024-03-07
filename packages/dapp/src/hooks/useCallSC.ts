@@ -21,6 +21,11 @@ export type CallSCResponse = {
   operationId: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to call a smart contract
+ * @param params - The call smart contract parameters (see massa standard)
+ * @returns The response of the operation
+ */
 export const useCallSC = () => {
   const { provider } = useContext(MetaMaskContext);
 

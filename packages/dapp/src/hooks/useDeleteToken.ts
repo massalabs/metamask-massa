@@ -14,6 +14,11 @@ export type DeleteTokenResponse = {
   message?: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to delete a token
+ * @param params - The delete token parameters (accountAddress and address)
+ * @returns The response of the operation
+ */
 export const useDeleteToken = () => {
   const { provider } = useContext(MetaMaskContext);
 

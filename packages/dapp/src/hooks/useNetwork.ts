@@ -9,6 +9,10 @@ export type NetworkResponse = {
   network: string; // chainId
 };
 
+/**
+ * @description Hook that calls the metamask provider to get the current network
+ * @returns The current network (as a string chainId from a bigint)
+ */
 export const useNetwork = () => {
   const { provider } = useContext(MetaMaskContext);
   const fetcher = async () => {

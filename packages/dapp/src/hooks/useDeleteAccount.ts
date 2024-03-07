@@ -9,6 +9,11 @@ export type DeleteAccountParams = {
   privateKey: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to delete an account
+ * @param params - The delete account parameters (publicKey and privateKey)
+ * @returns The response of the operation
+ */
 export const useDeleteAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 

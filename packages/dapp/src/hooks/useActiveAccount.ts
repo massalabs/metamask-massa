@@ -17,6 +17,10 @@ export const invalidateActiveAccount = () => {
   mutate('account.getActive');
 };
 
+/**
+ * @description Hook that calls the metamask provider to get the active account
+ * @returns The active account name and address
+ */
 export const useActiveAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 

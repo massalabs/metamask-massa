@@ -11,6 +11,12 @@ export type SetNetworkParams = {
 export type SetNetworkResponse = {
   network: string; // chainId
 };
+
+/**
+ * @description Hook that calls the metamask provider to set the current network
+ * @param params - The set network parameters (network id to set as a string)
+ * @returns The response of the operation
+ */
 export const useSetNetwork = () => {
   const { provider } = useContext(MetaMaskContext);
 

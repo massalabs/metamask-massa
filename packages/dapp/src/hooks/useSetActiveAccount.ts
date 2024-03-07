@@ -12,7 +12,11 @@ export type SetActiveAccountResponse = {
   name: string;
   address: string;
 };
-
+/**
+ * @description Hook that calls the metamask provider to set the active account
+ * @param params - The set active account parameters (string address to set as the active account)
+ * @returns The response of the operation
+ */
 export const useSetActiveAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 

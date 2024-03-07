@@ -13,7 +13,12 @@ export type TransferParams = {
 export type TransferResponse = {
   operationId: string;
 };
-
+/**
+ * @description Hook that calls the metamask provider to transfer funds
+ * @param params - The transfer parameters (recipient address, amount, and fee)
+ * @returns The operation id of the transfer operation
+ * @throws If the user denies the transaction
+ */
 export const useTransfer = () => {
   const { provider } = useContext(MetaMaskContext);
 

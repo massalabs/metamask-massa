@@ -14,6 +14,11 @@ export type SignMessageResponse = {
   publicKey: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to sign a message
+ * @param params - The sign message parameters (address to sign with and serialized data message as bytes)
+ * @returns The signature and public key used to sign the message
+ */
 export const useSignMessage = () => {
   const { provider } = useContext(MetaMaskContext);
 

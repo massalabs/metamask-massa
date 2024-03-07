@@ -13,6 +13,11 @@ export type SellRollsResponse = {
   operationId: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to sell rolls
+ * @param params - The sell rolls parameters (amount and fee)
+ * @returns The operation id of the sell rolls operation
+ */
 export const useSellRolls = () => {
   const { provider } = useContext(MetaMaskContext);
 

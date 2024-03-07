@@ -13,6 +13,10 @@ export type GenerateAccountResponse = {
   address: string;
 };
 
+/**
+ * @description Hook that calls the metamask provider to generate a new account
+ * @returns The name and address of the new account
+ */
 export const useGenerateNewAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 

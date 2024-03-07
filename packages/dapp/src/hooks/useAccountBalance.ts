@@ -15,6 +15,11 @@ export const invalidateAccountBalance = () => {
   mutate('account.balance');
 };
 
+/**
+ * @description Hook that calls the metamask provider to get the account balance
+ * @param params - The account address (optional, default is the active account)
+ * @returns The account final and candidate balance
+ */
 export const useAccountBalance = (params: { address?: string }) => {
   const { provider } = useContext(MetaMaskContext);
   const { data: network } = useNetwork();

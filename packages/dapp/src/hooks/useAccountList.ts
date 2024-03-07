@@ -8,6 +8,10 @@ import type { Account } from '@/types/account';
 
 export type AccountList = Account[];
 
+/**
+ * @description Hook that calls the metamask provider to get the account list
+ * @returns The account list imported in the wallet
+ */
 export const useAccountList = () => {
   const { provider } = useContext(MetaMaskContext);
   return useSWR('account.list', async () =>
