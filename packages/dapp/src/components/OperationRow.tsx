@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
-import { AlertIcon, Link, Td, Tooltip, Tr } from '@chakra-ui/react';
+import { AlertIcon, Link, Td, Tr } from '@chakra-ui/react';
 import type { IOperationData, ITransactionOpType } from '@massalabs/massa-web3';
 import type {
   ICallSmartContractOpType,

@@ -11,6 +11,11 @@ export type AccountBalanceResponse = {
   candidateBalance: string;
 };
 
+export const invalidateAccountBalance = () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  mutate('account.balance');
+};
+
 export const useAccountBalance = (params: { address?: string }) => {
   const { provider } = useContext(MetaMaskContext);
   const { data: network } = useNetwork();
@@ -36,8 +41,4 @@ export const useAccountBalance = (params: { address?: string }) => {
   }, [provider, params.address, network]);
 
   return useSWR('account.balance', fetcher);
-};
-
-export const invalidateAccountBalance = () => {
-  mutate('account.balance');
 };

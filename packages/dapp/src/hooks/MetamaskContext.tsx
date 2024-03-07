@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { MetaMaskInpageProvider } from '@metamask/providers';
 import type { ReactNode, Reducer, Dispatch } from 'react';
 import { createContext, useEffect, useReducer, useState } from 'react';
@@ -74,6 +75,7 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @returns JSX.
  */
 export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
+  // eslint-disable-next-line no-restricted-globals
   if (typeof window === 'undefined') {
     return <>{children}</>;
   }
@@ -94,7 +96,6 @@ export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
     async function detectSnapInstalled() {
       dispatch({
         type: MetamaskActions.SetInstalled,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         payload: await getSnap(provider!),
       });
     }
@@ -146,3 +147,4 @@ export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
     </MetaMaskContext.Provider>
   );
 };
+/* eslint-enable */

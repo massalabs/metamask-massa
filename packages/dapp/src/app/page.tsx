@@ -1,20 +1,12 @@
 'use client';
 
-import {
-  Divider,
-  Flex,
-  useBreakpointValue,
-  useColorMode,
-} from '@chakra-ui/react';
+import { Divider, Flex, useColorMode } from '@chakra-ui/react';
 
 import { OperationTab } from '@/components/OperationTab';
 import { TokenTab } from '@/components/TokenTab';
 
-/**
- *
- */
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export default function Home() {
+const Home = () => {
   const { colorMode } = useColorMode();
 
   return (
@@ -40,4 +32,6 @@ export default function Home() {
       <OperationTab />
     </Flex>
   );
-}
+};
+
+export default Home;

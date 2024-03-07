@@ -4,7 +4,7 @@ import {
   ClientFactory,
   DefaultProviderUrls,
 } from '@massalabs/massa-web3';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { NetworkResponse } from './useNetwork';
 import { useNetwork } from './useNetwork';
@@ -13,12 +13,12 @@ export const useMassaClient = () => {
   const { data: network } = useNetwork();
   const [client, setClient] = useState<Client>();
   const createClient = useCallback(
-    async (network: NetworkResponse) => {
+    async (net: NetworkResponse) => {
       const newClient = await ClientFactory.createDefaultClient(
-        BigInt(network?.network) === CHAIN_ID.MainNet
+        BigInt(net?.network) === CHAIN_ID.MainNet
           ? DefaultProviderUrls.MAINNET
           : DefaultProviderUrls.BUILDNET,
-        BigInt(network?.network),
+        BigInt(net?.network),
       );
       setClient(newClient);
     },
@@ -27,9 +27,10 @@ export const useMassaClient = () => {
 
   useEffect(() => {
     if (network) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       createClient(network);
     }
-  }, [network]);
+  }, [createClient, network]);
 
   return client;
 };

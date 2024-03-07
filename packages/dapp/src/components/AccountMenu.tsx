@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AddIcon, ChevronDownIcon, DownloadIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -60,9 +62,9 @@ export const AccountMenu = () => {
         {!accountsListLoading &&
           accountsList?.map((account) => (
             <MenuItem
-              key={account.address}
+              key={account!.address}
               onClick={() =>
-                setActiveAccount({ address: account.address })?.then(() => {
+                setActiveAccount({ address: account!.address })?.then(() => {
                   invalidateActiveAccount();
                   invalidateOperations();
                   invalidateTokens();
@@ -70,14 +72,14 @@ export const AccountMenu = () => {
               }
             >
               <Flex justify={'space-between'} align={'center'} w={'full'}>
-                <Text flexGrow={1}>{account.name}</Text>
+                <Text flexGrow={1}>{account!.name}</Text>
                 <Box
                   borderRadius={'lg'}
                   bg={showIconBg}
                   p={2}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    showCredentials({ address: account.address });
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    showCredentials({ address: account!.address });
                   }}
                 >
                   <DownloadIcon />

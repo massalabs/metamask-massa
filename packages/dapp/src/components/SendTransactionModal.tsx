@@ -15,7 +15,7 @@ import { fromMAS } from '@massalabs/massa-web3';
 import { useMemo, useRef, useState } from 'react';
 
 import { invalidateOperations } from '@/hooks/useOperations';
-import { useTransfer, TransferParams } from '@/hooks/useTransfer';
+import { useTransfer } from '@/hooks/useTransfer';
 
 export const TxModal = ({
   isOpen,
@@ -40,7 +40,7 @@ export const TxModal = ({
     try {
       BigInt(amount);
       BigInt(fee);
-    } catch (e) {
+    } catch (error) {
       return false;
     }
     return true;
@@ -98,8 +98,9 @@ export const TxModal = ({
             colorScheme="blue"
             mr={3}
             disabled={!isFormValid}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
-              const res = await transfer({
+              await transfer({
                 recipientAddress,
                 amount: fromMAS(amount).toString(),
                 fee: fromMAS(fee).toString(),

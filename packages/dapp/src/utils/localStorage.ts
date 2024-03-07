@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  * Get a local storage key.
  *

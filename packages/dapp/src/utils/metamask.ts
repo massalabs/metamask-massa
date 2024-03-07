@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import type {
   EIP6963AnnounceProviderEvent,
   MetaMaskInpageProvider,

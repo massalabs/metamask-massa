@@ -23,15 +23,7 @@ const networkList = [
 export const NetworkMenu = () => {
   const { data: activeNetwork } = useNetwork();
   const setNetwork = useSetNetwork();
-  const handleSetNetwork = async (network: string) => {
-    let netId;
-    if (network === 'Mainnet') {
-      netId = CHAIN_ID.MainNet;
-    } else {
-      netId = CHAIN_ID.BuildNet;
-    }
-    setNetwork({ network: netId.toString() });
-  };
+
   const activeNetworkDisplay = useMemo(() => {
     if (activeNetwork === undefined) {
       return;

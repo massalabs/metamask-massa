@@ -4,14 +4,12 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton, Td, Tr } from '@chakra-ui/react';
 import type { IReadData } from '@massalabs/massa-web3';
 import { Args } from '@massalabs/massa-web3';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { useActiveAccount } from '@/hooks/useActiveAccount';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { useDeleteToken } from '@/hooks/useDeleteToken';
 import { useMassaClient } from '@/hooks/useMassaClient';
 import { invalidateTokens } from '@/hooks/useTokens';
-import { AccountToken } from '@/types/account-token';
 
 export const TokenRow = ({ token }: { token: string }) => {
   const { isLoading: isLoadingAccount, data: account } = useActiveAccount();
@@ -20,7 +18,7 @@ export const TokenRow = ({ token }: { token: string }) => {
   const client = useMassaClient();
   const deleteToken = useDeleteToken();
 
-  const setBalanceFromClient = async () => {
+  const setBalanceFromClient = useCallback(async () => {
     if (!client || !account) {
       return;
     }
@@ -32,17 +30,12 @@ export const TokenRow = ({ token }: { token: string }) => {
       callerAddress: account.address,
     } as IReadData;
 
-    console.log(token);
     const dRes = await client.smartContracts().readSmartContract(readData);
     const decimals = new Args(dRes.returnValue).nextU8();
 
     readData.targetFunction = 'symbol';
-    console.log(readData);
     const nRes = await client.smartContracts().readSmartContract(readData);
-    console.log(nRes.returnValue);
-    const name = new TextDecoder().decode(nRes.returnValue);
-    console.log(name);
-    setTokenName(name);
+    setTokenName(new TextDecoder().decode(nRes.returnValue));
 
     const serAddr = new Args().addString(account.address).serialize();
     readData.parameter = serAddr;
@@ -52,11 +45,12 @@ export const TokenRow = ({ token }: { token: string }) => {
     const balanceNormalized =
       Number(rBalance / BigInt(10 ** (Number(decimals) - 3))) / 10 ** 3;
     setBalance(balanceNormalized);
-  };
+  }, [account, client, token]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-void, @typescript-eslint/no-floating-promises
     setBalanceFromClient();
-  }, [account, client]);
+  }, [account, client, setBalanceFromClient]);
 
   return isLoadingAccount ? (
     <Tr>
@@ -73,7 +67,8 @@ export const TokenRow = ({ token }: { token: string }) => {
           icon={<DeleteIcon />}
           onClick={() => {
             deleteToken({
-              accountAddress: account.address,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unnecessary-type-assertion
+              accountAddress: account!.address,
               address: token,
             }).then((res) => {
               console.log(res);

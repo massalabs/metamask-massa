@@ -1,8 +1,7 @@
 'use client';
 
-import { AddIcon, AtSignIcon, CopyIcon } from '@chakra-ui/icons';
+import { AddIcon, CopyIcon } from '@chakra-ui/icons';
 import {
-  Box,
   Divider,
   Heading,
   Button,
@@ -16,14 +15,13 @@ import {
   Flex,
   useDisclosure,
   Spinner,
-  Text,
   IconButton,
   Link,
   useColorMode,
   useColorModeValue,
   Skeleton,
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { AddTokenModal } from './AddTokenModal';
 import { TxModal } from './SendTransactionModal';
@@ -63,7 +61,7 @@ export const TokenTab = () => {
     return (
       Number(BigInt(accountBalance.finalBalance) / BigInt(10 ** 6)) / 10 ** 3
     );
-  }, [accountBalance, isLoadingAccountBalance, activeAccount]);
+  }, [accountBalance, isLoadingAccountBalance]);
 
   return (
     <Flex
@@ -83,14 +81,17 @@ export const TokenTab = () => {
           )}
         </Heading>
         <Flex justify={'space-between'} align={'center'} mt={2}>
-          <Link href={`https://massexplo.io/address/${activeAccount?.address}`}>
+          <Link
+            href={`https://massexplo.io/address/${
+              (activeAccount?.address as string) ?? ''
+            }`}
+          >
             {isLoadingActiveAccount || activeAccount === undefined ? (
               <Skeleton />
             ) : (
-              `${activeAccount?.address.slice(
-                0,
-                6,
-              )}...${activeAccount?.address.slice(-4)}`
+              `${activeAccount.address.slice(0, 6) as string}...${
+                activeAccount.address.slice(-4) as string
+              }`
             )}
           </Link>
           {isLoadingAccountBalance || activeAccount === undefined ? (
@@ -102,6 +103,7 @@ export const TokenTab = () => {
               bg={'transparent'}
               onClick={() => {
                 activeAccount?.address &&
+                  // eslint-disable-next-line no-restricted-globals
                   navigator.clipboard.writeText(activeAccount?.address);
               }}
             />

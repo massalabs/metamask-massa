@@ -32,5 +32,6 @@ export const useOperations = (params?: { address?: string }) => {
 };
 
 export const invalidateOperations = () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('account.getOperations');
 };

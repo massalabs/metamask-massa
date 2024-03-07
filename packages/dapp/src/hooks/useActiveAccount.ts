@@ -13,6 +13,11 @@ export type ActiveAccountResponse = {
   address: string;
 };
 
+export const invalidateActiveAccount = () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  mutate('account.getActive');
+};
+
 export const useActiveAccount = () => {
   const { provider } = useContext(MetaMaskContext);
 
@@ -39,8 +44,4 @@ export const useActiveAccount = () => {
     return res as ActiveAccountResponse;
   };
   return useSWR('account.getActive', fetcher);
-};
-
-export const invalidateActiveAccount = () => {
-  mutate('account.getActive');
 };

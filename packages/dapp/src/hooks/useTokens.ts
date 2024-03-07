@@ -30,5 +30,6 @@ export const useTokens = (params?: { address?: string }) => {
 };
 
 export const invalidateTokens = () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('account.getTokens');
 };
