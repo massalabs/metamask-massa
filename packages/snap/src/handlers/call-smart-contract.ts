@@ -30,27 +30,20 @@ export type CallSCResponse = {
  * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
  */
 const coerceParams = (params: CallSCParameters): ICallData => {
-  if (
-    !params.nickname ||
-    !params.fee ||
-    !params.functionName ||
-    !params.at ||
-    !params.args ||
-    !params.coins
-  ) {
-    throw new Error('All fields are required');
-  } else if (typeof params.nickname !== 'string') {
-    throw new Error('Nickname must be a string');
-  } else if (typeof params.fee !== 'bigint') {
-    throw new Error('Fee must be a bigint');
-  } else if (typeof params.functionName !== 'string') {
-    throw new Error('Function name must be a string');
-  } else if (typeof params.at !== 'string') {
-    throw new Error('At must be a string');
-  } else if (!Array.isArray(params.args)) {
-    throw new Error('Args must be an array');
-  } else if (typeof params.coins !== 'string') {
-    throw new Error('Coins must be a string');
+  if (!params.nickname || typeof params.nickname !== 'string') {
+    throw new Error('Invalid params: nickname must be a string');
+  } else if (!params.fee || typeof params.fee !== 'string') {
+    throw new Error('Invalid params: fee must be a string');
+  } else if (!params.functionName || typeof params.functionName !== 'string') {
+    throw new Error('Invalid params: functionName must be a string');
+  } else if (!params.at || typeof params.at !== 'string') {
+    throw new Error('Invalid params: at must be a string');
+  } else if (!params.args || !Array.isArray(params.args)) {
+    throw new Error('Invalid params: args must be an array');
+  } else if (!params.coins || typeof params.coins !== 'string') {
+    throw new Error('Invalid params: coins must be a string');
+  } else if (params.nonPersistentExecution?.maxGas && typeof params.nonPersistentExecution.maxGas !== 'string') {
+    throw new Error('Invalid params: maxGas must be a string');
   }
   return {
     fee: BigInt(params.fee),
@@ -63,7 +56,6 @@ const coerceParams = (params: CallSCParameters): ICallData => {
     parameter: params.args,
   };
 };
-// TODO: retrieve correct account from nickname
 /**
  * @description Calls a smart contract with the given parameters
  * @param params - The call smart contract parameters (see `CallSCParameters` type and massa standard)
@@ -77,19 +69,23 @@ export const callSmartContract: Handler<
 > = async (params) => {
   const client = await getClientByName(params.nickname);
   const account = await getAccountByName(params.nickname);
+  const callData = coerceParams(params);
 
   if (!account || !client) {
     throw new Error('Client not found');
   }
 
-  const callData = coerceParams(params);
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
       type: 'confirmation',
       content: panel([
         text('Do you want to call the following smart contract?'),
-        text(JSON.stringify(callData)),
+        text(`**Conttract:** ${params.at}`),
+        text(`**Function:** ${params.functionName}`),
+        text(`**Fee:** ${params.fee}`),
+        text(`**args:** ${params.args ? JSON.stringify(params.args) : '[]'}`),
+        text(`**coins:** ${params.coins}`),
       ]),
     },
   });
@@ -98,6 +94,7 @@ export const callSmartContract: Handler<
     throw new Error('User denied calling smart contract');
   }
   const operationId = await client.smartContracts().callSmartContract(callData);
+  console.log('operationId', operationId);
   await addAccountOperation(account.address!, operationId);
   return {
     operationId,

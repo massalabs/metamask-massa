@@ -19,14 +19,14 @@ export const clearOperations: Handler<
   ClearOperationsParams,
   ClearOperationsResponse
 > = async (params) => {
-  const account = params.address
+  const account = params?.address
     ? await getAccount(params.address)
     : await getActiveAccount();
 
   if (!account) {
     return {
       response: 'ERROR',
-      message: `Account not found: ${params.address ?? 'no account provided'}`,
+      message: `Account not found: ${params?.address ?? 'no account provided'}`,
     };
   }
   await clearAccountOperations(account.address!);

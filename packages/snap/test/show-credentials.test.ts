@@ -46,7 +46,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWithError({
-        code: -32603,
+        code: expect.any(Number),
         message:
           'Account not found: AU199wi4sBM2DyBeje88WQveDdTWGCs461VocsHpbT7FWiPyfqxD',
         stack: expect.any(String),

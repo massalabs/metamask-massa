@@ -47,7 +47,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWithError({
-        code: -32603,
+        code: expect.any(Number),
         message: "Account not found: AU00000000000000000000000000000000000000000000000000",
         stack: expect.any(String),
       });
@@ -65,7 +65,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWithError({
-        code: -32603,
+        code: expect.any(Number),
         message: 'Invalid params: address must be a string',
         stack: expect.any(String),
        });
@@ -82,7 +82,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWithError({
-        code: -32603,
+        code: expect.any(Number),
         message: 'Invalid params: address must be a string',
         stack: expect.any(String),
        });

@@ -1,4 +1,4 @@
-- [ ] buy rolls
+- [x] buy rolls
 - [ ] call SC + get operations
 - [ ] clear operations
 - [x] delete token
@@ -6,11 +6,9 @@
 - [x] get balance
 - [x] get node urls
 - [x] import account
-- [ ] sell rolls
+- [x] sell rolls
 - [x] set active account
 - [x] set network
-- [-] show account credentials
-
-- [-] sign message: /!\ currently timing out when not supposed to /!\
-
-- [ ] transfer
+- [x] show account credentials
+- [x] sign message
+- [x] transfer + get operations

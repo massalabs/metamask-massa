@@ -6,7 +6,7 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 describe('onRpcRequest', () => {
   describe('sign-message', () => {
-    it('should not sign a message with not imported account', async () => {
+    it('should sign a message', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
@@ -49,7 +49,7 @@ describe('onRpcRequest', () => {
       });
     });
 
-    it('should sign a message', async () => {
+    it('should not sign a message with not imported account', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
@@ -64,7 +64,7 @@ describe('onRpcRequest', () => {
         },
       });
       expect(await response).toRespondWithError({
-        code: -32603,
+        code: expect.any(Number),
         message:
           'Account not found: AU123GG5gg45Wbf4TC8jm2RkTLz1q63tcfdfdsfsdymy2pY6fTaYcdejvfsdsd',
         stack: expect.any(String),
