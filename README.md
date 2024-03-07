@@ -1,53 +1,189 @@
-# @metamask/template-snap-monorepo
+# MetaMask Snap for Massa
 
-This repository demonstrates how to develop a snap with TypeScript. For detailed
-instructions, see [the MetaMask documentation](https://docs.metamask.io/guide/snaps.html#serving-a-snap-to-your-local-environment).
+Welcome to the MetaMask Snap for Massa! This Snap enables seamless integration of MetaMask with the Massa layer 1 protocol, providing users with convenient access to Massa's features directly through MetaMask.
 
-MetaMask Snaps is a system that allows anyone to safely expand the capabilities
-of MetaMask. A _snap_ is a program that we run in an isolated environment that
-can customize the wallet experience.
+## Snap Operations
 
-## Snaps is pre-release software
+The MetaMask Snap for Massa supports the following operations:
 
-To interact with (your) Snaps, you will need to install [MetaMask Flask](https://metamask.io/flask/),
-a canary distribution for developers that provides access to upcoming features.
+### 1. Get Balance
+- **Method:** `account.balance`
+- **Parameters:**
+  - `address`: string
+- **Response:**
+  - `finalBalance`: string
+  - `candidateBalance`: string
 
-## Getting Started
+### 2. Import Account
+- **Method:** `account.import`
+- **Parameters:**
+  - `privateKey`: string
+  - `publicKey`: string
+- **Response:**
+  - `address`: string
 
-Clone the template-snap repository [using this template](https://github.com/MetaMask/template-snap-monorepo/generate)
-and set up the development environment:
+### 3. Delete Account
+- **Method:** `account.delete`
+- **Parameters:**
+  - `address`: string
+- **Response:**
+  - `response`: 'OK' | 'ERROR' | 'REFUSED'
+  - `message?: string`
 
-```shell
-yarn install && yarn start
-```
+### 4. Sign Message
+- **Method:** `account.sign`
+- **Parameters:**
+  - `address`: string
+  - `data`: number[]
+- **Response:**
+  - `signature`: number[]
+  - `publicKey`: string
 
-## Cloning
+### 5. Call Smart Contract
+- **Method:** `account.callSC`
+- **Parameters:**
+  - `nickname`: string
+  - `fee`: string
+  - `functionName`: string
+  - `at`: string
+  - `args`: number[]
+  - `coins`: string
+  - `nonPersistentExecution?:`
+    - `isNPE`: boolean
+    - `maxGas`: string
+- **Response:**
+  - `operationId`: string
 
-This repository contains GitHub Actions that you may find useful, see
-`.github/workflows` and [Releasing & Publishing](https://github.com/MetaMask/template-snap-monorepo/edit/main/README.md#releasing--publishing)
-below for more information.
+### 6. Send Transaction
+- **Method:** `account.sendTransaction`
+- **Parameters:**
+  - `recipientAddress`: string
+  - `amount`: bigint
+  - `fee`: bigint
+- **Response:**
+  - `operationId`: string
 
-If you clone or create this repository outside the MetaMask GitHub organization,
-you probably want to run `./scripts/cleanup.sh` to remove some files that will
-not work properly outside the MetaMask GitHub organization.
+### 7. Sell Rolls
+- **Method:** `account.sellRolls`
+- **Parameters:**
+  - `fee`: string
+  - `amount`: string
+- **Response:**
+  - `operationId`: string
 
-If you don't wish to use any of the existing GitHub actions in this repository,
-simply delete the `.github/workflows` directory.
+### 8. Buy Rolls
+- **Method:** `account.buyRolls`
+- **Parameters:**
+  - `fee`: string
+  - `amount`: string
+- **Response:**
+  - `operationId`: string
+
+### 9. Generate New Account
+- **Method:** `account.generateNewAccount`
+- **Parameters:**
+  - `name`: string
+- **Response:**
+  - `name`: string
+  - `address`: string
+
+### 10. Set Active Account
+- **Method:** `account.setActive`
+- **Parameters:**
+  - `address`: string
+- **Response:**
+  - `name`: string
+  - `address`: string
+
+### 11. Get Active Account
+- **Method:** `account.getActive`
+- **Response:**
+  - `name`: string
+  - `address`: string
+
+### 12. Get Node URLs
+- **Method:** `Provider.getNodeUrls`
+- **Response:**
+  - `nodeUrls`: string[]
+
+### 13. List Accounts
+- **Method:** `account.list`
+- **Response:**
+  - `accounts`: { name: string, address: string }[]
+
+### 14. Get Network
+- **Method:** `Provider.getNetwork`
+- **Response:**
+  - `network`: string // chainId
+
+### 15. Set Network
+- **Method:** `Provider.setNetwork`
+- **Parameters:**
+  - `network`: string
+- **Response:**
+  - `network`: string // chainId
+
+### 16. Show Account Credentials
+- **Method:** `account.showCredentials`
+- **Parameters:**
+  - `address?: string`
+- **Response:**
+  - `credentials`: string // Private and Public Key
+
+### 17. Add Token
+- **Method:** `account.addToken`
+- **Parameters:**
+  - `address`: string
+  - `accountAddress?: string`
+- **Response:**
+  - `address`: string
+  - `accountAddress`: string
+
+### 18. Delete Token
+- **Method:** `account.deleteToken`
+- **Parameters:**
+  - `address`: string
+  - `accountAddress?: string`
+- **Response:**
+  - `response`: 'OK' | 'ERROR'
+  - `message?: string`
+
+### 19. Get Tokens
+- **Method:** `account.getTokens`
+- **Parameters:**
+  - `address?: string`
+- **Response:**
+  - `tokens`: string[]
+
+### 20. Get Operations
+- **Method:** `account.getOperations`
+- **Parameters:**
+  - `address?: string`
+- **Response:**
+  - `operations`: string[]
+
+### 21. Clear Operations
+- **Method:** `account.clearOperations`
+- **Parameters:**
+  - `address?: string`
+- **Response:**
+  - `response`: 'OK' | 'ERROR' | 'REFUSED'
+  - `message?: string`
+
+For detailed information about each operation, including parameters and responses, refer to the corresponding DTOs in the codebase.
+
+## Installation
+
+To use the MetaMask Snap for Massa, follow these steps:
+
+1. Install MetaMask: If you haven't already, install the MetaMask browser extension for your preferred browser.
+2. Add Massa Network: Open MetaMask and add the Massa network to your network list. You'll need to provide the network details including RPC endpoint, chain ID, symbol, and block explorer URL.
+3. Install MetaMask Snap: Install the MetaMask Snap for Massa by visiting the MetaMask Snap Store and searching for "Massa". Click on the Snap and follow the installation prompts.
 
 ## Contributing
 
-### Testing and Linting
+We welcome contributions from the community! If you would like to contribute to the MetaMask Snap for Massa, please follow our [contribution guidelines](CONTRIBUTING.md) and submit a pull request.
 
-Run `yarn test` to run the tests once.
+## License
 
-Run `yarn lint` to run the linter, or run `yarn lint:fix` to run the linter and
-fix any automatically fixable issues.
-
-### Using NPM packages with scripts
-
-Scripts are disabled by default for security reasons. If you need to use NPM
-packages with scripts, you can run `yarn allow-scripts auto`, and enable the
-script in the `lavamoat.allowScripts` section of `package.json`.
-
-See the documentation for [@lavamoat/allow-scripts](https://github.com/LavaMoat/LavaMoat/tree/main/packages/allow-scripts)
-for more information.
+The MetaMask Snap for Massa is released under the [MIT License](LICENSE).
