@@ -1,7 +1,5 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import { ListAccountsResponse } from 'src/handlers';
-import { generateAccounts } from './utils/generateAccounts';
 
 describe('onRpcRequest', () => {
   describe('import-account', () => {

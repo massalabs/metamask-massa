@@ -9,6 +9,8 @@
 - [ ] sell rolls
 - [x] set active account
 - [x] set network
-- [ ] show account credentials
-- [-] sign message
+- [-] show account credentials
+
+- [-] sign message: /!\ currently timing out when not supposed to /!\
+
 - [ ] transfer

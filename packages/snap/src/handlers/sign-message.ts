@@ -52,7 +52,14 @@ export const signMessage: Handler<
   if (!confirm) {
     throw new Error('User denied signing message');
   }
-
+  console.log(
+    'Signing message',
+    data,
+    'with address',
+    address,
+    'and chainId',
+    chainId,
+  );
   const sig = await wallet.signMessage(
     Buffer.from(data),
     BigInt(chainId),
