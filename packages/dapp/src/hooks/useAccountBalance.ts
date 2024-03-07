@@ -12,7 +12,6 @@ export type AccountBalanceResponse = {
 };
 
 export const invalidateAccountBalance = () => {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('account.balance');
 };
 

@@ -25,7 +25,6 @@ export const useNetwork = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     mutate('Provider.getNetwork');
   }, [provider]);
 
@@ -33,6 +32,5 @@ export const useNetwork = () => {
 };
 
 export const invalidateNetwork = () => {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('Provider.getNetwork');
 };

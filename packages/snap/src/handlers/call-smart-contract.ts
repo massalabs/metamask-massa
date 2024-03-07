@@ -1,7 +1,6 @@
 import type { ICallData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { MassaAccount } from '../account';
 import { getClientByName } from '../accounts/clients';
 import { getAccountByName } from '../accounts/manage-account';
 import { addAccountOperation } from '../operations';
@@ -49,10 +48,9 @@ const coerceParams = (params: CallSCParameters): ICallData => {
   }
   return {
     fee: BigInt(params.fee),
-    maxGas:
-      params.nonPersistentExecution?.maxGas !== undefined
-        ? BigInt(params.nonPersistentExecution.maxGas)
-        : (null as unknown as bigint),
+    maxGas: params.nonPersistentExecution?.maxGas
+      ? BigInt(params.nonPersistentExecution.maxGas)
+      : (null as unknown as bigint),
     coins: BigInt(params.coins),
     targetAddress: params.at,
     functionName: params.functionName,

@@ -103,7 +103,6 @@ export const TokenTab = () => {
               bg={'transparent'}
               onClick={() => {
                 activeAccount?.address &&
-                  // eslint-disable-next-line no-restricted-globals
                   navigator.clipboard.writeText(activeAccount?.address);
               }}
             />

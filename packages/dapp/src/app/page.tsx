@@ -5,7 +5,6 @@ import { Divider, Flex, useColorMode } from '@chakra-ui/react';
 import { OperationTab } from '@/components/OperationTab';
 import { TokenTab } from '@/components/TokenTab';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const Home = () => {
   const { colorMode } = useColorMode();
 

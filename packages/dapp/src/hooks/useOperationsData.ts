@@ -21,7 +21,6 @@ export const useOperationsData = (operationIds: string[]) => {
   }, [client, operationIds]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     setOperationsInfos();
   }, [operationIds, client, setOperationsInfos]);
 

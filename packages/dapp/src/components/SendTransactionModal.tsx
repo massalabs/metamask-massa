@@ -98,7 +98,6 @@ export const TxModal = ({
             colorScheme="blue"
             mr={3}
             disabled={!isFormValid}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await transfer({
                 recipientAddress,

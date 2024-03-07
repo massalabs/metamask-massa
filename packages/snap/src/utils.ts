@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-restricted-syntax */
 import type { PublicKey } from '@massalabs/massa-web3';
 import {
   ADDRESS_CONTRACT_PREFIX,

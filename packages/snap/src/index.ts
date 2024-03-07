@@ -1,4 +1,3 @@
-import type { ITransactionData } from '@massalabs/massa-web3';
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
 import type {
@@ -43,7 +42,6 @@ import {
   getOperations,
   clearOperations,
 } from './handlers';
-// import { transfer } from './handlers_old';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *

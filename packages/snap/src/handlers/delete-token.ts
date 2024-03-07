@@ -25,7 +25,8 @@ export const deleteToken: Handler<
   DeleteTokenParams,
   DeleteTokenResponse
 > = async (params) => {
-  const res = await removeAccountToken(params.accountAddress, params.address);
+  const { accountAddress, address } = coerceParams(params);
+  const res = await removeAccountToken(accountAddress, address);
 
   if (res) {
     return { response: 'OK' };

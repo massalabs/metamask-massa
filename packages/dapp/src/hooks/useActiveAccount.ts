@@ -14,7 +14,6 @@ export type ActiveAccountResponse = {
 };
 
 export const invalidateActiveAccount = () => {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('account.getActive');
 };
 

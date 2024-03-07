@@ -26,11 +26,12 @@ export const addToken: Handler<AddTokenParams, AddTokenResponse> = async (
   params,
 ) => {
   const { accountAddress, address } = coerceParams(params);
-  const account =
-    (await getAccount(accountAddress!)) || (await getActiveAccount());
-  await addAccountToken(account.address!, address);
+  const account = accountAddress
+    ? await getAccount(accountAddress)
+    : await getActiveAccount();
+  await addAccountToken(account!.address!, address);
   return {
     address,
-    accountAddress: account.address!,
+    accountAddress: account!.address!,
   };
 };

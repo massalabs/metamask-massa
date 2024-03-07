@@ -89,9 +89,9 @@ export async function removeAccount(account: Account) {
  */
 export async function getActiveAccount(): Promise<Account> {
   const activeAccount = await StateManager.getState('activeAccount');
-  if (!activeAccount || !activeAccount.address || !activeAccount.name) {
+  if (!activeAccount?.address || !activeAccount.name) {
     const accounts = await listAccounts();
-    StateManager.setState('activeAccount', accounts[0]);
+    await StateManager.setState('activeAccount', accounts[0]);
     return accounts[0]!;
   }
   return activeAccount;

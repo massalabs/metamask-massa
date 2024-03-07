@@ -23,6 +23,7 @@ export const generateAccount: Handler<
 > = async (params) => {
   const { name } = coerceParams(params);
   const account = await generateNewAccount(name);
+
   return {
     name: account.name,
     address: account.address!,

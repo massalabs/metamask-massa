@@ -28,7 +28,6 @@ export const NetworkMenu = () => {
     if (activeNetwork === undefined) {
       return;
     }
-    // eslint-disable-next-line consistent-return
     return networkList.find(
       (network) => network.id === BigInt(activeNetwork.network),
     )?.name;
@@ -43,7 +42,6 @@ export const NetworkMenu = () => {
         {networkList.map((network) => (
           <MenuItem
             key={network.id}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await setNetwork({ network: network.id.toString() });
               invalidateNetwork();

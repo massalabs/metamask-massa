@@ -48,7 +48,6 @@ export const TokenRow = ({ token }: { token: string }) => {
   }, [account, client, token]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-void, @typescript-eslint/no-floating-promises
     setBalanceFromClient();
   }, [account, client, setBalanceFromClient]);
 
@@ -67,7 +66,6 @@ export const TokenRow = ({ token }: { token: string }) => {
           icon={<DeleteIcon />}
           onClick={() => {
             deleteToken({
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unnecessary-type-assertion
               accountAddress: account!.address,
               address: token,
             }).then((res) => {

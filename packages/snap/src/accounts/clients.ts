@@ -14,7 +14,7 @@ import { getActiveAccount, listAccounts } from './manage-account';
  */
 export async function getClients(chainId?: bigint): Promise<Client[]> {
   const accounts = await listAccounts();
-  const chain = chainId || (await getActiveChainId());
+  const chain = chainId ?? (await getActiveChainId());
   const clients = await Promise.all(
     accounts.map(async (account) => {
       const client = await ClientFactory.createDefaultClient(
@@ -41,11 +41,11 @@ export async function getClient(
   chainId?: bigint,
 ): Promise<Client | undefined> {
   const accounts = await listAccounts();
-  const chain = chainId || (await getActiveChainId());
+  const chain = chainId ?? (await getActiveChainId());
 
   const account = accounts.find((a) => a.address === address);
   if (!account) {
-    return;
+    return undefined;
   }
   return await ClientFactory.createDefaultClient(
     chain === CHAIN_ID.MainNet
@@ -67,11 +67,11 @@ export async function getClientByName(
   chainId?: bigint,
 ): Promise<Client | undefined> {
   const accounts = await listAccounts();
-  const chain = chainId || (await getActiveChainId());
+  const chain = chainId ?? (await getActiveChainId());
 
   const account = accounts.find((a) => a.name === name);
   if (!account) {
-    return;
+    return undefined;
   }
   return await ClientFactory.createDefaultClient(
     chain === CHAIN_ID.MainNet
@@ -122,7 +122,7 @@ export async function getClientWallet(
 ): Promise<WalletClient | undefined> {
   const client = await getClient(address, chainId);
   if (!client) {
-    return;
+    return undefined;
   }
   return client.wallet();
 }

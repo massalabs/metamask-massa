@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import type { ButtonProps } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 import { useContext, type FC } from 'react';
@@ -13,9 +12,7 @@ export const ConnectMetamaskButton: FC<ConnectMetamaskButtonProps> = () => {
   const handleConnectClick = async () => {
     try {
       // This function will only be triggerable if a provider is available
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await connectSnap(provider!);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const installedSnap = await getSnap(provider!);
 
       dispatch({
@@ -31,7 +28,6 @@ export const ConnectMetamaskButton: FC<ConnectMetamaskButtonProps> = () => {
   return (
     <Button
       onClick={() => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleConnectClick();
       }}
     >

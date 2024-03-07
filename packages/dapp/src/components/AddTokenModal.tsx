@@ -67,7 +67,6 @@ export const AddTokenModal = ({
             disabled={!isFormValid}
             colorScheme="blue"
             mr={3}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await addToken({ address: addTokenParams });
               invalidateTokens();

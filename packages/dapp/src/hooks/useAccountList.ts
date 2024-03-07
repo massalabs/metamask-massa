@@ -24,6 +24,5 @@ export const useAccountList = () => {
 };
 
 export const invalidateAccountList = () => {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   mutate('account.list');
 };

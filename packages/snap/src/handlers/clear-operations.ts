@@ -22,7 +22,7 @@ export const clearOperations: Handler<
   if (!account) {
     return {
       response: 'ERROR',
-      message: `Account not found: ${params.address}`,
+      message: `Account not found: ${params.address ?? 'no account provided'}`,
     };
   }
   await clearAccountOperations(account.address!);

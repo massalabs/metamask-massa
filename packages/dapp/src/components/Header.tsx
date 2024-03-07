@@ -1,6 +1,5 @@
 'use client';
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Image } from '@chakra-ui/next-js';
 import { Flex } from '@chakra-ui/react';
 import { useContext } from 'react';

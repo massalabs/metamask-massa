@@ -14,7 +14,6 @@ export const getActiveAccount: Handler<
 
   return {
     name: account.name,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     address: account.address!,
   };
 };

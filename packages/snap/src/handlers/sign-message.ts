@@ -1,7 +1,5 @@
-import { Args, ISignature } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { MassaAccount } from '../account';
 import { getClientWallet } from '../accounts/clients';
 import { getNetwork } from './get-network';
 import type { Handler } from './handler';

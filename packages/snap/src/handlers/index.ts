@@ -1,4 +1,3 @@
-export * from './get-address';
 export * from './show-secret-key';
 export * from './call-smart-contract';
 export * from './sign-message';

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AddIcon, ChevronDownIcon, DownloadIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -10,7 +8,6 @@ import {
   Flex,
   useDisclosure,
   Spinner,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   Text,
   useColorModeValue,
   Box,

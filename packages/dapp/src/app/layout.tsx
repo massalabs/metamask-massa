@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Flex } from '@chakra-ui/react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-// eslint-disable-next-line import/no-unassigned-import
 import './globals.css';
 import { Providers } from './providers';
-
 import { Header } from '@/components/Header';
 
 const inter = Inter({ subsets: ['latin'] });

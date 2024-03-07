@@ -13,7 +13,6 @@ import {
   Tr,
   Flex,
   Button,
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   Text,
   useColorMode,
   useColorModeValue,

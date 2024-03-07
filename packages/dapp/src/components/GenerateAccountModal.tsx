@@ -61,7 +61,6 @@ export const GenerateAccountModal = ({
             disabled={!isFormValid}
             colorScheme="blue"
             mr={3}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={async () => {
               await generateAccount({ name: accountName });
               invalidateAccountList();

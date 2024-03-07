@@ -4,7 +4,6 @@ import {
   KEYS_VERSION_NUMBER,
   SECRET_KEY_PREFIX,
   WalletClient,
-  SecretKey,
 } from '@massalabs/massa-web3';
 import type { JsonSLIP10Node } from '@metamask/key-tree';
 
