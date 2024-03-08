@@ -2,173 +2,411 @@
 
 Welcome to the MetaMask Snap for Massa! This Snap enables seamless integration of MetaMask with the Massa layer 1 protocol, providing users with convenient access to Massa's features directly through MetaMask.
 
+# Powered by
+Astro-Devs Labs
+
 ## Snap Operations
 
 The MetaMask Snap for Massa supports the following operations:
 
 ### 1. Get Balance
-- **Method:** `account.balance`
-- **Parameters:**
-  - `address`: string
-- **Response:**
-  - `finalBalance`: string
-  - `candidateBalance`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.balance</td>
+    <td>{<br>address: string<br>}</td>
+    <td>{<br>finalBalance: string,<br>candidateBalance: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>finalBalance: "100",<br>candidateBalance: "200"<br>}</td>
+  </tr>
+</table>
 
 ### 2. Import Account
-- **Method:** `account.import`
-- **Parameters:**
-  - `privateKey`: string
-  - `publicKey`: string
-- **Response:**
-  - `address`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.import</td>
+    <td>{<br>privateKey: string,<br>publicKey: string<br>}</td>
+    <td>{<br>address: string<br>}</td>
+    <td>{<br>privateKey: "S1234567890abcdef",<br>publicKey: "Pabcdef1234567890"<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 3. Delete Account
-- **Method:** `account.delete`
-- **Parameters:**
-  - `address`: string
-- **Response:**
-  - `response`: 'OK' | 'ERROR' | 'REFUSED'
-  - `message?: string`
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.delete</td>
+    <td>{<br>address: string<br>}</td>
+    <td>{<br>response: 'OK' | 'ERROR' | 'REFUSED',<br>message?: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>response: "OK"<br>}</td>
+  </tr>
+</table>
 
 ### 4. Sign Message
-- **Method:** `account.sign`
-- **Parameters:**
-  - `address`: string
-  - `data`: number[]
-- **Response:**
-  - `signature`: number[]
-  - `publicKey`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.sign</td>
+    <td>{<br>address: string,<br>data: number[]<br>}</td>
+    <td>{<br>signature: number[],<br>publicKey: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef",<br>data: [1, 2, 3]<br>}</td>
+    <td>{<br>signature: [4, 5, 6],<br>publicKey: "Pabcdef1234567890"<br>}</td>
+  </tr>
+</table>
 
 ### 5. Call Smart Contract
-- **Method:** `account.callSC`
-- **Parameters:**
-  - `nickname`: string
-  - `fee`: string
-  - `functionName`: string
-  - `at`: string
-  - `args`: number[]
-  - `coins`: string
-  - `nonPersistentExecution?:`
-    - `isNPE`: boolean
-    - `maxGas`: string
-- **Response:**
-  - `operationId`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.callSC</td>
+    <td>{<br>nickname: string,<br>fee: string,<br>functionName: string,<br>at: string,<br>args: number[],<br>coins: string,<br>nonPersistentExecution?: { isNPE: boolean, maxGas: string }<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>nickname: "TestContract",<br>fee: "100",<br>functionName: "transfer",<br>at: "ASabcdef1234567890",<br>args: [1, 2, 3],<br>coins: "Massa"<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 6. Send Transaction
-- **Method:** `account.sendTransaction`
-- **Parameters:**
-  - `recipientAddress`: string
-  - `amount`: bigint
-  - `fee`: bigint
-- **Response:**
-  - `operationId`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.sendTransaction</td>
+    <td>{<br>recipientAddress: string,<br>amount: bigint,<br>fee: bigint<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>recipientAddress: "AU1234567890abcdef",<br>amount: 100,<br>fee: 10<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 7. Sell Rolls
-- **Method:** `account.sellRolls`
-- **Parameters:**
-  - `fee`: string
-  - `amount`: string
-- **Response:**
-  - `operationId`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.sellRolls</td>
+    <td>{<br>fee: string,<br>amount: string<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 8. Buy Rolls
-- **Method:** `account.buyRolls`
-- **Parameters:**
-  - `fee`: string
-  - `amount`: string
-- **Response:**
-  - `operationId`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.buyRolls</td>
+    <td>{<br>fee: string,<br>amount: string<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 9. Generate New Account
-- **Method:** `account.generateNewAccount`
-- **Parameters:**
-  - `name`: string
-- **Response:**
-  - `name`: string
-  - `address`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.generateNewAccount</td>
+    <td>{<br>name: string<br>}</td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td>{<br>name: "New Account"<br>}</td>
+    <td>{<br>name: "New Account",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 10. Set Active Account
-- **Method:** `account.setActive`
-- **Parameters:**
-  - `address`: string
-- **Response:**
-  - `name`: string
-  - `address`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.setActive</td>
+    <td>{<br>address: string<br>}</td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>name: "New Active",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 11. Get Active Account
-- **Method:** `account.getActive`
-- **Response:**
-  - `name`: string
-  - `address`: string
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.getActive</td>
+    <td></td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td></td>
+    <td>{<br>name: "Active Account",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
 ### 12. Get Node URLs
-- **Method:** `Provider.getNodeUrls`
-- **Response:**
-  - `nodeUrls`: string[]
 
-### 13. List Accounts
-- **Method:** `account.list`
-- **Response:**
-  - `accounts`: { name: string, address: string }[]
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>Provider.getNodeUrls</td>
+    <td></td>
+    <td>string[]</td>
+    <td></td>
+    <td>["https://node1.example.com", "https://node2.example.com"]</td>
+  </tr>
+</table>
 
-### 14. Get Network
-- **Method:** `Provider.getNetwork`
-- **Response:**
-  - `network`: string // chainId
+### 13. Sell Rolls
 
-### 15. Set Network
-- **Method:** `Provider.setNetwork`
-- **Parameters:**
-  - `network`: string
-- **Response:**
-  - `network`: string // chainId
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.sellRolls</td>
+    <td>{<br>fee: string,<br>amount: string<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
-### 16. Show Account Credentials
-- **Method:** `account.showCredentials`
-- **Parameters:**
-  - `address?: string`
-- **Response:**
-  - `credentials`: string // Private and Public Key
+### 14. Buy Rolls
 
-### 17. Add Token
-- **Method:** `account.addToken`
-- **Parameters:**
-  - `address`: string
-  - `accountAddress?: string`
-- **Response:**
-  - `address`: string
-  - `accountAddress`: string
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.buyRolls</td>
+    <td>{<br>fee: string,<br>amount: string<br>}</td>
+    <td>{<br>operationId: string<br>}</td>
+    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
+    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
-### 18. Delete Token
-- **Method:** `account.deleteToken`
-- **Parameters:**
-  - `address`: string
-  - `accountAddress?: string`
-- **Response:**
-  - `response`: 'OK' | 'ERROR'
-  - `message?: string`
+### 15. Generate New Account
 
-### 19. Get Tokens
-- **Method:** `account.getTokens`
-- **Parameters:**
-  - `address?: string`
-- **Response:**
-  - `tokens`: string[]
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.generateNewAccount</td>
+    <td>{<br>name: string<br>}</td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td>{<br>name: "New Account"<br>}</td>
+    <td>{<br>name: "New Account",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
 
-### 20. Get Operations
-- **Method:** `account.getOperations`
-- **Parameters:**
-  - `address?: string`
-- **Response:**
-  - `operations`: string[]
+### 16. Set Active Account
 
-### 21. Clear Operations
-- **Method:** `account.clearOperations`
-- **Parameters:**
-  - `address?: string`
-- **Response:**
-  - `response`: 'OK' | 'ERROR' | 'REFUSED'
-  - `message?: string`
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.setActive</td>
+    <td>{<br>address: string<br>}</td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>name: "New Active",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
+
+### 17. Get Active Account
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.getActive</td>
+    <td></td>
+    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td></td>
+    <td>{<br>name: "Active Account",<br>address: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
+
+### 18. Get Node URLs
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>Provider.getNodeUrls</td>
+    <td></td>
+    <td>string[]</td>
+    <td></td>
+    <td>["https://node1.example.com", "https://node2.example.com"]</td>
+  </tr>
+</table>
+
+### 19. Show Account Credentials
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.showCredentials</td>
+    <td>{<br>address?: string<br>}</td>
+    <td>{<br>publicKey: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>publicKey: "Pabcdef1234567890"<br>}</td>
+  </tr>
+</table>
+
+### 20. Add Token
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.addToken</td>
+    <td>{<br>address: string,<br>accountAddress?: string<br>}</td>
+    <td>{<br>address: string,<br>accountAddress: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
+  </tr>
+</table>
+
+### 21. Delete Token
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Parameters</th>
+    <th>Response</th>
+    <th>Param Example</th>
+    <th>Response Example</th>
+  </tr>
+  <tr>
+    <td>account.deleteToken</td>
+    <td>{<br>accountAddress?: string,<br>address: string<br>}</td>
+    <td>{<br>response: 'OK' | 'ERROR',<br>message?: string<br>}</td>
+    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
+    <td>{<br>response: "OK"<br>}</td>
+  </tr>
+</table>
 
 For detailed information about each operation, including parameters and responses, refer to the corresponding DTOs in the codebase.
 
@@ -186,4 +424,4 @@ We welcome contributions from the community! If you would like to contribute to 
 
 ## License
 
-The MetaMask Snap for Massa is released under the [MIT License](LICENSE).
+The MetaMask Snap for Massa is released under the [GNU-GPL-V3.0](LICENSE).
