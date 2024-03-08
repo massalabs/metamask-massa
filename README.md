@@ -1074,4 +1074,4 @@ We welcome contributions from the community! If you would like to contribute to 
 
 ## License
 
-The MetaMask Snap for Massa is released under the [GNU-GPL-V3.0](LICENSE).
+The MetaMask Snap for Massa is released under the BSL license.
