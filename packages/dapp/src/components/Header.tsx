@@ -1,7 +1,7 @@
 'use client';
 
 import { Image } from '@chakra-ui/next-js';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Show } from '@chakra-ui/react';
 import { useContext } from 'react';
 
 import { AccountMenu } from './AccountMenu';
@@ -24,20 +24,30 @@ export const Header = () => {
   return (
     <>
       <Flex
-        justifyContent={'space-between'}
+        justifyContent={{ base: 'center', lg: 'space-between'}}
         w={'full'}
         p={5}
         flexWrap={'wrap'}
         bg={'grey.100'}
       >
         <Image src="/MassaLogo.png" alt="Logo" width={200} height={42} />
-        <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
+        <Show above='lg'>
+          <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
+            <ThemeSwitch />
+            {!ready && <ConnectMetamaskButton />}
+            {ready && <AccountMenu />}
+            {ready && <NetworkMenu />}
+          </Flex>
+        </Show>
+      </Flex>
+      <Show below='md'>
+        <Flex gap={4} align={'center'} w={'full'} px={4} justify="space-between">
           <ThemeSwitch />
           {!ready && <ConnectMetamaskButton />}
           {ready && <AccountMenu />}
           {ready && <NetworkMenu />}
         </Flex>
-      </Flex>
+      </Show>
     </>
   );
 };
