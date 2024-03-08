@@ -12,400 +12,1050 @@ The MetaMask Snap for Massa supports the following operations:
 ### 1. Get Balance
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.balance</td>
-    <td>{<br>address: string<br>}</td>
-    <td>{<br>finalBalance: string,<br>candidateBalance: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>finalBalance: "100",<br>candidateBalance: "200"<br>}</td>
-  </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>account.balance</code></td>
+<td>
+```json
+  {
+    address: string
+  }
+```
+</td><td>
+
+  ```json
+  {
+      finalBalance: string,
+      candidateBalance: string
+  }
+
+  ```
+</td><td>
+
+  ```json
+  {
+
+        address: "AU1234567890abcdef"
+  }
+  ```
+
+</td><td>
+
+  ```json
+  {
+    finalBalance: "100",
+    candidateBalance: "200",
+  }
+  ```
+</td></tr>
+  </tbody>
 </table>
 
 ### 2. Import Account
-
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.import</code></td>
+    <td>
+
+```json
+{
+  privateKey: string,
+  publicKey: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: string
+}
+```
+
+</td><td>
+
+```json
+{
+  privateKey: "S1234567890abcdef",
+  publicKey: "Pabcdef1234567890"
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef"
+}
+```
+
+</td>
   </tr>
-  <tr>
-    <td>account.import</td>
-    <td>{<br>privateKey: string,<br>publicKey: string<br>}</td>
-    <td>{<br>address: string<br>}</td>
-    <td>{<br>privateKey: "S1234567890abcdef",<br>publicKey: "Pabcdef1234567890"<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 3. Delete Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.delete</code></td>
+    <td>
+
+```json
+{
+  address: string
+}
+```
+</td><td>
+
+```json
+{
+  response: 'OK' | 'ERROR' | 'REFUSED',
+  message?: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef"
+}
+```
+
+</td><td>
+
+```json
+{
+  response: "OK"
+}
+```
+
+</td>
   </tr>
-  <tr>
-    <td>account.delete</td>
-    <td>{<br>address: string<br>}</td>
-    <td>{<br>response: 'OK' | 'ERROR' | 'REFUSED',<br>message?: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>response: "OK"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 4. Sign Message
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.sign</code></td>
+    <td>
+
+```json
+{
+  address: string,<br>data: number[]
+}
+```
+</td><td>
+
+```json
+{
+  signature: number[],
+  publicKey: string
+}
+```
+
+</td><td>
+
+```json
+{
+    address: "AU1234567890abcdef",
+    data: [1, 2, 3]
+}
+```
+</td><td>
+
+```json
+{
+  signature: [4, 5, 6],
+  publicKey: "Pabcdef1234567890"
+}
+```
+</td>
   </tr>
-  <tr>
-    <td>account.sign</td>
-    <td>{<br>address: string,<br>data: number[]<br>}</td>
-    <td>{<br>signature: number[],<br>publicKey: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef",<br>data: [1, 2, 3]<br>}</td>
-    <td>{<br>signature: [4, 5, 6],<br>publicKey: "Pabcdef1234567890"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 5. Call Smart Contract
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.callSC</code></td>
+    <td>
+
+```json
+{
+  nickname: string,
+  fee: string,
+  functionName: string,
+  at: string,
+  args: number[],
+  coins: string,
+  nonPersistentExecution?: {
+    isNPE: boolean,
+    maxGas: string
+  }
+}
+```
+
+</td><td>
+
+```json
+{
+  operationId: string
+}
+```
+</td><td>
+
+```json
+{
+  nickname: "TestContract",
+  fee: "100",
+  functionName: "transfer",
+  at: "ASabcdef1234567890",
+  args: [1, 2, 3],
+  coins: "Massa"
+}
+```
+
+</td><td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+```
+</td>
   </tr>
-  <tr>
-    <td>account.callSC</td>
-    <td>{<br>nickname: string,<br>fee: string,<br>functionName: string,<br>at: string,<br>args: number[],<br>coins: string,<br>nonPersistentExecution?: { isNPE: boolean, maxGas: string }<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>nickname: "TestContract",<br>fee: "100",<br>functionName: "transfer",<br>at: "ASabcdef1234567890",<br>args: [1, 2, 3],<br>coins: "Massa"<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 6. Send Transaction
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.sendTransaction</code></td>
+    <td>
+
+```json
+{
+  recipientAddress: string,
+  amount: bigint,
+  fee: bigint
+}
+```
+
+</td><td>
+
+```json
+{
+  operationId: string
+}
+```
+
+</td><td>
+
+```json
+{
+  recipientAddress: "AU1234567890abcdef",
+  amount: 100,
+  fee: 10
+}
+```
+</td><td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+
+```
+</td>
   </tr>
-  <tr>
-    <td>account.sendTransaction</td>
-    <td>{<br>recipientAddress: string,<br>amount: bigint,<br>fee: bigint<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>recipientAddress: "AU1234567890abcdef",<br>amount: 100,<br>fee: 10<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 7. Sell Rolls
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.sellRolls</td>
-    <td>{<br>fee: string,<br>amount: string<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.sellRolls</code></td>
+    <td>
+
+```json
+{
+  fee: string,
+  amount: string
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: string
+}
+```
+
+  <td>
+
+```json
+{
+  fee: "100",
+  amount: "50"
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+```
+
   </tr>
 </table>
 
 ### 8. Buy Rolls
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.buyRolls</code></td>
+    <td>
+
+```json
+{
+    fee: string,
+    amount: string
+}
+```
+
+</td><td>
+
+```json
+{
+  operationId: string
+}
+```
+
+</td><td>
+
+```json
+{
+  fee: "100",
+  amount: "50"
+}
+```
+</td><td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+```
+
+</td>
   </tr>
-  <tr>
-    <td>account.buyRolls</td>
-    <td>{<br>fee: string,<br>amount: string<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
+
 
 ### 9. Generate New Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.generateNewAccount</code></td>
+    <td>
+
+```json
+{
+  name: string
+}
+```
+
+</td><td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+
+</td><td>
+
+```json
+{
+  name: "New Account"
+}
+```
+
+</td><td>
+
+```json
+{
+  name: "New Account",
+  address: "AU1234567890abcdef"
+}
+```
+
+</td>
   </tr>
-  <tr>
-    <td>account.generateNewAccount</td>
-    <td>{<br>name: string<br>}</td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
-    <td>{<br>name: "New Account"<br>}</td>
-    <td>{<br>name: "New Account",<br>address: "AU1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 10. Set Active Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.setActive</code></td>
+    <td>
+
+```json
+{
+  address: string
+}
+```
+
+</td><td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef"
+}
+```
+
+</td><td>
+
+```json
+{
+  name: "New Active",
+  address: "AU1234567890abcdef"
+}
+```
+</td>
   </tr>
-  <tr>
-    <td>account.setActive</td>
-    <td>{<br>address: string<br>}</td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>name: "New Active",<br>address: "AU1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
+
 
 ### 11. Get Active Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.getActive</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.getActive</code></td>
     <td></td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
+    <td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+
+  </td>
     <td></td>
-    <td>{<br>name: "Active Account",<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>
+
+```json
+{
+  name: "Active Account",
+  address: "AU1234567890abcdef"
+}
+```
+
+</td>
   </tr>
+  </tbody>
 </table>
 
 ### 12. Get Node URLs
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>Provider.getNodeUrls</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>Provider.getNodeUrls</code></td>
     <td></td>
-    <td>string[]</td>
+    <td><code>string[]<code></td>
     <td></td>
-    <td>["https://node1.example.com", "https://node2.example.com"]</td>
+    <td>
+
+```json
+["https://node1.example.com", "https://node2.example.com"]
+```
+
+  </td>
   </tr>
+  </tbody>
 </table>
 
 ### 13. Sell Rolls
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.sellRolls</td>
-    <td>{<br>fee: string,<br>amount: string<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
-  </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.sellRolls</code></td>
+    <td>
+
+```json
+{
+  fee: string,
+  amount: string
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: string
+}
+```
+
+  <td>
+
+```json
+{
+  fee: "100",
+  amount: "50"
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+```
+
+</tr>
+
+  </tbody>
 </table>
 
 ### 14. Buy Rolls
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.buyRolls</code></td>
+    <td>
+
+```json
+{
+  fee: string,
+  amount: string
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: string
+}
+```
+
+  <td>
+
+```json
+{
+  fee: "100",
+  amount: "50"
+}
+```
+
+  <td>
+
+```json
+{
+  operationId: "OP1234567890abcdef"
+}
+```
+
   </tr>
-  <tr>
-    <td>account.buyRolls</td>
-    <td>{<br>fee: string,<br>amount: string<br>}</td>
-    <td>{<br>operationId: string<br>}</td>
-    <td>{<br>fee: "100",<br>amount: "50"<br>}</td>
-    <td>{<br>operationId: "OP1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 15. Generate New Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.generateNewAccount</code></td>
+    <td>
+
+```json
+{
+  name: string
+}
+```
+
+  <td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+
+  <td>
+
+```json
+{
+  name: "New Account"
+}
+```
+
+  <td>
+
+```json
+{
+  name: "New Account",
+  address: "AU1234567890abcdef"
+}
+```
+
   </tr>
-  <tr>
-    <td>account.generateNewAccount</td>
-    <td>{<br>name: string<br>}</td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
-    <td>{<br>name: "New Account"<br>}</td>
-    <td>{<br>name: "New Account",<br>address: "AU1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 16. Set Active Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.setActive</code></td>
+    <td>
+
+```json
+{
+  address: string
+}
+```
+  <td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+  <td>
+
+```json
+{
+  address: "AU1234567890abcdef"
+}
+```
+  <td>
+
+```json
+{
+  name: "New Active",
+  address: "AU1234567890abcdef"
+}
+```
   </tr>
-  <tr>
-    <td>account.setActive</td>
-    <td>{<br>address: string<br>}</td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>name: "New Active",<br>address: "AU1234567890abcdef"<br>}</td>
-  </tr>
+  </tbody>
 </table>
 
 ### 17. Get Active Account
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.getActive</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.getActive</code></td>
     <td></td>
-    <td>{<br>name: string,<br>address: string<br>}</td>
-    <td></td>
-    <td>{<br>name: "Active Account",<br>address: "AU1234567890abcdef"<br>}</td>
+    <td>
+
+```json
+{
+  name: string,
+  address: string
+}
+```
+
+</td><td></td><td>
+
+```json
+{
+  name: "Account 0",
+  address: "AU12ZDFfdf2Rdf3f4fg"
+}
+```
+</td>
   </tr>
+ </tbody>
 </table>
 
 ### 18. Get Node URLs
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>Provider.getNodeUrls</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>Provider.getNodeUrls</code></td>
     <td></td>
-    <td>string[]</td>
+    <td><code>string[]</code></td>
     <td></td>
-    <td>["https://node1.example.com", "https://node2.example.com"]</td>
+    <td>
+
+```json
+["https://node1.example.com", "https://node2.example.com"]
+```
+
+</td>
   </tr>
+  </tbody>
 </table>
 
 ### 19. Show Account Credentials
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.showCredentials</td>
-    <td>{<br>address?: string<br>}</td>
-    <td>{<br>publicKey: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>publicKey: "Pabcdef1234567890"<br>}</td>
-  </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.showCredentials</code></td>
+    <td>
+
+```json
+{
+  address?: string<br>
+}
+```
+
+</td><td>
+
+```json
+{
+  publicKey: string<br>
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef"<br>
+}
+```
+
+</td><td>
+
+```json
+{
+  publicKey: "Pabcdef1234567890"<br>
+}
+```
+
+</td></tr>
+
+  </tbody>
 </table>
 
 ### 20. Add Token
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
-    <td>account.addToken</td>
-    <td>{<br>address: string,<br>accountAddress?: string<br>}</td>
-    <td>{<br>address: string,<br>accountAddress: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
-  </tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><code>account.addToken</code></td>
+    <td>
+
+```json
+{
+  address: string,
+  accountAddress?: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: string,
+  accountAddress: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef",
+  accountAddress: "AU1234567890abcdef"
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef",
+  accountAddress: "AU1234567890abcdef"
+}
+```
+
+</td></tr>
+  </tbody>
 </table>
 
 ### 21. Delete Token
 
 <table>
-  <tr>
+  <thead>
+    <tr>
     <th>Method</th>
     <th>Parameters</th>
     <th>Response</th>
     <th>Param Example</th>
     <th>Response Example</th>
-  </tr>
-  <tr>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
     <td>account.deleteToken</td>
-    <td>{<br>accountAddress?: string,<br>address: string<br>}</td>
-    <td>{<br>response: 'OK' | 'ERROR',<br>message?: string<br>}</td>
-    <td>{<br>address: "AU1234567890abcdef",<br>accountAddress: "AU1234567890abcdef"<br>}</td>
-    <td>{<br>response: "OK"<br>}</td>
+    <td>
+
+```json
+{
+  accountAddress?: string,
+  address: string
+}
+```
+
+</td><td>
+
+```json
+{
+  response: 'OK' | 'ERROR',
+  message?: string
+}
+```
+
+</td><td>
+
+```json
+{
+  address: "AU1234567890abcdef",
+  accountAddress: "AU1234567890abcdef"
+}
+```
+
+</td><td>
+
+```json
+{
+  response: "OK"
+}
+```
+
+</td>
   </tr>
+  </tbody>
 </table>
 
 For detailed information about each operation, including parameters and responses, refer to the corresponding DTOs in the codebase.
