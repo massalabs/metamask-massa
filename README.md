@@ -25,14 +25,14 @@ The MetaMask Snap for Massa supports the following operations:
     <tr>
       <td><code>account.balance</code></td>
 <td>
-```json
+```ts
   {
     address: string
   }
 ```
 </td><td>
 
-  ```json
+  ```ts
   {
       finalBalance: string,
       candidateBalance: string
@@ -41,7 +41,7 @@ The MetaMask Snap for Massa supports the following operations:
   ```
 </td><td>
 
-  ```json
+  ```ts
   {
 
         address: "AU1234567890abcdef"
@@ -50,7 +50,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-  ```json
+  ```ts
   {
     finalBalance: "100",
     candidateBalance: "200",
@@ -76,7 +76,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.import</code></td>
     <td>
 
-```json
+```ts
 {
   privateKey: string,
   publicKey: string
@@ -85,7 +85,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: string
 }
@@ -93,7 +93,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   privateKey: "S1234567890abcdef",
   publicKey: "Pabcdef1234567890"
@@ -102,7 +102,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef"
 }
@@ -130,14 +130,14 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.delete</code></td>
     <td>
 
-```json
+```ts
 {
   address: string
 }
 ```
 </td><td>
 
-```json
+```ts
 {
   response: 'OK' | 'ERROR' | 'REFUSED',
   message?: string
@@ -146,7 +146,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef"
 }
@@ -154,7 +154,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   response: "OK"
 }
@@ -182,14 +182,14 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.sign</code></td>
     <td>
 
-```json
+```ts
 {
   address: string,<br>data: number[]
 }
 ```
 </td><td>
 
-```json
+```ts
 {
   signature: number[],
   publicKey: string
@@ -198,7 +198,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
     address: "AU1234567890abcdef",
     data: [1, 2, 3]
@@ -206,7 +206,7 @@ The MetaMask Snap for Massa supports the following operations:
 ```
 </td><td>
 
-```json
+```ts
 {
   signature: [4, 5, 6],
   publicKey: "Pabcdef1234567890"
@@ -234,7 +234,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.callSC</code></td>
     <td>
 
-```json
+```ts
 {
   nickname: string,
   fee: string,
@@ -251,14 +251,14 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   operationId: string
 }
 ```
 </td><td>
 
-```json
+```ts
 {
   nickname: "TestContract",
   fee: "100",
@@ -271,7 +271,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -298,7 +298,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.sendTransaction</code></td>
     <td>
 
-```json
+```ts
 {
   recipientAddress: string,
   amount: bigint,
@@ -308,7 +308,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   operationId: string
 }
@@ -316,7 +316,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   recipientAddress: "AU1234567890abcdef",
   amount: 100,
@@ -325,7 +325,7 @@ The MetaMask Snap for Massa supports the following operations:
 ```
 </td><td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -353,7 +353,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.sellRolls</code></td>
     <td>
 
-```json
+```ts
 {
   fee: string,
   amount: string
@@ -362,7 +362,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: string
 }
@@ -370,7 +370,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   fee: "100",
   amount: "50"
@@ -379,7 +379,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -405,7 +405,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.buyRolls</code></td>
     <td>
 
-```json
+```ts
 {
     fee: string,
     amount: string
@@ -414,7 +414,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   operationId: string
 }
@@ -422,7 +422,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   fee: "100",
   amount: "50"
@@ -430,7 +430,7 @@ The MetaMask Snap for Massa supports the following operations:
 ```
 </td><td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -459,7 +459,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.generateNewAccount</code></td>
     <td>
 
-```json
+```ts
 {
   name: string
 }
@@ -467,7 +467,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -476,7 +476,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   name: "New Account"
 }
@@ -484,7 +484,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   name: "New Account",
   address: "AU1234567890abcdef"
@@ -513,7 +513,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.setActive</code></td>
     <td>
 
-```json
+```ts
 {
   address: string
 }
@@ -521,7 +521,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -530,7 +530,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef"
 }
@@ -538,7 +538,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   name: "New Active",
   address: "AU1234567890abcdef"
@@ -568,7 +568,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td></td>
     <td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -579,7 +579,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td></td>
     <td>
 
-```json
+```ts
 {
   name: "Active Account",
   address: "AU1234567890abcdef"
@@ -611,7 +611,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td></td>
     <td>
 
-```json
+```ts
 ["https://node1.example.com", "https://node2.example.com"]
 ```
 
@@ -637,7 +637,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.sellRolls</code></td>
     <td>
 
-```json
+```ts
 {
   fee: string,
   amount: string
@@ -646,7 +646,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: string
 }
@@ -654,7 +654,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   fee: "100",
   amount: "50"
@@ -663,7 +663,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -691,7 +691,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.buyRolls</code></td>
     <td>
 
-```json
+```ts
 {
   fee: string,
   amount: string
@@ -700,7 +700,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: string
 }
@@ -708,7 +708,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   fee: "100",
   amount: "50"
@@ -717,7 +717,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   operationId: "OP1234567890abcdef"
 }
@@ -744,7 +744,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.generateNewAccount</code></td>
     <td>
 
-```json
+```ts
 {
   name: string
 }
@@ -752,7 +752,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -761,7 +761,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   name: "New Account"
 }
@@ -769,7 +769,7 @@ The MetaMask Snap for Massa supports the following operations:
 
   <td>
 
-```json
+```ts
 {
   name: "New Account",
   address: "AU1234567890abcdef"
@@ -797,14 +797,14 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.setActive</code></td>
     <td>
 
-```json
+```ts
 {
   address: string
 }
 ```
   <td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -812,14 +812,14 @@ The MetaMask Snap for Massa supports the following operations:
 ```
   <td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef"
 }
 ```
   <td>
 
-```json
+```ts
 {
   name: "New Active",
   address: "AU1234567890abcdef"
@@ -847,7 +847,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td></td>
     <td>
 
-```json
+```ts
 {
   name: string,
   address: string
@@ -856,7 +856,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td></td><td>
 
-```json
+```ts
 {
   name: "Account 0",
   address: "AU12ZDFfdf2Rdf3f4fg"
@@ -887,7 +887,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td></td>
     <td>
 
-```json
+```ts
 ["https://node1.example.com", "https://node2.example.com"]
 ```
 
@@ -913,7 +913,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.showCredentials</code></td>
     <td>
 
-```json
+```ts
 {
   address?: string<br>
 }
@@ -921,7 +921,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   publicKey: string<br>
 }
@@ -929,7 +929,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef"<br>
 }
@@ -937,7 +937,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   publicKey: "Pabcdef1234567890"<br>
 }
@@ -965,7 +965,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td><code>account.addToken</code></td>
     <td>
 
-```json
+```ts
 {
   address: string,
   accountAddress?: string
@@ -974,7 +974,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: string,
   accountAddress: string
@@ -983,7 +983,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef",
   accountAddress: "AU1234567890abcdef"
@@ -992,7 +992,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef",
   accountAddress: "AU1234567890abcdef"
@@ -1020,7 +1020,7 @@ The MetaMask Snap for Massa supports the following operations:
     <td>account.deleteToken</td>
     <td>
 
-```json
+```ts
 {
   accountAddress?: string,
   address: string
@@ -1029,7 +1029,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   response: 'OK' | 'ERROR',
   message?: string
@@ -1038,7 +1038,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   address: "AU1234567890abcdef",
   accountAddress: "AU1234567890abcdef"
@@ -1047,7 +1047,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 </td><td>
 
-```json
+```ts
 {
   response: "OK"
 }
