@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ const RootLayout = ({
           <Flex direction="column" minHeight="100vh" align={'center'}>
             <Header />
             {children}
+            <Footer />
           </Flex>
         </Providers>
       </body>
