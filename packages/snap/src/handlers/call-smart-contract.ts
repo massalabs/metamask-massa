@@ -42,7 +42,10 @@ const coerceParams = (params: CallSCParameters): ICallData => {
     throw new Error('Invalid params: args must be an array');
   } else if (!params.coins || typeof params.coins !== 'string') {
     throw new Error('Invalid params: coins must be a string');
-  } else if (params.nonPersistentExecution?.maxGas && typeof params.nonPersistentExecution.maxGas !== 'string') {
+  } else if (
+    params.nonPersistentExecution?.maxGas &&
+    typeof params.nonPersistentExecution.maxGas !== 'string'
+  ) {
     throw new Error('Invalid params: maxGas must be a string');
   }
   return {

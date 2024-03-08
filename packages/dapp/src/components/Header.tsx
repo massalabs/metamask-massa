@@ -24,14 +24,14 @@ export const Header = () => {
   return (
     <>
       <Flex
-        justifyContent={{ base: 'center', lg: 'space-between'}}
+        justifyContent={{ base: 'center', lg: 'space-between' }}
         w={'full'}
         p={5}
         flexWrap={'wrap'}
         bg={'grey.100'}
       >
         <Image src="/MassaLogo.png" alt="Logo" width={200} height={42} />
-        <Show above='lg'>
+        <Show above="lg">
           <Flex gap={4} align={'center'} justify="center" flexWrap={'wrap'}>
             <ThemeSwitch />
             {!ready && <ConnectMetamaskButton />}
@@ -40,8 +40,14 @@ export const Header = () => {
           </Flex>
         </Show>
       </Flex>
-      <Show below='md'>
-        <Flex gap={4} align={'center'} w={'full'} px={4} justify="space-between">
+      <Show below="md">
+        <Flex
+          gap={4}
+          align={'center'}
+          w={'full'}
+          px={4}
+          justify="space-between"
+        >
           <ThemeSwitch />
           {!ready && <ConnectMetamaskButton />}
           {ready && <AccountMenu />}

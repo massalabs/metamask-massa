@@ -1,11 +1,12 @@
 'use client';
 
-import { LockIcon, ViewIcon } from '@chakra-ui/icons';
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -31,6 +32,7 @@ export const ImportAccountModal = ({
   const finalRef = useRef(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const [secretKey, setSecretKey] = useState<string>('');
+  const [show, setShow] = useState(false);
   const importAccount = useImportAccount();
 
   const isFormValid = useMemo(() => {
@@ -40,8 +42,6 @@ export const ImportAccountModal = ({
     }
     return true;
   }, [publicKey, secretKey]);
-
-
 
   return (
     <Modal
@@ -68,14 +68,21 @@ export const ImportAccountModal = ({
           </FormControl>
           <FormControl mt={4}>
             <FormLabel>Secret Key</FormLabel>
-            <Input
-              type={'password'}
-              placeholder="Enter Secret Key"
-              value={secretKey ?? ''}
-              onChange={(evt) => {
-                setSecretKey(evt.target.value);
-              }}
-            />
+            <InputGroup size="md">
+              <Input
+                pr="4.5rem"
+                type={show ? 'text' : 'password'}
+                placeholder="Enter password"
+                onChange={(evt) => {
+                  setSecretKey(evt.target.value);
+                }}
+              />
+              <InputRightElement width="4.5rem">
+                <Button h="1.75rem" size="sm" onClick={() => setShow(!show)}>
+                  {show ? 'Hide' : 'Show'}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
         </ModalBody>
 

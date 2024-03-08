@@ -10,7 +10,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
       const account = await importFixAccount(request);
 
-
       const response = request({
         method: 'account.showCredentials',
         origin,
