@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
-  "license": "(MIT-0 OR Apache-2.0)",
+  "license": "BSD-3-Clause",
   "main": "./dist/bundle.js",
   "files": [
     "dist/",
