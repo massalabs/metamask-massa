@@ -31,7 +31,6 @@ export const ImportAccountModal = ({
   const finalRef = useRef(null);
   const [publicKey, setPublicKey] = useState<string>('');
   const [secretKey, setSecretKey] = useState<string>('');
-  const [showSecret, setShowSecret] = useState(false);
   const importAccount = useImportAccount();
 
   const isFormValid = useMemo(() => {
@@ -42,18 +41,7 @@ export const ImportAccountModal = ({
     return true;
   }, [publicKey, secretKey]);
 
-  const getSecretType = () => {
-    if (showSecret) {
-      return 'text';
-    }
-    return 'password';
-  };
-  const getSecretTypeIcon = () => {
-    if (showSecret) {
-      return <ViewIcon />;
-    }
-    return <LockIcon />;
-  };
+
 
   return (
     <Modal
@@ -81,16 +69,13 @@ export const ImportAccountModal = ({
           <FormControl mt={4}>
             <FormLabel>Secret Key</FormLabel>
             <Input
-              type={getSecretType()}
+              type={'password'}
               placeholder="Enter Secret Key"
               value={secretKey ?? ''}
               onChange={(evt) => {
                 setSecretKey(evt.target.value);
               }}
             />
-            <Button onClick={() => setShowSecret(!showSecret)}>
-              {getSecretTypeIcon()}
-            </Button>
           </FormControl>
         </ModalBody>
 
