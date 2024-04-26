@@ -25,6 +25,7 @@ The MetaMask Snap for Massa supports the following operations:
     <tr>
       <td><code>account.balance</code></td>
 <td>
+
 ```ts
   {
     address: string
