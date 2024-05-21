@@ -68,10 +68,9 @@ export const TokenRow = ({ token }: { token: string }) => {
             deleteToken({
               accountAddress: account!.address,
               address: token,
-            }).then((res) => {
-              console.log(res);
+            }).then(() => {
+              invalidateTokens();
             });
-            invalidateTokens();
           }}
         />
       </Td>

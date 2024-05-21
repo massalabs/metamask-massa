@@ -97,7 +97,6 @@ export const callSmartContract: Handler<
     throw new Error('User denied calling smart contract');
   }
   const operationId = await client.smartContracts().callSmartContract(callData);
-  console.log('operationId', operationId);
   await addAccountOperation(account.address!, operationId);
   return {
     operationId,
