@@ -1071,7 +1071,7 @@ To use the MetaMask Snap for Massa, follow these steps:
 
 ## Contributing
 
-We welcome contributions from the community! If you would like to contribute to the MetaMask Snap for Massa, please follow our [contribution guidelines](CONTRIBUTING.md) and submit a pull request.
+We welcome contributions from the community! If you would like to contribute to the MetaMask Snap for Massa, please checkout our "good first issue" issues and submit a pull request.
 
 ## License
 
