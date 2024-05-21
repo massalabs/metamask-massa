@@ -17,7 +17,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWith({
-        address: "AU12PsWbf4TC8jm2RkTLz1q63tcuTd1rxJFymy2pY6fTaYcdejvWy",
+        response: "OK",
       });
 
       const accountList = await request({
@@ -25,6 +25,10 @@ describe('onRpcRequest', () => {
         origin,
       });
       expect((accountList.response as any).result).toHaveLength(2); // default account + added account
+      expect((accountList.response as any).result[1]).toEqual({
+        address: "AU12PsWbf4TC8jm2RkTLz1q63tcuTd1rxJFymy2pY6fTaYcdejvWy",
+        name: expect.any(String),
+      });
     });
 
 
@@ -41,10 +45,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: publicKey must be a string',
-        stack: expect.any(String),
       });
 
       const accountList = await request({
@@ -66,10 +69,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: publicKey must be a string',
-        stack: expect.any(String),
        });
     });
 
@@ -84,10 +86,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: publicKey must be a string',
-        stack: expect.any(String),
        });
     });
 
@@ -104,10 +105,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: privateKey must be a string',
-        stack: expect.any(String),
       });
 
       const accountList = await request({
@@ -129,10 +129,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: privateKey must be a string',
-        stack: expect.any(String),
        });
     });
 
@@ -147,10 +146,9 @@ describe('onRpcRequest', () => {
         }
       });
 
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
+      expect(await response).toRespondWith({
+        response: "ERROR",
         message: 'Invalid params: privateKey must be a string',
-        stack: expect.any(String),
        });
     });
   });

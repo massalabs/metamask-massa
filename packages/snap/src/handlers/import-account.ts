@@ -9,7 +9,8 @@ export type ImportAccountParams = {
 };
 
 export type ImportAccountResponse = {
-  address: string;
+  response: 'OK' | 'ERROR';
+  message?: string;
 };
 
 const coerceParams = (params: ImportAccountParams): ImportAccountParams => {
@@ -31,9 +32,13 @@ export const importAccount: Handler<
   ImportAccountParams,
   ImportAccountResponse
 > = async (params) => {
-  const { privateKey } = coerceParams(params);
-  const account = await WalletClient.getAccountFromSecretKey(privateKey);
+  try {
+    const { privateKey } = coerceParams(params);
+    const account = await WalletClient.getAccountFromSecretKey(privateKey);
 
-  await addAccount(account);
-  return { address: account.address! };
+    await addAccount(account);
+    return { response: "OK" };
+  } catch (error: any) {
+    return { response: "ERROR", message: error.message };
+  }
 };
