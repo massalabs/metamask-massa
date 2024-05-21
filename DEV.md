@@ -60,6 +60,8 @@ You can now head to `http://localhost:8000` to checkout the app.
 You will be able to connect using the button on the top right and check your wallet information using the dashboard.
 Note that the network has to be chosen on the top right too to execute transactions on the devnet.
 
+## Test the snap
+Once the installation ran, you have to build with `yarn build` and then you can run the tests with `yarn test`
 
 # Project architecture
 
