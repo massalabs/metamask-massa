@@ -130,7 +130,7 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the recipientAddress is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
+      await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -197,7 +197,7 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the recipientAddress is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
+      await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet

@@ -6,7 +6,7 @@ export const importFixAccount = async (
   const origin = 'Jest';
 
   try {
-    const response = await request({
+    await request({
       method: 'account.import',
       origin,
       params: {

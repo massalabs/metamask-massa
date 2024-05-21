@@ -29,8 +29,6 @@ describe('onRpcRequest', () => {
         origin,
       });
 
-
-
       expect(await response).toRespondWith({ network: "77658377"});
     });
   });

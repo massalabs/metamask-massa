@@ -33,7 +33,7 @@ describe('onRpcRequest', () => {
     it('should return an error when address is invalid', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accounts = await generateAccounts(request, 2);
+      await generateAccounts(request, 2);
       const response = request({
         method: 'account.delete',
         origin,

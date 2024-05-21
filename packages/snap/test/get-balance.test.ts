@@ -37,7 +37,6 @@ describe('onRpcRequest', () => {
         method: 'account.list',
         origin
       })) as any).response.result;
-      const defaultAccount = accountList[0]!;
       const response = request({
         method: 'account.balance',
         origin,

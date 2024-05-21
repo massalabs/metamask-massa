@@ -31,7 +31,6 @@ describe('onRpcRequest', () => {
     it('should throw an error account when publicKey is empty', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountName = '';
 
       const response = request({
         method: 'account.import',
@@ -95,7 +94,6 @@ describe('onRpcRequest', () => {
     it('should throw an error account when privateKey is empty', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountName = '';
 
       const response = request({
         method: 'account.import',
