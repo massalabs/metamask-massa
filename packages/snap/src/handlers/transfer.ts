@@ -1,4 +1,4 @@
-import type { ITransactionData } from '@massalabs/massa-web3';
+import { MassaUnits, toMAS, type ITransactionData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 import { getActiveClient } from '../accounts/clients';
 import { addAccountOperation } from '../operations';
@@ -56,8 +56,8 @@ export const transfer: Handler<TransferParams, TransferResponse> = async (
       content: panel([
         text('**Do you want to send the following transaction?**'),
         text(`**Recipient:** ${params.recipientAddress}`),
-        text(`**Amount:** ${params.amount}`),
-        text(`**Fee:** ${params.fee}`),
+        text(`**Amount:** ${toMAS(params.amount)}`),
+        text(`**Fee:** ${toMAS(params.fee)}`),
       ]),
     },
   });
