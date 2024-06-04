@@ -27,7 +27,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@massalabs/massa-web3": "^3.0.2",
+    "@massalabs/massa-web3": "^4.0.3",
     "@metamask/key-tree": "^9.0.0",
     "@metamask/snaps-sdk": "^3.0.1",
     "buffer": "^6.0.3"
