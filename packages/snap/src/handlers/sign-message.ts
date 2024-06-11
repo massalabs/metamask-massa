@@ -3,7 +3,7 @@ import { panel, text } from '@metamask/snaps-sdk';
 import { getClientWallet } from '../accounts/clients';
 import { getNetwork } from './get-network';
 import type { Handler } from './handler';
-import { getHDAccount } from 'src/accounts/hd-deriver';
+import { getHDAccount } from '../accounts/hd-deriver';
 
 export type SignMessageParams = {
   data: number[];

@@ -1,4 +1,4 @@
-import { getHDAccount } from 'src/accounts/hd-deriver';
+import { getHDAccount } from '../accounts/hd-deriver';
 import { getAccountOperations } from '../operations';
 import type { Handler } from './handler';
 

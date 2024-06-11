@@ -3,8 +3,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
-import { getHDAccount } from 'src/accounts/hd-deriver';
-import { getClient } from 'src/accounts/clients';
+import { getHDAccount } from '../accounts/hd-deriver';
+import { getClient } from '../accounts/clients';
 
 export type CallSCParameters = {
   nickname: string;

@@ -1,4 +1,4 @@
-import { getHDAccount } from 'src/accounts/hd-deriver';
+import { getHDAccount } from '../accounts/hd-deriver';
 import { addAccountToken } from '../tokens';
 import type { Handler } from './handler';
 

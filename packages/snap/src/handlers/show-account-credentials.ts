@@ -2,7 +2,7 @@ import type { Json } from '@metamask/snaps-sdk';
 import { panel, text } from '@metamask/snaps-sdk';
 
 import type { Handler } from './handler';
-import { getHDAccount } from 'src/accounts/hd-deriver';
+import { getHDAccount } from '../accounts/hd-deriver';
 
 export type ShowAccountCredentialsParams = void;
 

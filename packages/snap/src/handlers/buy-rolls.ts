@@ -2,7 +2,7 @@ import type { IRollsData, WalletClient } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
 import type { Handler } from './handler';
-import { getClientWallet } from 'src/accounts/clients';
+import { getClientWallet } from '../accounts/clients';
 
 export type BuyRollsParams = {
   fee: string;
