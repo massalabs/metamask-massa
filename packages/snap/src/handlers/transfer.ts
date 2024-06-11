@@ -1,9 +1,9 @@
-import { MassaUnits, toMAS, type ITransactionData } from '@massalabs/massa-web3';
+import { toMAS, type ITransactionData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
-import { getActiveClient } from '../accounts/clients';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
-import { getActiveAccount } from '../accounts/manage-account';
+import { getHDAccount } from 'src/accounts/hd-deriver';
+import { getClient } from 'src/accounts/clients';
 
 export type TransferParams = {
   recipientAddress: string;
@@ -46,9 +46,14 @@ const coerceParams = (params: TransferParams): ITransactionData => {
 export const transfer: Handler<TransferParams, TransferResponse> = async (
   params,
 ) => {
-  const account = await getActiveAccount();
-  const client = await getActiveClient();
+  const account = await getHDAccount();
+  const client = await getClient();
   const deserialized = coerceParams(params);
+
+  if (!account || !client) {
+    throw new Error('Not logged in to metamask. Please log in and try again.');
+  }
+
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {

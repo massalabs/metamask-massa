@@ -1,10 +1,8 @@
-import { getAccount, getActiveAccount } from '../accounts/manage-account';
+import { getHDAccount } from 'src/accounts/hd-deriver';
 import { clearAccountOperations } from '../operations';
 import type { Handler } from './handler';
 
-export type ClearOperationsParams = {
-  address?: string;
-};
+export type ClearOperationsParams = void;
 
 export type ClearOperationsResponse = {
   response: 'OK' | 'ERROR' | 'REFUSED';
@@ -12,21 +10,18 @@ export type ClearOperationsResponse = {
 };
 /**
  * @description Clears the operations for the active account or the account with the given address
- * @param params - The clear operations parameters (optional address, defaults to the active account)
  * @returns The response of the operation (OK if successful, ERROR if the account to clear is not found)
  */
 export const clearOperations: Handler<
   ClearOperationsParams,
   ClearOperationsResponse
-> = async (params) => {
-  const account = params?.address
-    ? await getAccount(params.address)
-    : await getActiveAccount();
+> = async () => {
+  const account = await getHDAccount();
 
   if (!account) {
     return {
       response: 'ERROR',
-      message: `Account not found: ${params?.address ?? 'no account provided'}`,
+      message: `Not logged in to metamask. Please log in and try again.`,
     };
   }
   await clearAccountOperations(account.address!);

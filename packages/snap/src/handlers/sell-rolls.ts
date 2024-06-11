@@ -1,8 +1,8 @@
 import type { IRollsData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { getActiveClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
+import { getClientWallet } from 'src/accounts/clients';
 
 export type SellRollsParams = {
   fee: string;
@@ -40,7 +40,12 @@ export const sellRolls: Handler<SellRollsParams, SellRollsResponse> = async (
   params,
 ) => {
   const rollsData = coerceParams(params);
-  const wallet = await getActiveClientWallet();
+  const wallet = await getClientWallet();
+
+  if (!wallet) {
+    throw new Error('Not logged in to metamask. Please log in and try again.');
+  }
+
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {

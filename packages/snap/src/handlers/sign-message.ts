@@ -3,9 +3,9 @@ import { panel, text } from '@metamask/snaps-sdk';
 import { getClientWallet } from '../accounts/clients';
 import { getNetwork } from './get-network';
 import type { Handler } from './handler';
+import { getHDAccount } from 'src/accounts/hd-deriver';
 
 export type SignMessageParams = {
-  address: string;
   data: number[];
 };
 
@@ -20,12 +20,10 @@ export type SignMessageResponse = {
  * @returns The sign message parameters
  */
 const coerceParams = (params: SignMessageParams): SignMessageParams => {
-  if (!params.data || !params.address) {
-    throw new Error('Data and chainId are required');
+  if (!params.data) {
+    throw new Error('Data to sign is required!');
   } else if (!Array.isArray(params.data)) {
-    throw new Error('Data must be an array');
-  } else if (typeof params.address !== 'string') {
-    throw new Error('Address must be a string');
+    throw new Error('Data must be an array!');
   }
 
   return params;
@@ -41,11 +39,12 @@ export const signMessage: Handler<
   SignMessageParams,
   SignMessageResponse
 > = async (params) => {
-  const { data, address } = coerceParams(params);
-  const wallet = await getClientWallet(address);
+  const { data } = coerceParams(params);
+  const wallet = await getClientWallet();
+  const address = (await getHDAccount()).address;
 
-  if (!wallet) {
-    throw new Error(`Account not found: ${address}`);
+  if (!wallet || !address) {
+    throw new Error(`Not logged in to metamask. Please log in and try again.`);
   }
 
   const { network: chainId } = await getNetwork();

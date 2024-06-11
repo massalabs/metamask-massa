@@ -1,6 +1,9 @@
-import { RequestOptions, SnapRequest } from "@metamask/snaps-jest";
+import { RequestOptions, SnapRequest } from '@metamask/snaps-jest';
 
-export const generateAccounts = async (request: (opt: RequestOptions) => SnapRequest, number = 2) => {
+export const generateAccounts = async (
+  request: (opt: RequestOptions) => SnapRequest,
+  number = 2,
+) => {
   const accounts = [];
   const origin = 'Jest';
   for (let i = 0; i < number; i++) {
@@ -8,12 +11,12 @@ export const generateAccounts = async (request: (opt: RequestOptions) => SnapReq
       method: 'account.generateNewAccount',
       origin,
       params: {
-        name: `Account ${i + 1}`
-      }
+        name: `Account ${i + 1}`,
+      },
     });
     if ((response.response as any).result) {
       accounts.push((response.response as any).result);
     }
   }
   return accounts;
-}
+};

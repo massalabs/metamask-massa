@@ -9,7 +9,6 @@ import { invalidateTokens } from './useTokens';
 import { defaultSnapOrigin } from '@/config';
 
 export type ActiveAccountResponse = {
-  name: string;
   address: string;
 };
 

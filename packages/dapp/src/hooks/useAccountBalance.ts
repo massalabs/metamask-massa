@@ -20,7 +20,7 @@ export const invalidateAccountBalance = () => {
  * @param params - The account address (optional, default is the active account)
  * @returns The account final and candidate balance
  */
-export const useAccountBalance = (params: { address?: string }) => {
+export const useAccountBalance = () => {
   const { provider } = useContext(MetaMaskContext);
   const { data: network } = useNetwork();
   const fetcher = useCallback(
@@ -31,18 +31,17 @@ export const useAccountBalance = (params: { address?: string }) => {
           snapId: defaultSnapOrigin,
           request: {
             method: 'account.balance',
-            params,
           },
         },
       }) as Promise<AccountBalanceResponse>,
-    [provider, params],
+    [provider],
   );
 
   useEffect(() => {
-    if (provider && params.address) {
+    if (provider) {
       invalidateAccountBalance();
     }
-  }, [provider, params.address, network]);
+  }, [provider, network]);
 
   return useSWR('account.balance', fetcher);
 };

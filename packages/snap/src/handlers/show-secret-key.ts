@@ -16,9 +16,9 @@ export const showSecretKey: Handler<void, DialogResult> = async () => {
     params: {
       type: 'confirmation',
       content: panel([
-        text('**Are you sure to display your secret key?**'),
+        text('**Are you sure you want to display your secret key?**'),
         text(
-          `**Make sure no one else see's it, don't show it in public or crowded places!**`,
+          `**Make sure no one else sees them, and don't show them in crowded or public places!**`,
         ),
       ]),
     },

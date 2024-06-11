@@ -5,7 +5,6 @@ import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
 
 export type SignMessageParams = {
-  address: string;
   data: number[];
 };
 

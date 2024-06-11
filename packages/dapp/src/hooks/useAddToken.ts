@@ -7,14 +7,13 @@ import type { AccountToken } from '@/types/account-token';
 
 export type AddTokenParams = {
   address: string;
-  accountAddress?: string;
 };
 
 export type AddTokenResponse = AccountToken;
 
 /**
  * @description Hook that calls the metamask provider to add a token
- * @param params - The add token parameters (address of the token and accountAddress which is optional and defaults to the current active account)
+ * @param params - The add token parameters (address of the token)
  * @returns The response of the operation
  */
 export const useAddToken = () => {

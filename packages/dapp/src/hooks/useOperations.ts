@@ -15,7 +15,7 @@ export type OperationsResponse = {
  * @param params - The get operations parameters (account address is optional, defaults to the active account)
  * @returns The operations ids of the active account (as a string array of operation ids)
  */
-export const useOperations = (params?: { address?: string }) => {
+export const useOperations = () => {
   const { provider } = useContext(MetaMaskContext);
   const fetcher: Fetcher<OperationsResponse, string> = async (
     method: string,
@@ -26,7 +26,6 @@ export const useOperations = (params?: { address?: string }) => {
         snapId: defaultSnapOrigin,
         request: {
           method,
-          params,
         },
       },
     });
