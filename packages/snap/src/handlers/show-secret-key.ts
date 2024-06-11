@@ -11,6 +11,22 @@ import type { Handler } from './handler';
  */
 export const showSecretKey: Handler<void, DialogResult> = async () => {
   const account = await MassaAccount.getAccount();
+  const confirm = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'confirmation',
+      content: panel([
+        text('**Are you sure to display your secret key?**'),
+        text(
+          `**Make sure no one else see's it, don't show it in public or crowded places!**`,
+        ),
+      ]),
+    },
+  });
+
+  if (!confirm) {
+    throw new Error('User denied showing secret key');
+  }
   return snap.request({
     method: 'snap_dialog',
     params: {

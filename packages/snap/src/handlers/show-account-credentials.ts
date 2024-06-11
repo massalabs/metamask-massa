@@ -26,6 +26,23 @@ export const showAccountCredentials: Handler<
     throw new Error(`Account not found: ${address}`);
   }
 
+  const confirm = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'confirmation',
+      content: panel([
+        text('**Are you sure to display your credentials?**'),
+        text(
+          `**Make sure no one else see's them, don't show them in public or crowded places!**`,
+        ),
+      ]),
+    },
+  });
+
+  if (!confirm) {
+    throw new Error('User denied showing credentials');
+  }
+
   return snap.request({
     method: 'snap_dialog',
     params: {
