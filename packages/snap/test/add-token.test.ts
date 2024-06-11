@@ -1,6 +1,5 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import { ListAccountsResponse } from 'src/handlers';
 import { generateAccounts } from './utils/generateAccounts';
 
 const tokens = [
@@ -13,9 +12,10 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
       const accountList: ListAccountsResponse = ((await request({
-        method: 'account.list',
+        method: 'account.getActive',
         origin
-      })) as any).response.result;
+        })) as any
+      ).response.result;
       const defaultAccount = accountList[0]!;
 
       const response = request({

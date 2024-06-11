@@ -15,6 +15,10 @@ export const getActiveAccount: Handler<
 > = async () => {
   const account = await getHDAccount();
 
+  if (!account) {
+    throw new Error(`Not logged in to metamask. Please log in and try again.`);
+  }
+
   return {
     address: account.address!,
   };
