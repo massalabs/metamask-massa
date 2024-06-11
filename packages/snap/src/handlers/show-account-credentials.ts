@@ -28,7 +28,7 @@ export const showAccountCredentials: Handler<
       content: panel([
         text('**Are you sure you want to display your credentials?**'),
         text(
-          `**Make sure no one else sees them, and don't show them in crowded or public places!**`,
+          `Make sure no one else sees them, and don't show them in crowded or public places!`,
         ),
       ]),
     },

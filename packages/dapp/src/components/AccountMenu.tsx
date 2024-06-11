@@ -1,12 +1,6 @@
-import { AddIcon, ChevronDownIcon, DownloadIcon } from '@chakra-ui/icons';
+import { ViewIcon } from '@chakra-ui/icons';
 import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Button,
   Flex,
-  useDisclosure,
   Spinner,
   Text,
   useColorModeValue,
@@ -15,11 +9,8 @@ import {
 
 import {
   useActiveAccount,
-  invalidateActiveAccount,
 } from '@/hooks/useActiveAccount';
-import { invalidateOperations } from '@/hooks/useOperations';
 import { useShowCredentials } from '@/hooks/useShowCredentials';
-import { invalidateTokens } from '@/hooks/useTokens';
 
 export const AccountMenu = () => {
   const showIconBg = useColorModeValue('gray.100', 'gray.600');
@@ -33,21 +24,19 @@ export const AccountMenu = () => {
       {activeAccountLoading ? (
         <Spinner />
       ) : (
-        <Flex>
-          <Text flexGrow={1}>My Account</Text>
-          <Flex justify={'space-between'} align={'center'} w={'full'}>
-            <Box
-              borderRadius={'lg'}
-              bg={showIconBg}
-              p={2}
-              onClick={(evt) => {
-                evt.preventDefault();
-                showCredentials();
-              }}
-            >
-              <DownloadIcon />
-            </Box>
-          </Flex>
+        <Flex justify={'space-between'} align={'center'} w={'full'}>
+          <Text>My Account</Text>
+          <Box
+            borderRadius={'lg'}
+            bg={showIconBg}
+            p={2}
+            onClick={(evt) => {
+              evt.preventDefault();
+              showCredentials();
+            }}
+          >
+            <ViewIcon />
+          </Box>
         </Flex>
       )}
       ;
