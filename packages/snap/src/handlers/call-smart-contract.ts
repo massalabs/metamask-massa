@@ -7,7 +7,6 @@ import { getHDAccount } from '../accounts/hd-deriver';
 import { getClient } from '../accounts/clients';
 
 export type CallSCParameters = {
-  nickname: string;
   fee: string;
   functionName: string;
   at: string;
@@ -30,9 +29,7 @@ export type CallSCResponse = {
  * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
  */
 const coerceParams = (params: CallSCParameters): ICallData => {
-  if (!params.nickname || typeof params.nickname !== 'string') {
-    throw new Error('Invalid params: nickname must be a string');
-  } else if (!params.fee || typeof params.fee !== 'string') {
+  if (!params.fee || typeof params.fee !== 'string') {
     throw new Error('Invalid params: fee must be a string');
   } else if (!params.functionName || typeof params.functionName !== 'string') {
     throw new Error('Invalid params: functionName must be a string');

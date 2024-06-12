@@ -2,7 +2,6 @@ import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
 import { ListAccountsResponse } from 'src/handlers';
-import { generateAccounts } from './utils/generateAccounts';
 import { addTokens } from './utils/addTokens';
 
 const tokens = [
@@ -11,7 +10,7 @@ const tokens = [
 
 describe('onRpcRequest', () => {
   describe('delete-token', () => {
-    it('should delete a token for the default account', async () => {
+    it('should delete a token for the account', async () => {
       const { request } = await installSnap();
       await addTokens(request, tokens);
       const origin = 'Jest';
@@ -19,7 +18,6 @@ describe('onRpcRequest', () => {
         method: 'account.list',
         origin
       })) as any).response.result;
-      const defaultAccount = accountList[0]!;
 
       const response = request({
         method: 'account.deleteToken',
@@ -36,35 +34,6 @@ describe('onRpcRequest', () => {
       const getTokens = await request({
         method: 'account.getTokens',
         origin,
-      });
-      expect(((await getTokens).response as any).result.tokens).toHaveLength(0);
-    });
-
-    it('should delete a token for a specific account', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const accounts = await generateAccounts(request, 2);
-      const account = accounts[1]!;
-      await addTokens(request, tokens, account.address);
-
-      const response = request({
-        method: 'account.deleteToken',
-        origin,
-        params: {
-          address: tokens[0]!,
-          accountAddress: account.address
-        }
-      });
-
-      expect(await response).toRespondWith({
-        response: "OK"
-      });
-      const getTokens = await request({
-        method: 'account.getTokens',
-        origin,
-        params: {
-          address: account.address
-        }
       });
       expect(((await getTokens).response as any).result.tokens).toHaveLength(0);
     });
@@ -102,25 +71,6 @@ describe('onRpcRequest', () => {
       expect(await response).toRespondWithError({
         code: expect.any(Number),
         message: 'Invalid params: address must be a string',
-        stack: expect.any(String),
-       });
-    });
-
-    it('should throw an error when accountAddress is not a string', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const response = request({
-        method: 'account.deleteToken',
-        origin,
-        params: {
-          address: tokens[0]!,
-          accountAddress: 123
-        }
-      });
-
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
-        message: 'Invalid params: accountAddress must be a string',
         stack: expect.any(String),
        });
     });

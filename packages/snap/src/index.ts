@@ -13,6 +13,7 @@ import type {
   GetTokensParams,
   GetOperationsParams,
   ClearOperationsParams,
+  GetBalanceParams,
 } from './handlers';
 import {
   getBalance,
@@ -30,6 +31,7 @@ import {
   getTokens,
   getOperations,
   clearOperations,
+  listAccounts,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
 /**
@@ -44,8 +46,10 @@ import { getActiveAccount } from './handlers/get-active-account';
  */
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
+    case 'account.list':
+      return listAccounts();
     case 'account.balance':
-      return getBalance();
+      return getBalance(request.params as unknown as GetBalanceParams);
     case 'account.sign':
       return signMessage(
         request.params as unknown as SignMessageParams,

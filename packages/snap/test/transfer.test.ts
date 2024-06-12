@@ -1,24 +1,25 @@
 import { expect } from '@jest/globals';
 import { SnapConfirmationInterface, installSnap } from '@metamask/snaps-jest';
 import { setNetwork } from './utils/setNetwork';
-import { importFixAccount } from './utils/importFixAccount';
 import { panel, text } from '@metamask/snaps-sdk';
-import { setActiveAccount } from './utils/setActiveAccount';
-import { generateAccounts } from './utils/generateAccounts';
+import { ListAccountsResponseItem } from 'src/handlers';
 
 describe('onRpcRequest', () => {
   describe('transfer', () => {
     it('should return an operation id', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           fee: '1000000000000000',
           amount: '1000000000000000',
         },
@@ -29,9 +30,9 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${accounts[1].address}`),
-          text('**Amount:** 1000000000000000'),
-          text('**Fee:** 1000000000000000'),
+          text(`**Recipient:** ${account.address}`),
+          text('**Amount:** 1000000'),
+          text('**Fee:** 1000000'),
         ]),
       );
 
@@ -49,15 +50,18 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the user deny the request', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           fee: '1000000000000000',
           amount: '1000000000000000',
         },
@@ -68,9 +72,9 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${accounts[1].address}`),
-          text('**Amount:** 1000000000000000'),
-          text('**Fee:** 1000000000000000'),
+          text(`**Recipient:** ${account.address}`),
+          text('**Amount:** 1000000'),
+          text('**Fee:** 1000000'),
         ]),
       );
 
@@ -84,15 +88,18 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the fee is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           fee: 1000000,
           amount: '1000000000000000',
         },
@@ -107,15 +114,18 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the amount is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           fee: '1000000000000000',
           amount: 1000000,
         },
@@ -130,7 +140,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the recipientAddress is not a string', async () => {
       const { request } = await installSnap();
-      await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -153,15 +162,18 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the fee is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           amount: '1000000000000000',
         },
       });
@@ -175,15 +187,18 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the amount is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
         params: {
-          recipientAddress: accounts[1].address,
+          recipientAddress: account.address,
           fee: '1000000000000000',
         },
       });
@@ -197,7 +212,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the recipientAddress is missing', async () => {
       const { request } = await installSnap();
-      await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet

@@ -1,4 +1,3 @@
-export * from './show-secret-key';
 export * from './call-smart-contract';
 export * from './sign-message';
 export * from './transfer';
@@ -14,3 +13,4 @@ export * from './delete-token';
 export * from './get-tokens';
 export * from './get-operations';
 export * from './clear-operations';
+export * from './list-account';

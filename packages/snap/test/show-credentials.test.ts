@@ -1,33 +1,61 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import { importFixAccount } from './utils/importFixAccount';
-import { panel, text } from '@metamask/snaps-sdk';
+import { NodeType, panel, text } from '@metamask/snaps-sdk';
+import { ListAccountsResponse } from 'src/handlers';
 
 describe('onRpcRequest', () => {
   describe('show-credentials', () => {
     it('should show credentials', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account = await importFixAccount(request);
+      const accountList: ListAccountsResponse = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result;
 
       const response = request({
         method: 'account.showCredentials',
         origin,
         params: {
-          address: account.address,
+          address: accountList[0]!.address,
         },
       });
-      const ui = await response.getInterface();
-      expect(ui.type).toBe('alert');
-      expect(ui).toRender(
+
+      const confirmationUi = await response.getInterface();
+      expect(confirmationUi.type).toBe('confirmation');
+      expect(confirmationUi).toRender(
         panel([
-          text('**Account Credentials:**'),
-          text(`Name: Account 1`),
-          text(`Address: ${account.address}`),
-          text(`Public Key: ${account.publicKey}`),
-          text(`Secret Key: ${account.privateKey}`),
+          text('**Are you sure you want to display your credentials?**'),
+          text(
+            `Make sure no one else sees them, and don't show them in crowded or public places !`,
+          ),
         ]),
       );
+      await confirmationUi.ok();
+
+      const ui = await response.getInterface();
+      expect(ui.type).toBe('alert');
+      expect(ui.content).toMatchObject({
+        type: NodeType.Panel,
+        children: [
+          {
+            type: NodeType.Text,
+            value: '**Account Credentials:**',
+          },
+          {
+            type: NodeType.Text,
+            value: `Address: ${accountList[0]!.address}`,
+          },
+          {
+            type: NodeType.Text,
+            value: expect.stringContaining('Public Key:'),
+          },
+          {
+            type: NodeType.Text,
+            value: expect.stringContaining('Secret Key:'),
+          }
+        ],
+      });
 
       await ui.ok();
     });

@@ -10,7 +10,7 @@ import {
 import { useShowCredentials } from '@/hooks/useShowCredentials';
 
 export const AccountMenu = () => {
-  const { isLoading: activeAccountLoading } =
+  const { isLoading: activeAccountLoading, data: activeAccount } =
     useActiveAccount();
   const showCredentials = useShowCredentials();
 
@@ -21,7 +21,7 @@ export const AccountMenu = () => {
       ) : (
         <IconButton onClick={(evt) => {
           evt.preventDefault();
-          showCredentials();
+          showCredentials({ address: activeAccount?.address});
         }} icon={<DownloadIcon />} aria-label={''} />
       )}
     </>

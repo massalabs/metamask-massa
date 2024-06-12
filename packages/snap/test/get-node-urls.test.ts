@@ -15,7 +15,7 @@ describe('onRpcRequest', () => {
       });
 
 
-      expect(await response).toRespondWith(["https://massa.net/api/v2"]);
+      expect(await response).toRespondWith(["https://mainnet.massa.net/api/v2"]);
     });
 
     it('should get the urls for the buildnet network', async () => {

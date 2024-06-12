@@ -2,12 +2,29 @@ import { getHDAccount } from '../accounts/hd-deriver';
 import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
 
-export type GetBalanceParams = void;
+export type GetBalanceParams = {
+  address: string;
+};
 
 export type GetBalanceResponse = {
   finalBalance: string;
   candidateBalance: string;
 };
+
+/**
+ * @description Coerces the get balance parameters to the expected format
+ * @param params - The get balance parameters
+ * @returns The coerced parameters
+ * @throws If the parameters are invalid
+ */
+const coerceParams = (params: GetBalanceParams): string => {
+  if (!params.address || typeof params.address !== 'string') {
+    throw new Error('Invalid params: address must be a string');
+  }
+  return params.address;
+};
+
+
 
 /**
  * @description Get the balance of the given address
@@ -17,12 +34,16 @@ export type GetBalanceResponse = {
 export const getBalance: Handler<
   GetBalanceParams,
   GetBalanceResponse
-> = async () => {
+> = async (params) => {
   const wallet = await getClientWallet();
   const address = (await getHDAccount()).address;
+  const requestedAddress = coerceParams(params);
 
   if (!wallet || !address) {
     throw new Error(`Not logged in to metamask. Please log in and try again.`);
+  }
+  if (address !== requestedAddress) {
+    throw new Error(`Account not found: ${requestedAddress}`);
   }
   const balance = await wallet.getAccountBalance(address);
 
