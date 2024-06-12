@@ -26,6 +26,7 @@ export const Header = () => {
       <Flex
         justifyContent={{ base: 'center', lg: 'space-between' }}
         w={'full'}
+        id="header"
         p={5}
         flexWrap={'wrap'}
         bg={'grey.100'}
@@ -40,7 +41,7 @@ export const Header = () => {
           </Flex>
         </Show>
       </Flex>
-      <Show below="md">
+      <Show below="lg">
         <Flex
           gap={4}
           align={'center'}
@@ -50,8 +51,13 @@ export const Header = () => {
         >
           <ThemeSwitch />
           {!ready && <ConnectMetamaskButton />}
-          {ready && <AccountMenu />}
-          {ready && <NetworkMenu />}
+
+          {ready && (
+            <Flex gap={4}>
+              <AccountMenu />
+              <NetworkMenu />
+            </Flex>
+          )}
         </Flex>
       </Show>
     </>
