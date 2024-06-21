@@ -48,7 +48,9 @@ export const TokenTab = () => {
     useActiveAccount();
   const { isLoading: isLoadingTokenList, data: tokenList } = useTokens();
   const { isLoading: isLoadingAccountBalance, data: accountBalance } =
-    useAccountBalance({ address: activeAccount?.address });
+    useAccountBalance({
+      address: activeAccount?.address,
+    });
   const { colorMode } = useColorMode();
   const headerBg = useColorModeValue('teal.400', 'teal.600');
   const sendButtonBg = useColorModeValue('gray.400', 'gray.600');
@@ -74,11 +76,7 @@ export const TokenTab = () => {
     >
       <Flex justifyContent={'space-between'} align={'center'}>
         <Heading pl={3}>
-          {isLoadingActiveAccount ? (
-            <Spinner />
-          ) : (
-            activeAccount?.name || 'My Account'
-          )}
+          {isLoadingActiveAccount ? <Spinner /> : 'My Account'}
         </Heading>
         <Flex justify={'space-between'} align={'center'} mt={2}>
           <Link

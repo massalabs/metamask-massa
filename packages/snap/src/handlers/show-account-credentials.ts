@@ -1,11 +1,11 @@
 import type { Json } from '@metamask/snaps-sdk';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { getAccount, getActiveAccount } from '../accounts/manage-account';
 import type { Handler } from './handler';
+import { getHDAccount } from '../accounts/hd-deriver';
 
 export type ShowAccountCredentialsParams = {
-  address?: string;
+  address: string;
 };
 
 /**
@@ -16,14 +16,14 @@ export type ShowAccountCredentialsParams = {
 export const showAccountCredentials: Handler<
   ShowAccountCredentialsParams,
   Json
-> = async ({ address }) => {
-  const account =
-    address !== undefined
-      ? await getAccount(address)
-      : await getActiveAccount();
+> = async (params) => {
+  const account = await getHDAccount();
 
   if (!account) {
-    throw new Error(`Account not found: ${address}`);
+    throw new Error(`Not logged in to metamask. Please log in and try again.`);
+  }
+  if (params.address !== account.address) {
+    throw new Error(`Account not found: ${params.address}`);
   }
 
   const confirm = await snap.request({
@@ -31,9 +31,9 @@ export const showAccountCredentials: Handler<
     params: {
       type: 'confirmation',
       content: panel([
-        text('**Are you sure to display your credentials?**'),
+        text('**Are you sure you want to display your credentials?**'),
         text(
-          `**Make sure no one else see's them, don't show them in public or crowded places!**`,
+          `Make sure no one else sees them, and don't show them in crowded or public places !`,
         ),
       ]),
     },
@@ -49,7 +49,6 @@ export const showAccountCredentials: Handler<
       type: 'alert',
       content: panel([
         text('**Account Credentials:**'),
-        text(`Name: ${account.name}`),
         text(`Address: ${account.address}`),
         text(`Public Key: ${account.publicKey}`),
         text(`Secret Key: ${account.secretKey}`),

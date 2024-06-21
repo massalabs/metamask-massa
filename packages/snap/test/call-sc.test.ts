@@ -1,10 +1,7 @@
 import { expect } from '@jest/globals';
 import { SnapConfirmationInterface, installSnap } from '@metamask/snaps-jest';
 import { setNetwork } from './utils/setNetwork';
-import { importFixAccount } from './utils/importFixAccount';
 import { panel, text } from '@metamask/snaps-sdk';
-import { setActiveAccount } from './utils/setActiveAccount';
-import { generateAccounts } from './utils/generateAccounts';
 
 const baseParams = {
   fee: '1000000000000000',
@@ -21,17 +18,13 @@ describe('onRpcRequest', () => {
   describe('call-sc', () => {
     it('should return an operation id', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
-        params: {
-          nickname: accounts[0].name,
-          ...baseParams,
-        },
+        params: baseParams,
       });
 
       const ui = await response.getInterface();
@@ -55,26 +48,20 @@ describe('onRpcRequest', () => {
       const operations = await request({
         method: 'account.getOperations',
         origin,
-        params: {
-          address: accounts[0].address,
-        },
+        params: {},
       });
       expect((operations.response as any).result.operations).toHaveLength(1);
     });
 
     it('should throw an error if the user deny the request', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
-        params: {
-          nickname: accounts[0].name,
-          ...baseParams,
-        },
+        params: baseParams,
       });
 
       const ui = (await response.getInterface()) as SnapConfirmationInterface;
@@ -98,31 +85,8 @@ describe('onRpcRequest', () => {
       });
     });
 
-    it('should throw an error if the nickname is not a string', async () => {
-      const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
-      const origin = 'Jest';
-
-      await setNetwork(request, 77658366n); // BuildNet
-      const response = request({
-        method: 'account.callSC',
-        origin,
-        params: {
-          nickname: 123,
-          ...baseParams,
-        },
-      });
-
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
-        message: 'Invalid params: nickname must be a string',
-        stack: expect.any(String),
-      });
-    });
-
     it('should throw an error if the fee is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -130,7 +94,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           fee: 1000000,
         },
@@ -145,7 +108,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the coins is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -153,7 +115,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           coins: 1000000,
         },
@@ -168,7 +129,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the functionName is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -176,7 +136,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           functionName: 1000000,
         },
@@ -191,7 +150,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the at is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -199,7 +157,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           at: 1000000,
         },
@@ -214,7 +171,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the args is not an array', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -222,7 +178,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           args: 1000000,
         },
@@ -237,7 +192,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if the nonPersistentExecution.maxGas is not a string', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -245,7 +199,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           nonPersistentExecution: {
             isNPE: true,
@@ -261,31 +214,8 @@ describe('onRpcRequest', () => {
       });
     });
 
-    it('should throw an error if nickname is missing', async () => {
-      const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
-      const origin = 'Jest';
-
-      await setNetwork(request, 77658366n); // BuildNet
-      const response = request({
-        method: 'account.callSC',
-        origin,
-        params: {
-          ...baseParams,
-          nickname: null,
-        },
-      });
-
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
-        message: 'Invalid params: nickname must be a string',
-        stack: expect.any(String),
-      });
-    });
-
     it('should throw an error if fee is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -293,7 +223,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           fee: null,
         },
@@ -308,7 +237,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if functionName is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -316,7 +244,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           functionName: null,
         },
@@ -331,7 +258,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if at is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -339,7 +265,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           at: null,
         },
@@ -354,7 +279,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if args is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -362,7 +286,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           args: null,
         },
@@ -377,7 +300,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error if coins is missing', async () => {
       const { request } = await installSnap();
-      const accounts = await generateAccounts(request, 2);
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
@@ -385,7 +307,6 @@ describe('onRpcRequest', () => {
         method: 'account.callSC',
         origin,
         params: {
-          nickname: accounts[0].name,
           ...baseParams,
           coins: null,
         },

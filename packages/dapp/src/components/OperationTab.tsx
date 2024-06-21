@@ -75,7 +75,7 @@ export const OperationTab = () => {
           <IconButton
             aria-label="delete-all"
             icon={<DeleteIcon />}
-            onClick={() => clearOperations({})}
+            onClick={() => clearOperations()}
           />
           <IconButton
             aria-label="Refresh"

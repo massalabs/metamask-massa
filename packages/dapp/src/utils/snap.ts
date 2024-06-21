@@ -59,26 +59,6 @@ export const getSnap = async (
   }
 };
 
-export const getActiveAccount = async (provider: MetaMaskInpageProvider) => {
-  return provider.request({
-    method: 'wallet_invokeSnap',
-    params: {
-      snapId: defaultSnapOrigin,
-      request: { method: 'account.getActive' },
-    },
-  });
-};
-
-export const getAccountList = async (provider: MetaMaskInpageProvider) => {
-  return provider.request({
-    method: 'wallet_invokeSnap',
-    params: {
-      snapId: defaultSnapOrigin,
-      request: { method: 'account.list' },
-    },
-  });
-};
-
 export const showPrivateKey = async (provider: MetaMaskInpageProvider) => {
   return provider.request({
     method: 'wallet_invokeSnap',

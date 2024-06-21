@@ -23,7 +23,6 @@ describe('onRpcRequest', () => {
         }
       });
 
-
       expect(await response).toRespondWith({
         finalBalance: expect.any(String),
         candidateBalance: expect.any(String),
@@ -33,10 +32,6 @@ describe('onRpcRequest', () => {
     it('should throw an error account when address is invalid', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = ((await request({
-        method: 'account.list',
-        origin
-      })) as any).response.result;
       const response = request({
         method: 'account.balance',
         origin,

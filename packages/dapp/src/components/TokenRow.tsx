@@ -66,7 +66,6 @@ export const TokenRow = ({ token }: { token: string }) => {
           icon={<DeleteIcon />}
           onClick={() => {
             deleteToken({
-              accountAddress: account!.address,
               address: token,
             }).then(() => {
               invalidateTokens();

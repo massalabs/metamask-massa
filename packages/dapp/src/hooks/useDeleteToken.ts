@@ -5,7 +5,6 @@ import { MetaMaskContext } from './MetamaskContext';
 import { defaultSnapOrigin } from '@/config';
 
 export type DeleteTokenParams = {
-  accountAddress: string;
   address: string;
 };
 

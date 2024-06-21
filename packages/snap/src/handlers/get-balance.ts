@@ -1,3 +1,4 @@
+import { getHDAccount } from '../accounts/hd-deriver';
 import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
 
@@ -23,20 +24,26 @@ const coerceParams = (params: GetBalanceParams): string => {
   return params.address;
 };
 
+
+
 /**
  * @description Get the balance of the given address
- * @param params - The address to get the balance of
  * @returns The final and candidate balances of the account
  * @throws If the account is not found (usually due to not being imported in metamask)
  */
-export const getBalance: Handler<GetBalanceParams, GetBalanceResponse> = async (
-  params,
-) => {
-  const address = coerceParams(params);
-  const wallet = await getClientWallet(address);
+export const getBalance: Handler<
+  GetBalanceParams,
+  GetBalanceResponse
+> = async (params) => {
+  const wallet = await getClientWallet();
+  const address = (await getHDAccount()).address;
+  const requestedAddress = coerceParams(params);
 
-  if (!wallet) {
-    throw new Error(`Account not found: ${address}`);
+  if (!wallet || !address) {
+    throw new Error(`Not logged in to metamask. Please log in and try again.`);
+  }
+  if (address !== requestedAddress) {
+    throw new Error(`Account not found: ${requestedAddress}`);
   }
   const balance = await wallet.getAccountBalance(address);
 

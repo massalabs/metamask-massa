@@ -1,8 +1,8 @@
-import type { IRollsData } from '@massalabs/massa-web3';
+import type { IRollsData, WalletClient } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { getActiveClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
+import { getClientWallet } from '../accounts/clients';
 
 export type BuyRollsParams = {
   fee: string;
@@ -34,7 +34,8 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
   params,
 ) => {
   const rollsData = coerceParams(params);
-  const wallet = await getActiveClientWallet();
+  const wallet: WalletClient | undefined = await getClientWallet();
+
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -49,6 +50,10 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
 
   if (!confirm) {
     throw new Error('User denied buy rolls');
+  }
+
+  if (!wallet) {
+    throw new Error('Wallet not found');
   }
 
   const operationId = await wallet.buyRolls(rollsData);

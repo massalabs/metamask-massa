@@ -1,13 +1,12 @@
 import type { ICallData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { getClientByName } from '../accounts/clients';
-import { getAccountByName } from '../accounts/manage-account';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
+import { getHDAccount } from '../accounts/hd-deriver';
+import { getClient } from '../accounts/clients';
 
 export type CallSCParameters = {
-  nickname: string;
   fee: string;
   functionName: string;
   at: string;
@@ -30,9 +29,7 @@ export type CallSCResponse = {
  * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
  */
 const coerceParams = (params: CallSCParameters): ICallData => {
-  if (!params.nickname || typeof params.nickname !== 'string') {
-    throw new Error('Invalid params: nickname must be a string');
-  } else if (!params.fee || typeof params.fee !== 'string') {
+  if (!params.fee || typeof params.fee !== 'string') {
     throw new Error('Invalid params: fee must be a string');
   } else if (!params.functionName || typeof params.functionName !== 'string') {
     throw new Error('Invalid params: functionName must be a string');
@@ -55,7 +52,7 @@ const coerceParams = (params: CallSCParameters): ICallData => {
       : (null as unknown as bigint),
     coins: BigInt(params.coins),
     targetAddress: params.at,
-    functionName: params.functionName,
+    targetFunction: params.functionName,
     parameter: params.args,
   };
 };
@@ -70,12 +67,12 @@ export const callSmartContract: Handler<
   CallSCParameters,
   CallSCResponse
 > = async (params) => {
-  const client = await getClientByName(params.nickname);
-  const account = await getAccountByName(params.nickname);
+  const client = await getClient();
+  const account = await getHDAccount();
   const callData = coerceParams(params);
 
   if (!account || !client) {
-    throw new Error('Client not found');
+    throw new Error('Client not found or not logged in');
   }
 
   const confirm = await snap.request({

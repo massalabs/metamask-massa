@@ -1,47 +1,39 @@
 import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
 import type {
-  GetBalanceParams,
   SignMessageParams,
   TransferParams,
-  ImportAccountParams,
   CallSCParameters,
-  GenerateAccountParams,
-  SetActiveAccountParams,
   SetNetworkParams,
   SellRollsParams,
   BuyRollsParams,
   ShowAccountCredentialsParams,
-  DeleteAccountParams,
   AddTokenParams,
   DeleteTokenParams,
   GetTokensParams,
   GetOperationsParams,
   ClearOperationsParams,
+  GetBalanceParams,
 } from './handlers';
 import {
   getBalance,
-  listAccounts,
   transfer,
   signMessage,
   callSmartContract,
-  importAccount,
-  generateAccount,
-  getActiveAccount,
-  setActiveAccount,
   getNetwork,
   setNetwork,
   getNodeUrls,
   sellRolls,
   buyRolls,
   showAccountCredentials,
-  deleteAccount,
   addToken,
   deleteToken,
   getTokens,
   getOperations,
   clearOperations,
+  listAccounts,
 } from './handlers';
+import { getActiveAccount } from './handlers/get-active-account';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -57,11 +49,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'account.list':
       return listAccounts();
     case 'account.balance':
-      return getBalance(request.params as GetBalanceParams);
-    case 'account.import':
-      return importAccount(request.params as unknown as ImportAccountParams);
-    case 'account.delete':
-      return deleteAccount(request.params as unknown as DeleteAccountParams);
+      return getBalance(request.params as unknown as GetBalanceParams);
     case 'account.sign':
       return signMessage(
         request.params as unknown as SignMessageParams,
@@ -76,16 +64,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return sellRolls(request.params as unknown as SellRollsParams);
     case 'account.buyRolls':
       return buyRolls(request.params as unknown as BuyRollsParams);
-    case 'account.generateNewAccount':
-      return generateAccount(
-        request.params as unknown as GenerateAccountParams,
-      );
-    case 'account.setActive':
-      return setActiveAccount(
-        request.params as unknown as SetActiveAccountParams,
-      );
-    case 'account.getActive':
-      return getActiveAccount();
     case 'Provider.getNetwork':
       return getNetwork();
     case 'Provider.setNetwork':
@@ -94,6 +72,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return showAccountCredentials(
         request.params as unknown as ShowAccountCredentialsParams,
       );
+    case 'account.getActive':
+      return getActiveAccount();
     case 'account.addToken':
       return addToken(request.params as unknown as AddTokenParams);
     case 'account.deleteToken':

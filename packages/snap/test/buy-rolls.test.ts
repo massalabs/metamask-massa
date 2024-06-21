@@ -1,9 +1,7 @@
 import { expect } from '@jest/globals';
 import { SnapConfirmationInterface, installSnap } from '@metamask/snaps-jest';
 import { setNetwork } from './utils/setNetwork';
-import { importFixAccount } from './utils/importFixAccount';
 import { panel, text } from '@metamask/snaps-sdk';
-import { setActiveAccount } from './utils/setActiveAccount';
 
 describe('onRpcRequest', () => {
   describe('buy-rolls', () => {
@@ -12,8 +10,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',
@@ -45,8 +41,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',
@@ -80,8 +74,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',
@@ -104,8 +96,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',
@@ -128,8 +118,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',
@@ -151,8 +139,6 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
-      await setActiveAccount(request, account.address)
 
       const response = request({
         method: 'account.buyRolls',

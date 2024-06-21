@@ -1,8 +1,8 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { setNetwork } from './utils/setNetwork';
-import { importFixAccount } from './utils/importFixAccount';
 import { panel, text } from '@metamask/snaps-sdk';
+import { ListAccountsResponseItem } from 'src/handlers';
 
 describe('onRpcRequest', () => {
   describe('sign-message', () => {
@@ -11,7 +11,10 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account = await importFixAccount(request);
+      const account: ListAccountsResponseItem = ((await request({
+        method: 'account.list',
+        origin
+      })) as any).response.result[0]!;
 
       const response = request({
         method: 'account.sign',
@@ -37,19 +40,21 @@ describe('onRpcRequest', () => {
 
       await ui.ok();
       expect(await response).toRespondWith({
-        publicKey: 'P1k3dLQAY7s9hUQQooSRowYbsR9hz2Fs2MFwPSBfrzkFXDajs3d',
+        publicKey: 'P12BYyRbBF72Ft1N87e5JaVg4Ua7LkmTGBSm6hhQC7M5L2KNJiSt',
         signature: [
-          49, 57, 87, 81, 117, 53, 49, 74, 103, 103, 111, 55, 111, 89, 57, 72,
-          75, 76, 57, 101, 90, 72, 107, 115, 85, 112, 112, 68, 57, 69, 102, 122,
-          122, 111, 56, 78, 52, 110, 69, 107, 52, 101, 102, 103, 81, 83, 81, 70,
-          52, 80, 100, 81, 112, 49, 114, 65, 49, 84, 75, 78, 115, 106, 120, 77,
-          80, 105, 77, 56, 50, 71, 97, 68, 109, 87, 53, 107, 78, 88, 50, 112,
-          121, 80, 80, 51, 118, 49, 78, 113, 105, 88, 121, 112, 56, 116,
+          49, 50, 50, 83, 66, 85, 109, 105, 51, 99, 74, 104,
+          90, 104, 52, 97, 51, 97, 55, 51, 98, 120, 101, 52,
+          86, 77, 104, 74, 105, 83, 115, 98, 78, 70, 112, 51,
+          113, 56, 87, 65, 53, 83, 101, 67, 52, 68, 111, 54,
+          66, 77, 116, 109, 113, 90, 49, 78, 88, 118, 57, 74,
+          101, 67, 110, 75, 67, 74, 65, 66, 78, 50, 72, 89,
+          72, 77, 81, 112, 88, 55, 78, 71, 81, 109, 50, 77,
+          90, 53, 102, 49, 65, 98, 100, 81, 97, 78
         ],
       });
     });
 
-    it('should not sign a message with not imported account', async () => {
+    it('should not sign a message with another account', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 

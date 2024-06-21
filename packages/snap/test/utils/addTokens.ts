@@ -1,16 +1,20 @@
-import { RequestOptions, SnapRequest } from "@metamask/snaps-jest";
+import { RequestOptions, SnapRequest } from '@metamask/snaps-jest';
 
-export const addTokens = async (request: (opt: RequestOptions) => SnapRequest, tokens: string[], account?: string) => {
+export const addTokens = async (
+  request: (opt: RequestOptions) => SnapRequest,
+  tokens: string[],
+) => {
   const origin = 'Jest';
-  return Promise.all(tokens.map(async (token, i) => {
-    const res = await request({
-      method: 'account.addToken',
-      origin,
-      params: {
-        address: token,
-        ...(account && { accountAddress: account })
-      }
-    });
-    return (res.response as any).result;
-  }));
-}
+  return Promise.all(
+    tokens.map(async (token) => {
+      const res = await request({
+        method: 'account.addToken',
+        origin,
+        params: {
+          address: token,
+        },
+      });
+      return (res.response as any).result;
+    }),
+  );
+};
