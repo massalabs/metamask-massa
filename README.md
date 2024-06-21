@@ -61,112 +61,8 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 2. Import Account
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.import</code></td>
-    <td>
 
-```ts
-{
-  privateKey: string,
-  publicKey: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  address: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  privateKey: "S1234567890abcdef",
-  publicKey: "Pabcdef1234567890"
-}
-```
-
-</td><td>
-
-```ts
-{
-  address: "AU1234567890abcdef"
-}
-```
-
-</td>
-  </tr>
-  </tbody>
-</table>
-
-### 3. Delete Account
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.delete</code></td>
-    <td>
-
-```ts
-{
-  address: string
-}
-```
-</td><td>
-
-```ts
-{
-  response: 'OK' | 'ERROR' | 'REFUSED',
-  message?: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  address: "AU1234567890abcdef"
-}
-```
-
-</td><td>
-
-```ts
-{
-  response: "OK"
-}
-```
-
-</td>
-  </tr>
-  </tbody>
-</table>
-
-### 4. Sign Message
+### 2. Sign Message
 
 <table>
   <thead>
@@ -218,7 +114,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 5. Call Smart Contract
+### 3. Call Smart Contract
 
 <table>
   <thead>
@@ -282,7 +178,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 6. Send Transaction
+### 4. Send Transaction
 
 <table>
   <thead>
@@ -337,7 +233,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 7. Sell Rolls
+### 5. Sell Rolls
 
 <table>
   <thead>
@@ -389,7 +285,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tr>
 </table>
 
-### 8. Buy Rolls
+### 6. Buy Rolls
 
 <table>
   <thead>
@@ -443,115 +339,7 @@ The MetaMask Snap for Massa supports the following operations:
 </table>
 
 
-### 9. Generate New Account
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.generateNewAccount</code></td>
-    <td>
-
-```ts
-{
-  name: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  name: string,
-  address: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  name: "New Account"
-}
-```
-
-</td><td>
-
-```ts
-{
-  name: "New Account",
-  address: "AU1234567890abcdef"
-}
-```
-
-</td>
-  </tr>
-  </tbody>
-</table>
-
-### 10. Set Active Account
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.setActive</code></td>
-    <td>
-
-```ts
-{
-  address: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  name: string,
-  address: string
-}
-```
-
-</td><td>
-
-```ts
-{
-  address: "AU1234567890abcdef"
-}
-```
-
-</td><td>
-
-```ts
-{
-  name: "New Active",
-  address: "AU1234567890abcdef"
-}
-```
-</td>
-  </tr>
-  </tbody>
-</table>
-
-
-### 11. Get Active Account
+### 7. Get Active Account
 
 <table>
   <thead>
@@ -592,7 +380,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 12. Get Node URLs
+### 8. Get Node URLs
 
 <table>
   <thead>
@@ -621,216 +409,11 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 13. Sell Rolls
 
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.sellRolls</code></td>
-    <td>
 
-```ts
-{
-  fee: string,
-  amount: string
-}
-```
 
-  <td>
 
-```ts
-{
-  operationId: string
-}
-```
-
-  <td>
-
-```ts
-{
-  fee: "100",
-  amount: "50"
-}
-```
-
-  <td>
-
-```ts
-{
-  operationId: "OP1234567890abcdef"
-}
-```
-
-</tr>
-
-  </tbody>
-</table>
-
-### 14. Buy Rolls
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.buyRolls</code></td>
-    <td>
-
-```ts
-{
-  fee: string,
-  amount: string
-}
-```
-
-  <td>
-
-```ts
-{
-  operationId: string
-}
-```
-
-  <td>
-
-```ts
-{
-  fee: "100",
-  amount: "50"
-}
-```
-
-  <td>
-
-```ts
-{
-  operationId: "OP1234567890abcdef"
-}
-```
-
-  </tr>
-  </tbody>
-</table>
-
-### 15. Generate New Account
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.generateNewAccount</code></td>
-    <td>
-
-```ts
-{
-  name: string
-}
-```
-
-  <td>
-
-```ts
-{
-  name: string,
-  address: string
-}
-```
-
-  <td>
-
-```ts
-{
-  name: "New Account"
-}
-```
-
-  <td>
-
-```ts
-{
-  name: "New Account",
-  address: "AU1234567890abcdef"
-}
-```
-
-  </tr>
-  </tbody>
-</table>
-
-### 16. Set Active Account
-
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>account.setActive</code></td>
-    <td>
-
-```ts
-{
-  address: string
-}
-```
-  <td>
-
-```ts
-{
-  name: string,
-  address: string
-}
-```
-  <td>
-
-```ts
-{
-  address: "AU1234567890abcdef"
-}
-```
-  <td>
-
-```ts
-{
-  name: "New Active",
-  address: "AU1234567890abcdef"
-}
-```
-  </tr>
-  </tbody>
-</table>
-
-### 17. Get Active Account
+### 9. Get Active Account
 
 <table>
   <thead>
@@ -868,36 +451,8 @@ The MetaMask Snap for Massa supports the following operations:
  </tbody>
 </table>
 
-### 18. Get Node URLs
 
-<table>
-  <thead>
-    <tr>
-    <th>Method</th>
-    <th>Parameters</th>
-    <th>Response</th>
-    <th>Param Example</th>
-    <th>Response Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    <td><code>Provider.getNodeUrls</code></td>
-    <td></td>
-    <td><code>string[]</code></td>
-    <td></td>
-    <td>
-
-```ts
-["https://node1.example.com", "https://node2.example.com"]
-```
-
-</td>
-  </tr>
-  </tbody>
-</table>
-
-### 19. Show Account Credentials
+### 10. Show Account Credentials
 
 <table>
   <thead>
@@ -949,7 +504,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 20. Add Token
+### 11. Add Token
 
 <table>
   <thead>
@@ -1004,7 +559,7 @@ The MetaMask Snap for Massa supports the following operations:
   </tbody>
 </table>
 
-### 21. Delete Token
+### 12. Delete Token
 
 <table>
   <thead>
