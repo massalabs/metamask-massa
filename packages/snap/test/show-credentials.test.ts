@@ -1,17 +1,19 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { NodeType, panel, text } from '@metamask/snaps-sdk';
-import { ListAccountsResponse } from 'src/handlers';
+import type { ListAccountsResponse } from 'src/handlers';
 
 describe('onRpcRequest', () => {
   describe('show-credentials', () => {
     it('should show credentials', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = ((await request({
-        method: 'account.list',
-        origin
-      })) as any).response.result;
+      const accountList: ListAccountsResponse = (
+        (await request({
+          method: 'account.list',
+          origin,
+        })) as any
+      ).response.result;
 
       const response = request({
         method: 'account.showCredentials',
@@ -53,7 +55,7 @@ describe('onRpcRequest', () => {
           {
             type: NodeType.Text,
             value: expect.stringContaining('Secret Key:'),
-          }
+          },
         ],
       });
 

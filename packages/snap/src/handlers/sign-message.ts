@@ -1,9 +1,9 @@
 import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
+import { getHDAccount } from '../accounts/hd-deriver';
 import { getNetwork } from './get-network';
 import type { Handler } from './handler';
-import { getHDAccount } from '../accounts/hd-deriver';
 
 export type SignMessageParams = {
   data: number[];
@@ -44,7 +44,7 @@ export const signMessage: Handler<
 > = async (params) => {
   const { data, address: signingAddress } = coerceParams(params);
   const wallet = await getClientWallet();
-  const address = (await getHDAccount()).address;
+  const { address } = await getHDAccount();
 
   if (!wallet || !address) {
     throw new Error(`Not logged in to metamask. Please log in and try again.`);
@@ -52,7 +52,6 @@ export const signMessage: Handler<
   if (address !== signingAddress) {
     throw new Error(`Account not found: ${signingAddress}`);
   }
-
 
   const { network: chainId } = await getNetwork();
   const confirm = await snap.request({

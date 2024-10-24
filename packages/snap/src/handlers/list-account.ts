@@ -1,8 +1,11 @@
+import type { IAccount } from '@massalabs/massa-web3';
+
 import { getHDAccount } from '../accounts/hd-deriver';
 import type { Handler } from './handler';
-import { IAccount } from '@massalabs/massa-web3';
 
-export type ListAccountsResponseItem = Pick<IAccount, 'address'> & { name: string };
+export type ListAccountsResponseItem = Pick<IAccount, 'address'> & {
+  name: string;
+};
 
 export type ListAccountsResponse = ListAccountsResponseItem[];
 
@@ -18,5 +21,5 @@ export const listAccounts: Handler<void, ListAccountsResponse> = async () => {
       address: accounts.address,
       name: 'Account 1',
     },
-  ]
+  ];
 };

@@ -4,10 +4,10 @@
   "private": true,
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next dev -p 8000",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next dev -p 8000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",

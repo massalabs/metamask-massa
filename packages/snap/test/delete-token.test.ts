@@ -1,12 +1,10 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import { panel, text } from '@metamask/snaps-sdk';
-import { ListAccountsResponse } from 'src/handlers';
+import type { ListAccountsResponse } from 'src/handlers';
+
 import { addTokens } from './utils/addTokens';
 
-const tokens = [
-  "AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm"
-]
+const tokens = ['AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm'];
 
 describe('onRpcRequest', () => {
   describe('delete-token', () => {
@@ -14,21 +12,25 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       await addTokens(request, tokens);
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = ((await request({
-        method: 'account.list',
-        origin
-      })) as any).response.result;
+      const accountList: ListAccountsResponse = (
+        (await request({
+          method: 'account.list',
+          origin,
+        })) as any
+      ).response.result;
+
+      expect(accountList.length).toBe(1);
 
       const response = request({
         method: 'account.deleteToken',
         origin,
         params: {
-          address: tokens[0]!
-        }
+          address: tokens[0]!,
+        },
       });
 
       expect(await response).toRespondWith({
-        response: "OK"
+        response: 'OK',
       });
 
       const getTokens = await request({
@@ -47,14 +49,14 @@ describe('onRpcRequest', () => {
         method: 'account.deleteToken',
         origin,
         params: {
-          address: "AS00000000000000000000000000000000000000000000000000"
-        }
+          address: 'AS00000000000000000000000000000000000000000000000000',
+        },
       });
 
       expect(await response).toRespondWith({
-        response: "ERROR",
-        message: "Token not found"
-      })
+        response: 'ERROR',
+        message: 'Token not found',
+      });
     });
 
     it('should throw an error when address is not a string', async () => {
@@ -64,15 +66,15 @@ describe('onRpcRequest', () => {
         method: 'account.deleteToken',
         origin,
         params: {
-          address: 123
-        }
+          address: 123,
+        },
       });
 
       expect(await response).toRespondWithError({
         code: expect.any(Number),
         message: 'Invalid params: address must be a string',
         stack: expect.any(String),
-       });
+      });
     });
 
     it('should throw an error when address is missing', async () => {
@@ -81,15 +83,14 @@ describe('onRpcRequest', () => {
       const response = request({
         method: 'account.deleteToken',
         origin,
-        params: {}
+        params: {},
       });
 
       expect(await response).toRespondWithError({
         code: expect.any(Number),
         message: 'Invalid params: address must be a string',
         stack: expect.any(String),
-       });
+      });
     });
   });
 });
-

@@ -10,10 +10,17 @@ export type ConnectMetamaskButtonProps = ButtonProps;
 export const ConnectMetamaskButton: FC<ConnectMetamaskButtonProps> = () => {
   const { dispatch, provider } = useContext(MetaMaskContext);
   const handleConnectClick = async () => {
+    if (!provider) {
+      dispatch({
+        type: MetamaskActions.SetError,
+        payload: new Error('No provider available'),
+      });
+      return;
+    }
     try {
       // This function will only be triggerable if a provider is available
-      await connectSnap(provider!);
-      const installedSnap = await getSnap(provider!);
+      await connectSnap(provider);
+      const installedSnap = await getSnap(provider);
 
       dispatch({
         type: MetamaskActions.SetInstalled,

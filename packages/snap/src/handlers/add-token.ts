@@ -13,7 +13,7 @@ export type AddTokenResponse = {
 /**
  * @description Coerces the add token parameters to the correct types
  * @param params - The add token parameters
- * @returns  The coerced add token parameters
+ * @returns The coerced add token parameters
  * @throws An error if the address is not a string
  */
 const coerceParams = (params: AddTokenParams): AddTokenParams => {
@@ -39,10 +39,10 @@ export const addToken: Handler<AddTokenParams, AddTokenResponse> = async (
     throw new Error('Not logged in to metamask. Please log in and try again.');
   }
 
-  await addAccountToken(account!.address!, address);
+  await addAccountToken(account.address!, address);
 
   return {
     address,
-    accountAddress: account!.address!,
+    accountAddress: account.address!,
   };
 };

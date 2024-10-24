@@ -1,4 +1,4 @@
-import { RequestOptions, SnapRequest } from '@metamask/snaps-jest';
+import type { RequestOptions, SnapRequest } from '@metamask/snaps-jest';
 
 export const addTokens = async (
   request: (opt: RequestOptions) => SnapRequest,

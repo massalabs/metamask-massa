@@ -12,6 +12,7 @@ export type TokensResponse = {
 
 /**
  * @description Hook that calls the metamask provider to get the tokens of the active account
+ * @param params.address
  * @param params - The get tokens parameters (account address is optional, defaults to the active account)
  * @returns The tokens of the active account (as a string array of token addresses)
  * @throws If the account is not found
