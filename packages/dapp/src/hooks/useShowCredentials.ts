@@ -14,11 +14,7 @@ export const useShowCredentials = () => {
   const { provider } = useContext(MetaMaskContext);
 
   return useCallback(
-    async ({
-      address,
-    }: {
-      address?: string;
-    }) =>
+    async ({ address }: { address?: string }) =>
       provider?.request<void>({
         method: 'wallet_invokeSnap',
         params: {

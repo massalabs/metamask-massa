@@ -1,12 +1,7 @@
 import { DownloadIcon } from '@chakra-ui/icons';
-import {
-  Spinner,
-  IconButton,
-} from '@chakra-ui/react';
+import { Spinner, IconButton } from '@chakra-ui/react';
 
-import {
-  useActiveAccount,
-} from '@/hooks/useActiveAccount';
+import { useActiveAccount } from '@/hooks/useActiveAccount';
 import { useShowCredentials } from '@/hooks/useShowCredentials';
 
 export const AccountMenu = () => {
@@ -19,10 +14,14 @@ export const AccountMenu = () => {
       {activeAccountLoading ? (
         <Spinner />
       ) : (
-        <IconButton onClick={(evt) => {
-          evt.preventDefault();
-          showCredentials({ address: activeAccount?.address});
-        }} icon={<DownloadIcon />} aria-label={''} />
+        <IconButton
+          onClick={(evt) => {
+            evt.preventDefault();
+            showCredentials({ address: activeAccount?.address });
+          }}
+          icon={<DownloadIcon />}
+          aria-label={''}
+        />
       )}
     </>
   );

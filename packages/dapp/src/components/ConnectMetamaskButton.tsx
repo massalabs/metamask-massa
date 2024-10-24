@@ -12,8 +12,8 @@ export const ConnectMetamaskButton: FC<ConnectMetamaskButtonProps> = () => {
   const handleConnectClick = async () => {
     try {
       // This function will only be triggerable if a provider is available
-      await connectSnap(provider!);
-      const installedSnap = await getSnap(provider!);
+      await connectSnap(provider);
+      const installedSnap = await getSnap(provider);
 
       dispatch({
         type: MetamaskActions.SetInstalled,

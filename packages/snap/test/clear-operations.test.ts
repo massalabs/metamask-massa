@@ -1,7 +1,8 @@
 import { expect } from '@jest/globals';
-import { installSnap } from '@metamask/snaps-jest';
-import { setNetwork } from './utils/setNetwork';
 import { WalletClient } from '@massalabs/massa-web3';
+import { installSnap } from '@metamask/snaps-jest';
+
+import { setNetwork } from './utils/setNetwork';
 
 describe('onRpcRequest', () => {
   describe('clear-operations', () => {
@@ -44,7 +45,9 @@ describe('onRpcRequest', () => {
         method: 'account.getOperations',
         origin,
       });
-      expect((operationsAfterClear.response as any).result.operations).toHaveLength(0);
+      expect(
+        (operationsAfterClear.response as any).result.operations,
+      ).toHaveLength(0);
     });
   });
 });

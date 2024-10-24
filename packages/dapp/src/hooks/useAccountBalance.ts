@@ -27,23 +27,21 @@ export const invalidateAccountBalance = () => {
 export const useAccountBalance = (params: AccountBalanceParams) => {
   const { provider } = useContext(MetaMaskContext);
   const { data: network } = useNetwork();
-  const fetcher = useCallback(
-    async () => {
-      if (!params?.address)
-        return;
-      return provider?.request({
-        method: 'wallet_invokeSnap',
-        params: {
-          snapId: defaultSnapOrigin,
-          request: {
-            method: 'account.balance',
-            params
-          },
+  const fetcher = useCallback(async () => {
+    if (!params?.address) {
+      return;
+    }
+    return provider?.request({
+      method: 'wallet_invokeSnap',
+      params: {
+        snapId: defaultSnapOrigin,
+        request: {
+          method: 'account.balance',
+          params,
         },
-      }) as Promise<AccountBalanceResponse>;
-    },
-    [provider, params],
-  );
+      },
+    }) as Promise<AccountBalanceResponse>;
+  }, [provider, params]);
 
   useEffect(() => {
     if (provider) {

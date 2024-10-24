@@ -1,12 +1,12 @@
 {
-  "name": "snap",
+  "name": "@massalabs/metamask-snap",
   "version": "0.1.0",
-  "description": "The 'Hello, world!' of MetaMask Snaps, now written in TypeScript.",
+  "description": "Metamask snap for Massa wallet.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/massalabs/metamask-massa.git"
   },
-  "license": "BSD-3-Clause",
+  "license": "MIT-0",
   "main": "./dist/bundle.js",
   "files": [
     "dist/",
