@@ -1,5 +1,6 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
+
 import { setNetwork } from './utils/setNetwork';
 
 describe('onRpcRequest', () => {
@@ -14,8 +15,7 @@ describe('onRpcRequest', () => {
         origin,
       });
 
-
-      expect(await response).toRespondWith({ network: "77658366" });
+      expect(await response).toRespondWith({ network: '77658366' });
     });
 
     it('should set the network to mainnet from buildnet', async () => {
@@ -29,8 +29,7 @@ describe('onRpcRequest', () => {
         origin,
       });
 
-      expect(await response).toRespondWith({ network: "77658377"});
+      expect(await response).toRespondWith({ network: '77658377' });
     });
   });
 });
-

@@ -1,17 +1,25 @@
 import { expect } from '@jest/globals';
-import { SnapConfirmationInterface, installSnap } from '@metamask/snaps-jest';
-import { setNetwork } from './utils/setNetwork';
+import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
+import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
+
+import { setNetwork } from './utils/setNetwork';
 
 const baseParams = {
   fee: '1000000000000000',
   functionName: 'transfer',
-  at: "AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm", // USDC
-  args: [53, 0, 0, 0, 65, 85, 49, 50, 80, 115, 87, 98, 102, 52, 84, 67, 56, 106, 109, 50, 82, 107, 84, 76, 122, 49, 113, 54, 51, 116, 99, 117, 84, 100, 49, 114, 120, 74, 70, 121, 109, 121, 50, 112, 89, 54, 102, 84, 97, 89, 99, 100, 101, 106, 118, 87, 121, 0, 202, 154, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  at: 'AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm', // USDC
+  args: [
+    53, 0, 0, 0, 65, 85, 49, 50, 80, 115, 87, 98, 102, 52, 84, 67, 56, 106, 109,
+    50, 82, 107, 84, 76, 122, 49, 113, 54, 51, 116, 99, 117, 84, 100, 49, 114,
+    120, 74, 70, 121, 109, 121, 50, 112, 89, 54, 102, 84, 97, 89, 99, 100, 101,
+    106, 118, 87, 121, 0, 202, 154, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ],
   coins: '0',
   nonPersistentExecution: {
-    maxGas: (10000000n).toString(),
-  }
+    maxGas: 10000000n.toString(),
+  },
 };
 
 describe('onRpcRequest', () => {
@@ -32,10 +40,14 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('Do you want to call the following smart contract?'),
-          text(`**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`),
+          text(
+            `**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
+          ),
           text(`**Function:** transfer`),
           text(`**Fee:** 1000000000000000`),
-          text(`**args:** [53,0,0,0,65,85,49,50,80,115,87,98,102,52,84,67,56,106,109,50,82,107,84,76,122,49,113,54,51,116,99,117,84,100,49,114,120,74,70,121,109,121,50,112,89,54,102,84,97,89,99,100,101,106,118,87,121,0,202,154,59,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]`),
+          text(
+            `**args:** [53,0,0,0,65,85,49,50,80,115,87,98,102,52,84,67,56,106,109,50,82,107,84,76,122,49,113,54,51,116,99,117,84,100,49,114,120,74,70,121,109,121,50,112,89,54,102,84,97,89,99,100,101,106,118,87,121,0,202,154,59,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]`,
+          ),
           text(`**coins:** 0`),
         ]),
       );
@@ -69,10 +81,14 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('Do you want to call the following smart contract?'),
-          text(`**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`),
+          text(
+            `**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
+          ),
           text(`**Function:** transfer`),
           text(`**Fee:** 1000000000000000`),
-          text(`**args:** [53,0,0,0,65,85,49,50,80,115,87,98,102,52,84,67,56,106,109,50,82,107,84,76,122,49,113,54,51,116,99,117,84,100,49,114,120,74,70,121,109,121,50,112,89,54,102,84,97,89,99,100,101,106,118,87,121,0,202,154,59,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]`),
+          text(
+            `**args:** [53,0,0,0,65,85,49,50,80,115,87,98,102,52,84,67,56,106,109,50,82,107,84,76,122,49,113,54,51,116,99,117,84,100,49,114,120,74,70,121,109,121,50,112,89,54,102,84,97,89,99,100,101,106,118,87,121,0,202,154,59,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]`,
+          ),
           text(`**coins:** 0`),
         ]),
       );

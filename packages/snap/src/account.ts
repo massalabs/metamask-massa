@@ -94,6 +94,7 @@ export class MassaAccount {
 
     this.account = await WalletClient.getAccountFromSecretKey(secretKey);
   }
+
   /**
    * @description Get private key of active account
    * @returns Private key as a string

@@ -1,10 +1,10 @@
 import type { ICallData } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
+import { getClient } from '../accounts/clients';
+import { getHDAccount } from '../accounts/hd-deriver';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
-import { getHDAccount } from '../accounts/hd-deriver';
-import { getClient } from '../accounts/clients';
 
 export type CallSCParameters = {
   fee: string;

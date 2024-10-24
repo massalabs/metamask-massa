@@ -4,7 +4,7 @@ import 'styled-components';
  * styled-component default theme extension
  */
 declare module 'styled-components' {
-  export interface DefaultTheme {
+  export type DefaultTheme = {
     fonts: Record<string, string>;
     fontSizes: Record<string, string>;
     breakpoints: string[];
@@ -12,5 +12,5 @@ declare module 'styled-components' {
     radii: Record<string, string>;
     shadows: Record<string, string>;
     colors: Record<string, Record<string, string>>;
-  }
+  };
 }
