@@ -1,8 +1,8 @@
 import type { Json } from '@metamask/snaps-sdk';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import type { Handler } from './handler';
 import { getHDAccount } from '../accounts/hd-deriver';
+import type { Handler } from './handler';
 
 export type ShowAccountCredentialsParams = {
   address: string;
@@ -10,6 +10,7 @@ export type ShowAccountCredentialsParams = {
 
 /**
  * @description Shows the credentials of the active account with an alert dialog in metamask
+ * @param params
  * @param address - The address of the account to show the credentials for
  * @returns The dialog with the account credentials
  */

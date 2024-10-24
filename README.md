@@ -3,6 +3,7 @@
 Welcome to the MetaMask Snap for Massa! This Snap enables seamless integration of MetaMask with the Massa layer 1 protocol, providing users with convenient access to Massa's features directly through MetaMask.
 
 # Powered by
+
 Astro-Devs Labs
 
 ## Snap Operations
@@ -27,40 +28,41 @@ The MetaMask Snap for Massa supports the following operations:
 <td>
 
 ```ts
-  {
-    address: string
-  }
+{
+  address: string;
+}
 ```
-</td><td>
-
-  ```ts
-  {
-      finalBalance: string,
-      candidateBalance: string
-  }
-
-  ```
-</td><td>
-
-  ```ts
-  {
-
-        address: "AU1234567890abcdef"
-  }
-  ```
 
 </td><td>
 
-  ```ts
-  {
-    finalBalance: "100",
-    candidateBalance: "200",
-  }
-  ```
+```ts
+{
+    finalBalance: string,
+    candidateBalance: string
+}
+
+```
+
+</td><td>
+
+```ts
+{
+  address: 'AU1234567890abcdef';
+}
+```
+
+</td><td>
+
+```ts
+{
+  finalBalance: "100",
+  candidateBalance: "200",
+}
+```
+
 </td></tr>
   </tbody>
 </table>
-
 
 ### 2. Sign Message
 
@@ -84,6 +86,7 @@ The MetaMask Snap for Massa supports the following operations:
   address: string,<br>data: number[]
 }
 ```
+
 </td><td>
 
 ```ts
@@ -101,6 +104,7 @@ The MetaMask Snap for Massa supports the following operations:
     data: [1, 2, 3]
 }
 ```
+
 </td><td>
 
 ```ts
@@ -109,6 +113,7 @@ The MetaMask Snap for Massa supports the following operations:
   publicKey: "Pabcdef1234567890"
 }
 ```
+
 </td>
   </tr>
   </tbody>
@@ -150,9 +155,10 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: string
+  operationId: string;
 }
 ```
+
 </td><td>
 
 ```ts
@@ -170,9 +176,10 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: "OP1234567890abcdef"
+  operationId: 'OP1234567890abcdef';
 }
 ```
+
 </td>
   </tr>
   </tbody>
@@ -207,7 +214,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: string
+  operationId: string;
 }
 ```
 
@@ -220,14 +227,15 @@ The MetaMask Snap for Massa supports the following operations:
   fee: 10
 }
 ```
+
 </td><td>
 
 ```ts
 {
-  operationId: "OP1234567890abcdef"
+  operationId: 'OP1234567890abcdef';
 }
-
 ```
+
 </td>
   </tr>
   </tbody>
@@ -261,7 +269,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: string
+  operationId: string;
 }
 ```
 
@@ -278,7 +286,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: "OP1234567890abcdef"
+  operationId: 'OP1234567890abcdef';
 }
 ```
 
@@ -313,7 +321,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  operationId: string
+  operationId: string;
 }
 ```
 
@@ -325,11 +333,12 @@ The MetaMask Snap for Massa supports the following operations:
   amount: "50"
 }
 ```
+
 </td><td>
 
 ```ts
 {
-  operationId: "OP1234567890abcdef"
+  operationId: 'OP1234567890abcdef';
 }
 ```
 
@@ -337,7 +346,6 @@ The MetaMask Snap for Massa supports the following operations:
   </tr>
   </tbody>
 </table>
-
 
 ### 7. Get Active Account
 
@@ -401,17 +409,13 @@ The MetaMask Snap for Massa supports the following operations:
     <td>
 
 ```ts
-["https://node1.example.com", "https://node2.example.com"]
+['https://node1.example.com', 'https://node2.example.com'];
 ```
 
   </td>
   </tr>
   </tbody>
 </table>
-
-
-
-
 
 ### 9. Get Active Account
 
@@ -446,11 +450,11 @@ The MetaMask Snap for Massa supports the following operations:
   address: "AU12ZDFfdf2Rdf3f4fg"
 }
 ```
+
 </td>
   </tr>
  </tbody>
 </table>
-
 
 ### 10. Show Account Credentials
 
@@ -479,7 +483,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  publicKey: string<br>
+  publicKey: string<br>;
 }
 ```
 
@@ -487,7 +491,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  address: "AU1234567890abcdef"<br>
+  address: 'AU1234567890abcdef'<br>;
 }
 ```
 
@@ -495,7 +499,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  publicKey: "Pabcdef1234567890"<br>
+  publicKey: 'Pabcdef1234567890'<br>;
 }
 ```
 
@@ -605,7 +609,7 @@ The MetaMask Snap for Massa supports the following operations:
 
 ```ts
 {
-  response: "OK"
+  response: 'OK';
 }
 ```
 

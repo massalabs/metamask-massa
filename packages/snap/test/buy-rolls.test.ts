@@ -1,7 +1,9 @@
 import { expect } from '@jest/globals';
-import { SnapConfirmationInterface, installSnap } from '@metamask/snaps-jest';
-import { setNetwork } from './utils/setNetwork';
+import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
+import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
+
+import { setNetwork } from './utils/setNetwork';
 
 describe('onRpcRequest', () => {
   describe('buy-rolls', () => {

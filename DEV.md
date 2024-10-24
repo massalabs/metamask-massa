@@ -1,7 +1,9 @@
 # Development instructions
+
 This file contains the instructions to launch the project in a development environment.
 
 ## Warning : @massalabs/massa-web3
+
 This package is used by the snap package but due to the security restrictions (checkout secure ECMAscript), the axios package is conflicting during the runtime.
 The patch we found during the development was to manually change the code in the library to use the native fetch function.
 This will need to be patched by the core-team in order to deploy the app in production mode.
@@ -44,23 +46,28 @@ Here is the content you should update in `node_modules/@massalabs/massa-web3/dis
 ```
 
 ## Prerequisites
+
 ### Metamask Flask
+
 Install the metamask flask in your favorite browser. Note that you should disable completely the regular version of metamask in order to get the flask one working.
 Follow the setup prompt if any until you are on the homepage of the extension
 
 ### Install packages
+
 Run a `yarn install` command at the root of the repository
 
-
 ## Start the app and snap server
+
 Run `yarn run start` at the root of the repository and wait for both packages to start
 
 ## Visit the app
+
 You can now head to `http://localhost:8000` to checkout the app.
 You will be able to connect using the button on the top right and check your wallet information using the dashboard.
 Note that the network has to be chosen on the top right too to execute transactions on the devnet.
 
 ## Test the snap
+
 Once the installation ran, you have to build with `yarn build` and then you can run the tests with `yarn test`
 
 # Project architecture

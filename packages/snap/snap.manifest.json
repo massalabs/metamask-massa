@@ -4,14 +4,14 @@
   "proposedName": "Massa",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/massalabs/metamask-massa.git"
   },
   "source": {
-    "shasum": "M6iwIgCPoPVyesPSO0bIPPVyk+fvLd7Vhl0DGh+aSEA=",
+    "shasum": "RsXBVPpvx0L1tGTVvZkV3nyHseESqlsgI0iUS+aEF9U=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "packageName": "snap",
+        "packageName": "@massalabs/metamask-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
@@ -26,11 +26,7 @@
     "endowment:network-access": {},
     "snap_getBip32Entropy": [
       {
-        "path": [
-          "m",
-          "44'",
-          "3'"
-        ],
+        "path": ["m", "44'", "3'"],
         "curve": "ed25519"
       }
     ]
