@@ -7,10 +7,11 @@
     "url": "https://github.com/massalabs/metamask-massa.git"
   },
   "source": {
-    "shasum": "RsXBVPpvx0L1tGTVvZkV3nyHseESqlsgI0iUS+aEF9U=",
+    "shasum": "4jrR7cxZdABZ/LGwxffaMcqUUTPWuES99Wwd8RidlYY=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
+        "iconPath": "logo-massa.svg",
         "packageName": "@massalabs/metamask-snap",
         "registry": "https://registry.npmjs.org/"
       }

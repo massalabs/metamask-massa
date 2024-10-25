@@ -41,7 +41,7 @@ describe('onRpcRequest', () => {
         panel([
           text('Do you want to call the following smart contract?'),
           text(
-            `**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
+            `**Contract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
           ),
           text(`**Function:** transfer`),
           text(`**Fee:** 1000000000000000`),
@@ -82,7 +82,7 @@ describe('onRpcRequest', () => {
         panel([
           text('Do you want to call the following smart contract?'),
           text(
-            `**Conttract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
+            `**Contract:** AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm`,
           ),
           text(`**Function:** transfer`),
           text(`**Fee:** 1000000000000000`),

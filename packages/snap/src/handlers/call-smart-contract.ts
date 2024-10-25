@@ -81,7 +81,7 @@ export const callSmartContract: Handler<
       type: 'confirmation',
       content: panel([
         text('Do you want to call the following smart contract?'),
-        text(`**Conttract:** ${params.at}`),
+        text(`**Contract:** ${params.at}`),
         text(`**Function:** ${params.functionName}`),
         text(`**Fee:** ${params.fee}`),
         text(`**args:** ${params.args ? JSON.stringify(params.args) : '[]'}`),
