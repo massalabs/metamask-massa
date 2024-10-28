@@ -27,7 +27,11 @@
     "endowment:network-access": {},
     "snap_getBip32Entropy": [
       {
-        "path": ["m", "44'", "3'"],
+        "path": [
+          "m",
+          "44'",
+          "3'"
+        ],
         "curve": "ed25519"
       }
     ]
