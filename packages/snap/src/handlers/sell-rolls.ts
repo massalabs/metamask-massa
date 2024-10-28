@@ -3,6 +3,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
+import { addAccountOperation } from 'src/operations';
+import { getHDAccount } from 'src/accounts/hd-deriver';
 
 export type SellRollsParams = {
   fee: string;
@@ -41,9 +43,14 @@ export const sellRolls: Handler<SellRollsParams, SellRollsResponse> = async (
 ) => {
   const rollsData = coerceParams(params);
   const wallet = await getClientWallet();
+  const account = await getHDAccount();
 
   if (!wallet) {
     throw new Error('Not logged in to metamask. Please log in and try again.');
+  }
+
+  if (!account) {
+    throw new Error('Account not found or client not logged in');
   }
 
   const confirm = await snap.request({
@@ -63,6 +70,8 @@ export const sellRolls: Handler<SellRollsParams, SellRollsResponse> = async (
   }
 
   const operationId = await wallet.sellRolls(rollsData);
+
+  await addAccountOperation(account.address!, operationId[0]!);
 
   return { operationId: operationId[0]! };
 };
