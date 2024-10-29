@@ -3,8 +3,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
-import { addAccountOperation } from 'src/operations';
-import { getHDAccount } from 'src/accounts/hd-deriver';
+import { addAccountOperation } from '../operations';
+import { getHDAccount } from '../accounts/hd-deriver';
 
 export type BuyRollsParams = {
   fee: string;
