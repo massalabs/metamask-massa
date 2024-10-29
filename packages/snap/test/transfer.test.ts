@@ -2,21 +2,21 @@ import { expect } from '@jest/globals';
 import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
 import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
-import type { ListAccountsResponseItem } from 'src/handlers';
 
 import { setNetwork } from './utils/setNetwork';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 describe('onRpcRequest', () => {
   describe('transfer', () => {
     it('should return an operation id', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
@@ -55,12 +55,12 @@ describe('onRpcRequest', () => {
     it('should throw an error if the user deny the request', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
@@ -95,12 +95,12 @@ describe('onRpcRequest', () => {
     it('should throw an error if the fee is not a string', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
@@ -123,12 +123,12 @@ describe('onRpcRequest', () => {
     it('should throw an error if the amount is not a string', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
@@ -173,12 +173,12 @@ describe('onRpcRequest', () => {
     it('should throw an error if the fee is missing', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({
@@ -200,12 +200,12 @@ describe('onRpcRequest', () => {
     it('should throw an error if the amount is missing', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
+      ).response.result;
 
       await setNetwork(request, 77658366n); // BuildNet
       const response = request({

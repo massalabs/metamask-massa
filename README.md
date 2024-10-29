@@ -402,14 +402,14 @@ The MetaMask Snap for Massa supports the following operations:
   </thead>
   <tbody>
     <tr>
-    <td><code>Provider.getNodeUrls</code></td>
+    <td><code>Provider.getNodeUrl</code></td>
     <td></td>
-    <td><code>string[]<code></td>
+    <td><code>string<code></td>
     <td></td>
     <td>
 
 ```ts
-['https://node1.example.com', 'https://node2.example.com'];
+'https://node1.example.com';
 ```
 
   </td>

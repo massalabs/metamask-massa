@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
-import type { ListAccountsResponseItem } from 'src/handlers';
 
 import { setNetwork } from './utils/setNetwork';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 describe('onRpcRequest', () => {
   describe('sign-message', () => {
@@ -12,13 +12,12 @@ describe('onRpcRequest', () => {
       const origin = 'Jest';
 
       await setNetwork(request, 77658366n); // BuildNet
-      const account: ListAccountsResponseItem = (
+      const account: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
-      ).response.result[0]!;
-
+      ).response.result;
       const response = request({
         method: 'account.sign',
         origin,

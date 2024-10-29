@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import type { ListAccountsResponse } from 'src/handlers';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 const tokens = ['AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm'];
 
@@ -9,13 +9,12 @@ describe('onRpcRequest', () => {
     it('should add a token for the default account', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = (
+      const defaultAccount: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
       ).response.result;
-      const defaultAccount = accountList[0]!;
 
       const response = request({
         method: 'account.addToken',

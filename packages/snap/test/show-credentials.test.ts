@@ -1,16 +1,17 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { NodeType, panel, text } from '@metamask/snaps-sdk';
-import type { ListAccountsResponse } from 'src/handlers';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 describe('onRpcRequest', () => {
   describe('show-credentials', () => {
     it('should show credentials', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = (
+
+      const defaultAccount: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
       ).response.result;
@@ -19,7 +20,7 @@ describe('onRpcRequest', () => {
         method: 'account.showCredentials',
         origin,
         params: {
-          address: accountList[0]!.address,
+          address: defaultAccount.address,
         },
       });
 
@@ -46,7 +47,7 @@ describe('onRpcRequest', () => {
           },
           {
             type: NodeType.Text,
-            value: `Address: ${accountList[0]!.address}`,
+            value: `Address: ${defaultAccount.address}`,
           },
           {
             type: NodeType.Text,
