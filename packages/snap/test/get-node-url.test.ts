@@ -14,9 +14,7 @@ describe('onRpcRequest', () => {
         origin,
       });
 
-      expect(await response).toRespondWith(
-        'https://mainnet.massa.net/api/v2',
-      );
+      expect(await response).toRespondWith('https://mainnet.massa.net/api/v2');
     });
 
     it('should get the url for the buildnet network', async () => {
@@ -29,9 +27,7 @@ describe('onRpcRequest', () => {
         origin,
       });
 
-      expect(await response).toRespondWith(
-        'https://buildnet.massa.net/api/v2',
-      );
+      expect(await response).toRespondWith('https://buildnet.massa.net/api/v2');
     });
   });
 });

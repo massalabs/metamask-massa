@@ -9,7 +9,9 @@ export type AccountsTokens = Record<string, string[]>;
  */
 export async function getAccountTokens(address: string): Promise<string[]> {
   if (!address || !address.startsWith('AU')) {
-    throw new Error('Invalid params: address must be a string and start with AU');
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
   }
 
   const accountsTokens: AccountsTokens =
@@ -30,7 +32,9 @@ export async function getAccountTokens(address: string): Promise<string[]> {
  */
 export async function addAccountToken(address: string, token: string) {
   if (!address || !address.startsWith('AU')) {
-    throw new Error('Invalid params: address must be a string and start with AU');
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
   }
 
   if (!token || !token.startsWith('AS')) {
@@ -59,9 +63,10 @@ export async function removeAccountToken(
   account: string,
   tokenAddress: string,
 ) {
-
   if (!account || !account.startsWith('AU')) {
-    throw new Error('Invalid params: address must be a string and start with AU');
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
   }
 
   if (!tokenAddress || !tokenAddress.startsWith('AS')) {
