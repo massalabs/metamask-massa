@@ -11,7 +11,6 @@ export type GetNodeUrlsResponse = string;
  * @returns The node urls for the current network
  */
 export const getNodeUrl: Handler<void, GetNodeUrlsResponse> = async () => {
-  const chain = await getActiveChainId();
   const url = await getActiveRPC();
 
   return url;

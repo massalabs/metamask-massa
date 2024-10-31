@@ -32,7 +32,7 @@ export async function getActiveRPC(): Promise<string> {
   const rpc = await StateManager.getState('activeRPC');
 
   if (!rpc) {
-    await StateManager.setState('activeRPC', DefaultProviderUrls.MAINNET);
+    await setActiveRPC(DefaultProviderUrls.MAINNET);
     return DefaultProviderUrls.MAINNET;
   }
 

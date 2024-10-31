@@ -50,6 +50,5 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   await setActiveRPC(network);
   await setActiveChainId(node_status.chain_id);
 
-  console.log('Network set to:', network);
-  return { network: network.toString() };
+  return { network: network };
 };
