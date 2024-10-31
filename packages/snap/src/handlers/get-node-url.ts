@@ -1,6 +1,6 @@
 import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
 
-import { getActiveChainId } from '../active-chain';
+import { getActiveChainId, getActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
 
 // url list
@@ -12,8 +12,7 @@ export type GetNodeUrlsResponse = string;
  */
 export const getNodeUrl: Handler<void, GetNodeUrlsResponse> = async () => {
   const chain = await getActiveChainId();
+  const url = await getActiveRPC();
 
-  return chain == CHAIN_ID.MainNet
-    ? (DefaultProviderUrls.MAINNET as string)
-    : (DefaultProviderUrls.BUILDNET as string);
+  return url;
 };

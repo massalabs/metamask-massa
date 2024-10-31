@@ -5,6 +5,7 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { setNetwork } from './utils/setNetwork';
 import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
   describe('transfer', () => {
@@ -18,7 +19,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -62,7 +63,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -102,7 +103,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -130,7 +131,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -152,7 +153,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -180,7 +181,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -207,7 +208,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,
@@ -228,7 +229,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,

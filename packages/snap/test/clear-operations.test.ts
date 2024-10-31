@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { WalletClient } from '@massalabs/massa-web3';
+import { DefaultProviderUrls, WalletClient } from '@massalabs/massa-web3';
 import { installSnap } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
@@ -11,7 +11,7 @@ describe('onRpcRequest', () => {
       const newAccount = await WalletClient.walletGenerateNewAccount();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.sendTransaction',
         origin,

@@ -3,6 +3,7 @@ import { installSnap } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
 import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
   describe('get-balance', () => {
@@ -17,7 +18,7 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.balance',
         origin,

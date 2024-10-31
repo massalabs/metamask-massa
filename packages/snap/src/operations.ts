@@ -6,7 +6,7 @@ export type AccountsOperations = Record<string, string[]>;
 /**
  * @description Get operations for the given account address
  * @param address - Account address as a string prefixed with 'AU'
- * @returns Array of operation ids as as string array prefixed with 'OP'
+ * @returns Array of operation ids as as string array prefixed with 'O'
  */
 export async function getAccountOperations(address: string): Promise<string[]> {
   if (!address || !address.startsWith('AU')) {
@@ -29,7 +29,7 @@ export async function getAccountOperations(address: string): Promise<string[]> {
  * @description Add operation to account with the given operation id for the given account address
  * Does nothing if the operation is already added
  * @param address - Account address as a string prefixed with 'AU'
- * @param operation - Operation id as a string prefixed with 'OP'
+ * @param operation - Operation id as a string prefixed with 'O'
  */
 export async function addAccountOperation(address: string, operation: string) {
   if (!address || !address.startsWith('AU')) {
@@ -38,9 +38,9 @@ export async function addAccountOperation(address: string, operation: string) {
     );
   }
 
-  if (!operation || !operation.startsWith('OP')) {
+  if (!operation || !operation.startsWith('O')) {
     throw new Error(
-      'Invalid params: operation must be a string and start with OP',
+      'Invalid params: operation must be a string and start with O',
     );
   }
 

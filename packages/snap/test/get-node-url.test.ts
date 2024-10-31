@@ -2,6 +2,7 @@ import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
+import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
   describe('get-node-url', () => {
@@ -21,7 +22,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'Provider.getNodeUrl',
         origin,

@@ -1,4 +1,4 @@
-import { getActiveChainId } from '../active-chain';
+import { getActiveChainId, getActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
 
 export type GetNetworkResponse = {
@@ -6,12 +6,12 @@ export type GetNetworkResponse = {
 };
 
 /**
- * @description Get the current network chain id
- * @returns The network chain id as a string
+ * @description Get the current network url
+ * @returns The network url as a string
  */
 export const getNetwork: Handler<void, GetNetworkResponse> = async () => {
-  const chainId = await getActiveChainId();
+  const url = await getActiveRPC();
   return {
-    network: chainId.toString(),
+    network: url,
   };
 };

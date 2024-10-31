@@ -1,4 +1,9 @@
-import { setActiveChainId } from '../active-chain';
+import {
+  IClientConfig,
+  ProviderType,
+  PublicApiClient,
+} from '@massalabs/massa-web3';
+import { setActiveChainId, setActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
 
 export type SetNetworkParams = {
@@ -6,7 +11,7 @@ export type SetNetworkParams = {
 };
 
 export type SetNetworkResponse = {
-  network: string; // chainId
+  network: string; // url
 };
 
 /**
@@ -22,15 +27,29 @@ const coerceParams = (params: SetNetworkParams): bigint => {
 };
 
 /**
- * @description Set the current network using a chain id
+ * @description Set the current network using a rpc url
  * @param params - The network parameters
- * @returns The network chain id
+ * @returns The network rpc url
  */
 export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   params,
 ) => {
-  const network = coerceParams(params);
+  if (!params.network || typeof params.network !== 'string') {
+    throw new Error('Invalid params: network must be a string');
+  }
 
-  await setActiveChainId(network);
+  const network = params.network;
+
+  const config: IClientConfig = {
+    providers: [{ url: network, type: ProviderType.PUBLIC }],
+  };
+
+  const publicApi = new PublicApiClient(config);
+  const node_status = await publicApi.getNodeStatus();
+
+  await setActiveRPC(network);
+  await setActiveChainId(node_status.chain_id);
+
+  console.log('Network set to:', network);
   return { network: network.toString() };
 };
