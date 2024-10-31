@@ -2,7 +2,6 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
 import { getHDAccount } from '../accounts/hd-deriver';
-import { getNetwork } from './get-network';
 import type { Handler } from './handler';
 import { getActiveChainId } from '../active-chain';
 

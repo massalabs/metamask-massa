@@ -1,6 +1,4 @@
-import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
-
-import { getActiveChainId, getActiveRPC } from '../active-chain';
+import { getActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
 
 // url list

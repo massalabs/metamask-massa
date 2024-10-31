@@ -1,10 +1,5 @@
 import type { Client, WalletClient } from '@massalabs/massa-web3';
-import {
-  CHAIN_ID,
-  ClientFactory,
-  DefaultProviderUrls,
-  ProviderType,
-} from '@massalabs/massa-web3';
+import { ClientFactory, ProviderType } from '@massalabs/massa-web3';
 
 import { getActiveChainId, getActiveRPC } from '../active-chain';
 import { getHDAccount } from './hd-deriver';

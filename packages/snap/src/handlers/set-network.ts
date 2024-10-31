@@ -15,15 +15,16 @@ export type SetNetworkResponse = {
 };
 
 /**
- * @description Coerce the network parameter by converting it to a bigint
+ * @description Coerce the network parameter
  * @param params - The network parameters
- * @returns The network chain id as a bigint
+ * @returns The network url as a bigint
  */
-const coerceParams = (params: SetNetworkParams): bigint => {
+const coerceParams = (params: SetNetworkParams): string => {
   if (!params.network || typeof params.network !== 'string') {
     throw new Error('Invalid params: network must be a string');
   }
-  return BigInt(params.network);
+
+  return params.network;
 };
 
 /**
@@ -34,11 +35,7 @@ const coerceParams = (params: SetNetworkParams): bigint => {
 export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   params,
 ) => {
-  if (!params.network || typeof params.network !== 'string') {
-    throw new Error('Invalid params: network must be a string');
-  }
-
-  const network = params.network;
+  const network = coerceParams(params);
 
   const config: IClientConfig = {
     providers: [{ url: network, type: ProviderType.PUBLIC }],

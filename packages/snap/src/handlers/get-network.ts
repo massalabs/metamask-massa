@@ -1,4 +1,4 @@
-import { getActiveChainId, getActiveRPC } from '../active-chain';
+import { getActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
 
 export type GetNetworkResponse = {

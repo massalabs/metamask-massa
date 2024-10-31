@@ -14,7 +14,6 @@ import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
 import { invalidateOperations } from '@/hooks/useOperations';
 import { useSetNetwork } from '@/hooks/useSetNetwork';
 import { invalidateTokens } from '@/hooks/useTokens';
-import { url } from 'inspector';
 
 const networkList = [
   { id: CHAIN_ID.MainNet, name: 'Mainnet', url: DefaultProviderUrls.MAINNET },
