@@ -47,6 +47,11 @@ export async function addAccountOperation(address: string, operation: string) {
   const accountsOperations: AccountsOperations =
     (await StateManager.getState('accountOperations')) || {};
   const operations = accountsOperations[address] || [];
+
+  // limit the number of operations to 1000
+  if (operations.length >= 1000) {
+    operations.shift();
+  }
   operations.push(operation);
   accountsOperations[address] = operations;
   await StateManager.setState('accountOperations', accountsOperations);
