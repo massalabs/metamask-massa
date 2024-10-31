@@ -4,6 +4,7 @@ import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
 
 import { setNetwork } from './utils/setNetwork';
+import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 const baseParams = {
   fee: '1000000000000000',
@@ -28,7 +29,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -69,7 +70,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -105,7 +106,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -126,7 +127,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -147,7 +148,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -168,7 +169,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -189,7 +190,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -210,7 +211,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -234,7 +235,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -255,7 +256,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -276,7 +277,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -297,7 +298,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,
@@ -318,7 +319,7 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.callSC',
         origin,

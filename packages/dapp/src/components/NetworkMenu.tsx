@@ -7,7 +7,7 @@ import {
   Button,
   Spinner,
 } from '@chakra-ui/react';
-import { CHAIN_ID } from '@massalabs/massa-web3';
+import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
 import { useMemo } from 'react';
 
 import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
@@ -16,8 +16,12 @@ import { useSetNetwork } from '@/hooks/useSetNetwork';
 import { invalidateTokens } from '@/hooks/useTokens';
 
 const networkList = [
-  { id: CHAIN_ID.MainNet, name: 'Mainnet' },
-  { id: CHAIN_ID.BuildNet, name: 'Buildnet' },
+  { id: CHAIN_ID.MainNet, name: 'Mainnet', url: DefaultProviderUrls.MAINNET },
+  {
+    id: CHAIN_ID.BuildNet,
+    name: 'Buildnet',
+    url: DefaultProviderUrls.BUILDNET,
+  },
 ];
 
 export const NetworkMenu = () => {
@@ -28,9 +32,8 @@ export const NetworkMenu = () => {
     if (activeNetwork === undefined) {
       return;
     }
-    return networkList.find(
-      (network) => network.id === BigInt(activeNetwork.network),
-    )?.name;
+    return networkList.find((network) => network.url === activeNetwork.network)
+      ?.name;
   }, [activeNetwork]);
 
   return (
@@ -43,7 +46,7 @@ export const NetworkMenu = () => {
           <MenuItem
             key={network.id}
             onClick={async () => {
-              await setNetwork({ network: network.id.toString() });
+              await setNetwork({ network: network.url });
               invalidateNetwork();
               invalidateTokens();
               invalidateOperations();

@@ -1,23 +1,24 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import type { ListAccountsResponse } from 'src/handlers';
 
 import { setNetwork } from './utils/setNetwork';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
   describe('get-balance', () => {
     it('should get the balance of an account', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = (
+
+      const defaultAccount: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
       ).response.result;
-      const defaultAccount = accountList[0]!;
 
-      await setNetwork(request, 77658366n); // BuildNet
+      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
         method: 'account.balance',
         origin,

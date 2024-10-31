@@ -3,6 +3,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
+import { addAccountOperation } from '../operations';
+import { getHDAccount } from '../accounts/hd-deriver';
 
 export type BuyRollsParams = {
   fee: string;
@@ -35,6 +37,11 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
 ) => {
   const rollsData = coerceParams(params);
   const wallet: WalletClient | undefined = await getClientWallet();
+  const account = await getHDAccount();
+
+  if (!account) {
+    throw new Error('Account not found or client not logged in');
+  }
 
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -57,6 +64,8 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
   }
 
   const operationId = await wallet.buyRolls(rollsData);
+
+  await addAccountOperation(account.address!, operationId[0]!);
 
   return { operationId: operationId[0]! };
 };

@@ -19,10 +19,12 @@ export const useMassaClient = () => {
   const createClient = useCallback(
     async (net: NetworkResponse) => {
       const newClient = await ClientFactory.createDefaultClient(
-        BigInt(net?.network) === CHAIN_ID.MainNet
+        net?.network === DefaultProviderUrls.MAINNET
           ? DefaultProviderUrls.MAINNET
           : DefaultProviderUrls.BUILDNET,
-        BigInt(net?.network),
+        net?.network === DefaultProviderUrls.MAINNET
+          ? CHAIN_ID.MainNet
+          : CHAIN_ID.BuildNet,
       );
       setClient(newClient);
     },

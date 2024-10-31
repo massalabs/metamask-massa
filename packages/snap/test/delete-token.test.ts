@@ -1,8 +1,8 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import type { ListAccountsResponse } from 'src/handlers';
 
 import { addTokens } from './utils/addTokens';
+import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 const tokens = ['AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm'];
 
@@ -12,14 +12,15 @@ describe('onRpcRequest', () => {
       const { request } = await installSnap();
       await addTokens(request, tokens);
       const origin = 'Jest';
-      const accountList: ListAccountsResponse = (
+
+      const defaultAccount: GetActiveAccountResponse = (
         (await request({
-          method: 'account.list',
+          method: 'account.getActive',
           origin,
         })) as any
       ).response.result;
 
-      expect(accountList.length).toBe(1);
+      expect(defaultAccount).toBeDefined();
 
       const response = request({
         method: 'account.deleteToken',

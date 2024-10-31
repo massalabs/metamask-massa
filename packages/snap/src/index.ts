@@ -22,7 +22,7 @@ import {
   callSmartContract,
   getNetwork,
   setNetwork,
-  getNodeUrls,
+  getNodeUrl,
   sellRolls,
   buyRolls,
   showAccountCredentials,
@@ -31,7 +31,6 @@ import {
   getTokens,
   getOperations,
   clearOperations,
-  listAccounts,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
 /**
@@ -46,8 +45,6 @@ import { getActiveAccount } from './handlers/get-active-account';
  */
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
-    case 'account.list':
-      return listAccounts();
     case 'account.balance':
       return getBalance(request.params as unknown as GetBalanceParams);
     case 'account.sign':
@@ -58,8 +55,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return callSmartContract(request.params as unknown as CallSCParameters);
     case 'account.sendTransaction':
       return transfer(request.params as unknown as TransferParams);
-    case 'Provider.getNodeUrls':
-      return getNodeUrls();
+    case 'Provider.getNodeUrl':
+      return getNodeUrl();
     case 'account.sellRolls':
       return sellRolls(request.params as unknown as SellRollsParams);
     case 'account.buyRolls':

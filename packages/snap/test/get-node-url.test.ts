@@ -5,36 +5,30 @@ import { setNetwork } from './utils/setNetwork';
 import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
-  describe('set-network', () => {
-    it('should set the network to buildnet', async () => {
+  describe('get-node-url', () => {
+    it('should get the url for the default network', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
       const response = request({
-        method: 'Provider.getNetwork',
+        method: 'Provider.getNodeUrl',
         origin,
       });
 
-      expect(await response).toRespondWith({
-        network: 'https://buildnet.massa.net/api/v2',
-      });
+      expect(await response).toRespondWith('https://mainnet.massa.net/api/v2');
     });
 
-    it('should set the network to mainnet from buildnet', async () => {
+    it('should get the url for the buildnet network', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
       await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      await setNetwork(request, DefaultProviderUrls.MAINNET); // MainNet
       const response = request({
-        method: 'Provider.getNetwork',
+        method: 'Provider.getNodeUrl',
         origin,
       });
 
-      expect(await response).toRespondWith({
-        network: 'https://mainnet.massa.net/api/v2',
-      });
+      expect(await response).toRespondWith('https://buildnet.massa.net/api/v2');
     });
   });
 });

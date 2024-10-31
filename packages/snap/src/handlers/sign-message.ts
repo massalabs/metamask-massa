@@ -2,8 +2,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getClientWallet } from '../accounts/clients';
 import { getHDAccount } from '../accounts/hd-deriver';
-import { getNetwork } from './get-network';
 import type { Handler } from './handler';
+import { getActiveChainId } from '../active-chain';
 
 export type SignMessageParams = {
   data: number[];
@@ -53,7 +53,7 @@ export const signMessage: Handler<
     throw new Error(`Account not found: ${signingAddress}`);
   }
 
-  const { network: chainId } = await getNetwork();
+  const chainId = await getActiveChainId();
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {

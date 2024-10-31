@@ -6,9 +6,14 @@ export type AccountsOperations = Record<string, string[]>;
 /**
  * @description Get operations for the given account address
  * @param address - Account address as a string prefixed with 'AU'
- * @returns Array of operation ids as as string array prefixed with 'OP'
+ * @returns Array of operation ids as as string array prefixed with 'O'
  */
 export async function getAccountOperations(address: string): Promise<string[]> {
+  if (!address || !address.startsWith('AU')) {
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
+  }
   const accountsOperations: AccountsOperations =
     (await StateManager.getState('accountOperations')) || {};
 
@@ -24,15 +29,28 @@ export async function getAccountOperations(address: string): Promise<string[]> {
  * @description Add operation to account with the given operation id for the given account address
  * Does nothing if the operation is already added
  * @param address - Account address as a string prefixed with 'AU'
- * @param operation - Operation id as a string prefixed with 'OP'
+ * @param operation - Operation id as a string prefixed with 'O'
  */
 export async function addAccountOperation(address: string, operation: string) {
+  if (!address || !address.startsWith('AU')) {
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
+  }
+
+  if (!operation || !operation.startsWith('O')) {
+    throw new Error(
+      'Invalid params: operation must be a string and start with O',
+    );
+  }
+
   const accountsOperations: AccountsOperations =
     (await StateManager.getState('accountOperations')) || {};
   const operations = accountsOperations[address] || [];
 
-  if (operations.find((t) => t === operation)) {
-    return;
+  // limit the number of operations to 1000
+  if (operations.length >= 1000) {
+    operations.shift();
   }
   operations.push(operation);
   accountsOperations[address] = operations;
@@ -44,6 +62,11 @@ export async function addAccountOperation(address: string, operation: string) {
  * @param account - Account address as a string prefixed with 'AU'
  */
 export async function clearAccountOperations(account: string) {
+  if (!account || !account.startsWith('AU')) {
+    throw new Error(
+      'Invalid params: address must be a string and start with AU',
+    );
+  }
   const accountsOperations: AccountsOperations =
     (await StateManager.getState('accountOperations')) || {};
   accountsOperations[account] = [];

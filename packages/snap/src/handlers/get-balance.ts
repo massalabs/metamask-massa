@@ -46,7 +46,7 @@ export const getBalance: Handler<GetBalanceParams, GetBalanceResponse> = async (
   const balance = await wallet.getAccountBalance(address);
 
   return {
-    finalBalance: balance?.candidate?.toString() || '0',
+    finalBalance: balance?.final?.toString() || '0',
     candidateBalance: balance?.candidate?.toString() || '0',
   };
 };
