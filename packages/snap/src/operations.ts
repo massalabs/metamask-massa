@@ -47,10 +47,6 @@ export async function addAccountOperation(address: string, operation: string) {
   const accountsOperations: AccountsOperations =
     (await StateManager.getState('accountOperations')) || {};
   const operations = accountsOperations[address] || [];
-
-  if (operations.find((t) => t === operation)) {
-    return;
-  }
   operations.push(operation);
   accountsOperations[address] = operations;
   await StateManager.setState('accountOperations', accountsOperations);
