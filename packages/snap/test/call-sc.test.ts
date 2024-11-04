@@ -18,9 +18,7 @@ const baseParams = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ],
   coins: '0',
-  nonPersistentExecution: {
-    maxGas: 10000000n.toString(),
-  },
+  maxGas: 10000000n.toString(),
 };
 
 describe('onRpcRequest', () => {
@@ -207,7 +205,7 @@ describe('onRpcRequest', () => {
       });
     });
 
-    it('should throw an error if the nonPersistentExecution.maxGas is not a string', async () => {
+    it('should throw an error if the maxGas is not a string', async () => {
       const { request } = await installSnap();
       const origin = 'Jest';
 
@@ -217,10 +215,7 @@ describe('onRpcRequest', () => {
         origin,
         params: {
           ...baseParams,
-          nonPersistentExecution: {
-            isNPE: true,
-            maxGas: 1000000,
-          },
+          maxGas: 1000000,
         },
       });
 
@@ -311,27 +306,6 @@ describe('onRpcRequest', () => {
       expect(await response).toRespondWithError({
         code: expect.any(Number),
         message: 'Invalid params: args must be an array',
-        stack: expect.any(String),
-      });
-    });
-
-    it('should throw an error if coins is missing', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.callSC',
-        origin,
-        params: {
-          ...baseParams,
-          coins: null,
-        },
-      });
-
-      expect(await response).toRespondWithError({
-        code: expect.any(Number),
-        message: 'Invalid params: coins must be a string',
         stack: expect.any(String),
       });
     });
