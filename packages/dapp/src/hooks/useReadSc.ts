@@ -1,18 +1,24 @@
 import { useCallback, useContext } from 'react';
+
 import { MetaMaskContext } from './MetamaskContext';
+
 import { defaultSnapOrigin } from '@/config';
 
-export type CallSCParams = {
-  fee: string;
+export type ReadSCParameters = {
+  fee?: string;
   functionName: string;
   at: string;
   args: number[];
-  coins: string;
+  coins?: string;
   maxGas?: string;
+  caller?: string;
 };
 
-export type CallSCResponse = {
-  operationId: string;
+export type ReadSCResponse = {
+  data: number[];
+  infos: {
+    gasCost: number;
+  };
 };
 
 /**
@@ -20,17 +26,17 @@ export type CallSCResponse = {
  * @param params - The call smart contract parameters (see massa standard)
  * @returns The response of the operation
  */
-export const useCallSC = () => {
+export const useReadSC = () => {
   const { provider } = useContext(MetaMaskContext);
 
   return useCallback(
-    async (params: CallSCParams) =>
-      provider?.request<CallSCResponse>({
+    async (params: ReadSCParameters) =>
+      provider?.request<ReadSCResponse>({
         method: 'wallet_invokeSnap',
         params: {
           snapId: defaultSnapOrigin,
           request: {
-            method: 'account.callSC',
+            method: 'account.readSC',
             params,
           },
         },

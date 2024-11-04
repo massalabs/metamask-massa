@@ -2,17 +2,18 @@
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton, Td, Tr } from '@chakra-ui/react';
-import type { IReadData } from '@massalabs/massa-web3';
-import { Args } from '@massalabs/massa-web3';
+import { Args, bytesToStr, bytesToU256 } from '@massalabs/massa-web3';
 import { useEffect, useState, useCallback } from 'react';
 
 import { useActiveAccount } from '@/hooks/useActiveAccount';
 import { useDeleteToken } from '@/hooks/useDeleteToken';
 import { useMassaClient } from '@/hooks/useMassaClient';
 import { invalidateTokens } from '@/hooks/useTokens';
+import { ReadSCParameters, useReadSC } from '@/hooks/useReadSc';
 
 export const TokenRow = ({ token }: { token: string }) => {
   const { isLoading: isLoadingAccount, data: account } = useActiveAccount();
+  const readSC = useReadSC();
   const [balance, setBalance] = useState<number>(0);
   const [tokenName, setTokenName] = useState<string>('');
   const client = useMassaClient();
@@ -22,30 +23,42 @@ export const TokenRow = ({ token }: { token: string }) => {
     if (!client || !account) {
       return;
     }
-    const readData = {
-      targetAddress: token,
-      targetFunction: 'decimals',
-      parameter: [],
-      maxGas: BigInt(1000000000),
-      callerAddress: account.address,
-    } as IReadData;
+    const readData: ReadSCParameters = {
+      at: token,
+      functionName: 'decimals',
+      args: [],
+    };
 
-    const dRes = await client.smartContracts().readSmartContract(readData);
-    const decimals = new Args(dRes.returnValue).nextU8();
+    let res = await readSC(readData);
+    if (!res) {
+      console.warn(`No response from readSC ${readData.functionName}`);
+      return;
+    }
+    const decimals = new Args(res.data).nextU8();
 
-    readData.targetFunction = 'symbol';
-    const nRes = await client.smartContracts().readSmartContract(readData);
-    setTokenName(new TextDecoder().decode(nRes.returnValue));
+    readData.functionName = 'symbol';
+    res = await readSC(readData);
+    if (!res) {
+      console.warn(`No response from readSC ${readData.functionName}`);
+      return;
+    }
+    const symbol = bytesToStr(Uint8Array.from(res.data!));
+    setTokenName(symbol);
 
     const serAddr = new Args().addString(account.address).serialize();
-    readData.parameter = serAddr;
-    readData.targetFunction = 'balanceOf';
-    const res = await client.smartContracts().readSmartContract(readData);
-    const rBalance = new Args(res.returnValue).nextU256();
+    readData.args = serAddr;
+    readData.functionName = 'balanceOf';
+    res = await readSC(readData);
+    if (!res) {
+      console.warn(`No response from readSC ${readData.functionName}`);
+      return;
+    }
+    const rBalance = bytesToU256(Uint8Array.from(res.data!));
     const balanceNormalized =
       Number(rBalance / BigInt(10 ** (Number(decimals) - 3))) / 10 ** 3;
+
     setBalance(balanceNormalized);
-  }, [account, client, token]);
+  }, [account, client, token, readSC]);
 
   useEffect(() => {
     setBalanceFromClient();
