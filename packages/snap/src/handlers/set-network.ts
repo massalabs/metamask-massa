@@ -1,4 +1,5 @@
 import {
+  CHAIN_ID_TO_NETWORK_NAME,
   fromMAS,
   IClientConfig,
   ProviderType,
@@ -10,6 +11,7 @@ import {
   setActiveRPC,
 } from '../active-chain';
 import type { Handler } from './handler';
+import { panel, text } from '@metamask/snaps-sdk';
 
 export type SetNetworkParams = {
   network: string;
@@ -43,13 +45,29 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   params,
 ) => {
   const network = coerceParams(params);
-
   const config: IClientConfig = {
     providers: [{ url: network, type: ProviderType.PUBLIC }],
   };
-
   const publicApi = new PublicApiClient(config);
   const node_status = await publicApi.getNodeStatus();
+
+  const networkName = CHAIN_ID_TO_NETWORK_NAME[node_status.chain_id.toString()];
+
+  const confirm = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'confirmation',
+      content: panel([
+        text(
+          `Do you want to switch to the following network: ${networkName} ?`,
+        ),
+      ]),
+    },
+  });
+
+  if (!confirm) {
+    throw new Error('User denied calling smart contract');
+  }
 
   await setActiveRPC(network);
   await setActiveChainId(node_status.chain_id);
