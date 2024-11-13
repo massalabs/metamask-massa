@@ -11,7 +11,7 @@ export type SignMessageParams = {
 };
 
 export type SignMessageResponse = {
-  signature: number[];
+  signature: string;
   publicKey: string;
 };
 
@@ -75,7 +75,7 @@ export const signMessage: Handler<
     address,
   );
   return {
-    signature: sig.base58Encoded.split('').map((c) => c.charCodeAt(0)),
+    signature: sig.base58Encoded,
     publicKey: sig.publicKey,
   };
 };

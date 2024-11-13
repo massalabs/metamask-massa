@@ -45,14 +45,8 @@ describe('onRpcRequest', () => {
       await ui.ok();
       expect(await response).toRespondWith({
         publicKey: 'P12BYyRbBF72Ft1N87e5JaVg4Ua7LkmTGBSm6hhQC7M5L2KNJiSt',
-        signature: [
-          49, 50, 50, 83, 66, 85, 109, 105, 51, 99, 74, 104, 90, 104, 52, 97,
-          51, 97, 55, 51, 98, 120, 101, 52, 86, 77, 104, 74, 105, 83, 115, 98,
-          78, 70, 112, 51, 113, 56, 87, 65, 53, 83, 101, 67, 52, 68, 111, 54,
-          66, 77, 116, 109, 113, 90, 49, 78, 88, 118, 57, 74, 101, 67, 110, 75,
-          67, 74, 65, 66, 78, 50, 72, 89, 72, 77, 81, 112, 88, 55, 78, 71, 81,
-          109, 50, 77, 90, 53, 102, 49, 65, 98, 100, 81, 97, 78,
-        ],
+        signature:
+          '122SBUmi3cJhZh4a3a73bxe4VMhJiSsbNFp3q8WA5SeC4Do6BMtmqZ1NXv9JeCnKCJABN2HYHMQpX7NGQm2MZ5f1AbdQaN',
       });
     });
 
