@@ -7,11 +7,10 @@ import { getActiveChainId } from '../active-chain';
 
 export type SignMessageParams = {
   data: number[];
-  address: string;
 };
 
 export type SignMessageResponse = {
-  signature: number[];
+  signature: string;
   publicKey: string;
 };
 
@@ -25,8 +24,6 @@ const coerceParams = (params: SignMessageParams): SignMessageParams => {
     throw new Error('Data to sign is required!');
   } else if (!Array.isArray(params.data)) {
     throw new Error('Data must be an array!');
-  } else if (!params.address) {
-    throw new Error('Address to sign with is required!');
   }
 
   return params;
@@ -42,15 +39,12 @@ export const signMessage: Handler<
   SignMessageParams,
   SignMessageResponse
 > = async (params) => {
-  const { data, address: signingAddress } = coerceParams(params);
+  const { data } = coerceParams(params);
   const wallet = await getClientWallet();
   const { address } = await getHDAccount();
 
   if (!wallet || !address) {
     throw new Error(`Not logged in to metamask. Please log in and try again.`);
-  }
-  if (address !== signingAddress) {
-    throw new Error(`Account not found: ${signingAddress}`);
   }
 
   const chainId = await getActiveChainId();
@@ -75,7 +69,7 @@ export const signMessage: Handler<
     address,
   );
   return {
-    signature: sig.base58Encoded.split('').map((c) => c.charCodeAt(0)),
+    signature: sig.base58Encoded,
     publicKey: sig.publicKey,
   };
 };
