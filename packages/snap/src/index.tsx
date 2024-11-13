@@ -1,4 +1,11 @@
-import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
+import {
+  assert,
+  OnHomePageHandler,
+  OnUserInputHandler,
+  UserInputEventType,
+  type Json,
+  type OnRpcRequestHandler,
+} from '@metamask/snaps-sdk';
 
 import type {
   SignMessageParams,
@@ -35,6 +42,10 @@ import {
   clearOperations,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
+import { toMAS } from '@massalabs/massa-web3';
+import { getHDAccount } from './accounts/hd-deriver';
+import { showKeysConfirmation, showKeys } from './components';
+import { HomePage } from './components/HomePage';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -89,5 +100,52 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       );
     default:
       throw new Error('Method not found.');
+  }
+};
+
+/**
+ * Handle incoming home page requests from the MetaMask clients.
+ *
+ * @returns A static panel rendered with custom UI.
+ * @see https://docs.metamask.io/snaps/reference/exports/#onhomepage
+ */
+export const onHomePage: OnHomePageHandler = async () => {
+  const network = await getNetwork();
+  const account = await getHDAccount();
+  const balance = await getBalance({ address: account.address || '' });
+
+  return {
+    content: (
+      <HomePage
+        network={network.network}
+        address={account.address || ''}
+        balance={toMAS(balance.candidateBalance).toString()}
+      />
+    ),
+  };
+};
+
+/**
+ * Handle incoming user events coming from the Snap interface.
+ *
+ * @param params - The event parameters.
+ * @param params.id - The Snap interface ID where the event was fired.
+ * @param params.event - The event object containing the event type, name and
+ * value.
+ * @see https://docs.metamask.io/snaps/reference/exports/#onuserinput
+ */
+export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
+  assert(event.type === UserInputEventType.ButtonClickEvent);
+  assert(event.name === 'show-keys-validation' || 'show-keys');
+
+  switch (event.name) {
+    case 'show-keys-validation':
+      await showKeysConfirmation();
+      break;
+    case 'show-keys':
+      await showKeys(id);
+      break;
+    default:
+      break;
   }
 };
