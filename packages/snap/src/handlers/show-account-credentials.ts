@@ -1,12 +1,5 @@
-import type { Json } from '@metamask/snaps-sdk';
 import { panel, text } from '@metamask/snaps-sdk';
-
 import { getHDAccount } from '../accounts/hd-deriver';
-import type { Handler } from './handler';
-
-export type ShowAccountCredentialsParams = {
-  address: string;
-};
 
 /**
  * @description Shows the credentials of the active account with an alert dialog in metamask
@@ -14,17 +7,11 @@ export type ShowAccountCredentialsParams = {
  * @param address - The address of the account to show the credentials for
  * @returns The dialog with the account credentials
  */
-export const showAccountCredentials: Handler<
-  ShowAccountCredentialsParams,
-  Json
-> = async (params) => {
+export const showAccountCredentials = async () => {
   const account = await getHDAccount();
 
   if (!account) {
     throw new Error(`Not logged in to metamask. Please log in and try again.`);
-  }
-  if (params.address !== account.address) {
-    throw new Error(`Account not found: ${params.address}`);
   }
 
   const confirm = await snap.request({

@@ -19,9 +19,6 @@ describe('onRpcRequest', () => {
       const response = request({
         method: 'account.showCredentials',
         origin,
-        params: {
-          address: defaultAccount.address,
-        },
       });
 
       const confirmationUi = await response.getInterface();
@@ -70,9 +67,6 @@ describe('onRpcRequest', () => {
       const response = request({
         method: 'account.showCredentials',
         origin,
-        params: {
-          address: 'AU199wi4sBM2DyBeje88WQveDdTWGCs461VocsHpbT7FWiPyfqxD',
-        },
       });
 
       expect(await response).toRespondWithError({

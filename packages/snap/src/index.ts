@@ -8,7 +8,6 @@ import type {
   SetNetworkParams,
   SellRollsParams,
   BuyRollsParams,
-  ShowAccountCredentialsParams,
   AddTokenParams,
   DeleteTokenParams,
   GetTokensParams,
@@ -70,9 +69,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'Provider.setNetwork':
       return setNetwork(request.params as unknown as SetNetworkParams);
     case 'account.showCredentials':
-      return showAccountCredentials(
-        request.params as unknown as ShowAccountCredentialsParams,
-      );
+      return showAccountCredentials();
     case 'account.getActive':
       return getActiveAccount();
     case 'account.addToken':
