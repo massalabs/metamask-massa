@@ -1,10 +1,12 @@
 import {
+  CHAIN_ID_TO_NETWORK_NAME,
   IClientConfig,
   ProviderType,
   PublicApiClient,
 } from '@massalabs/massa-web3';
 import { setActiveChainId, setActiveRPC } from '../active-chain';
 import type { Handler } from './handler';
+import { SwitchNetwork } from '../components/SwitchNetwork';
 
 export type SetNetworkParams = {
   network: string;
@@ -43,6 +45,22 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
 
   const publicApi = new PublicApiClient(config);
   const node_status = await publicApi.getNodeStatus();
+
+  const networkName = CHAIN_ID_TO_NETWORK_NAME[node_status.chain_id.toString()];
+
+  const confirm = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'confirmation',
+      content: (
+        <SwitchNetwork networkName={networkName || ''} rpcUrl={network} />
+      ),
+    },
+  });
+
+  if (!confirm) {
+    throw new Error('User denied calling smart contract');
+  }
 
   await setActiveRPC(network);
   await setActiveChainId(node_status.chain_id);
