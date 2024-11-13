@@ -23,7 +23,7 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const ui = await response.getInterface();
+      const ui = (await response.getInterface()) as SnapConfirmationInterface;
       expect(ui.type).toBe('confirmation');
       expect(ui).toRender(
         panel([
