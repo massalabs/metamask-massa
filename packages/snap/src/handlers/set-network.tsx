@@ -1,12 +1,19 @@
 import {
   CHAIN_ID_TO_NETWORK_NAME,
+  fromMAS,
   IClientConfig,
   ProviderType,
   PublicApiClient,
 } from '@massalabs/massa-web3';
-import { setActiveChainId, setActiveRPC } from '../active-chain';
+import {
+  setActiveChainId,
+  setActiveMinimalFees,
+  setActiveRPC,
+} from '../active-chain';
 import type { Handler } from './handler';
 import { SwitchNetwork } from '../components/SwitchNetwork';
+
+export const DEFAULT_MINIMAL_FEES = fromMAS('0.01').toString();
 
 export type SetNetworkParams = {
   network: string;
@@ -64,6 +71,7 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
 
   await setActiveRPC(network);
   await setActiveChainId(node_status.chain_id);
+  await setActiveMinimalFees(node_status.minimal_fees || DEFAULT_MINIMAL_FEES);
 
   return { network: network };
 };

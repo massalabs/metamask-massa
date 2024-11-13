@@ -2,7 +2,7 @@ import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
-import { DefaultProviderUrls } from '@massalabs/massa-web3';
+import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {
   describe('set-network', () => {
@@ -17,7 +17,9 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWith({
-        network: 'https://buildnet.massa.net/api/v2',
+        network: DefaultProviderUrls.BUILDNET,
+        chainId: CHAIN_ID.BuildNet.toString(),
+        minimalFees: '0.01',
       });
     });
 
@@ -33,7 +35,9 @@ describe('onRpcRequest', () => {
       });
 
       expect(await response).toRespondWith({
-        network: 'https://mainnet.massa.net/api/v2',
+        network: DefaultProviderUrls.MAINNET,
+        chainId: CHAIN_ID.MainNet.toString(),
+        minimalFees: '0.01',
       });
     });
   });
