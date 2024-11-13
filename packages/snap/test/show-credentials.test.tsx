@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { installSnap, SnapConfirmationInterface } from '@metamask/snaps-jest';
-import { NodeType, panel, text } from '@metamask/snaps-sdk';
+import { panel, text } from '@metamask/snaps-sdk';
 import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 describe('onRpcRequest', () => {
@@ -40,28 +40,6 @@ describe('onRpcRequest', () => {
 
       const ui = (await response.getInterface()) as SnapConfirmationInterface;
       expect(ui.type).toBe('alert');
-      // TODO: Fix this test
-      // expect(ui.content).toMatchObject({
-      //   type: 'Box',
-      //   children: [
-      //     {
-      //       type: NodeType.Text,
-      //       value: '**Account Credentials:**',
-      //     },
-      //     {
-      //       type: NodeType.Text,
-      //       value: `Address: ${defaultAccount.address}`,
-      //     },
-      //     {
-      //       type: NodeType.Text,
-      //       value: expect.stringContaining('Public Key:'),
-      //     },
-      //     {
-      //       type: NodeType.Text,
-      //       value: expect.stringContaining('Secret Key:'),
-      //     },
-      //   ],
-      // });
 
       await ui.ok();
     });

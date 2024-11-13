@@ -3,6 +3,7 @@ import { panel, text } from '@metamask/snaps-sdk';
 
 import { getHDAccount } from '../accounts/hd-deriver';
 import type { Handler } from './handler';
+import { ShowKeys } from '../components/ShowKeys';
 
 export type ShowAccountCredentialsParams = {
   address: string;
@@ -48,12 +49,13 @@ export const showAccountCredentials: Handler<
     method: 'snap_dialog',
     params: {
       type: 'alert',
-      content: panel([
-        text('**Account Credentials:**'),
-        text(`Address: ${account.address}`),
-        text(`Public Key: ${account.publicKey}`),
-        text(`Secret Key: ${account.secretKey}`),
-      ]),
+      content: (
+        <ShowKeys
+          address={account.address || ''}
+          publicKey={account.publicKey || ''}
+          secretKey={account.secretKey || ''}
+        />
+      ),
     },
   });
 };
