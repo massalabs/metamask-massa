@@ -8,13 +8,22 @@ module.exports = {
   overrides: [
     {
       files: ['snap.config.ts'],
-      extends: ['@metamask/eslint-config-nodejs'],
+      extends: [
+        '@metamask/eslint-config-nodejs',
+        '@metamask/eslint-config-typescript',
+      ],
     },
 
     {
       files: ['*.test.ts'],
       rules: {
         '@typescript-eslint/unbound-method': 'off',
+        '@typescript-eslint/no-shadow': [
+          'error',
+          {
+            allow: ['Text'],
+          },
+        ],
       },
     },
   ],

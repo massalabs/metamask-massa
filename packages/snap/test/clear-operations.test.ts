@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { DefaultProviderUrls, WalletClient } from '@massalabs/massa-web3';
-import { installSnap } from '@metamask/snaps-jest';
+import { installSnap, SnapConfirmationInterface } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
 
@@ -22,7 +22,7 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const ui = await response.getInterface();
+      const ui = (await response.getInterface()) as SnapConfirmationInterface;
 
       await ui.ok();
       await response;
