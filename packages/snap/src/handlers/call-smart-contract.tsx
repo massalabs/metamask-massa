@@ -1,5 +1,5 @@
 import type { ICallData } from '@massalabs/massa-web3';
-import { panel, text } from '@metamask/snaps-sdk';
+import { CallSc } from '../components/CallSc';
 
 import { getClient } from '../accounts/clients';
 import { getHDAccount } from '../accounts/hd-deriver';
@@ -78,14 +78,15 @@ export const callSmartContract: Handler<
     method: 'snap_dialog',
     params: {
       type: 'confirmation',
-      content: panel([
-        text('Do you want to call the following smart contract?'),
-        text(`**Contract:** ${params.at}`),
-        text(`**Function:** ${params.functionName}`),
-        text(`**Fee:** ${params.fee}`),
-        text(`**args:** ${params.args ? JSON.stringify(params.args) : '[]'}`),
-        text(`**coins:** ${params.coins}`),
-      ]),
+      content: (
+        <CallSc
+          fee={params.fee}
+          functionName={params.functionName}
+          at={params.at}
+          args={params.args}
+          coins={params.coins}
+        />
+      ),
     },
   });
 
