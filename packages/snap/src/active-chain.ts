@@ -68,5 +68,5 @@ export async function getActiveMinimalFees(): Promise<string> {
  * @returns Promise of the minimal fees as a string
  */
 export async function setActiveMinimalFees(minimal_fees: string) {
-  await StateManager.setState('minimalFees', minimal_fees.toString());
+  await StateManager.setState('minimalFees', minimal_fees);
 }
