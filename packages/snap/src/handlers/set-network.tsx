@@ -66,12 +66,12 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   });
 
   if (!confirm) {
-    throw new Error('User denied calling smart contract');
+    throw new Error('User denied calling network change');
   }
 
   await setActiveRPC(network);
   await setActiveChainId(node_status.chain_id);
-  await setActiveMinimalFees(node_status.minimal_fees || DEFAULT_MINIMAL_FEES);
+  await setActiveMinimalFees(node_status.minimal_fees ?? DEFAULT_MINIMAL_FEES);
 
   return { network: network };
 };
