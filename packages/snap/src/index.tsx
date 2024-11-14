@@ -136,7 +136,7 @@ export const onHomePage: OnHomePageHandler = async () => {
  */
 export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
   assert(event.type === UserInputEventType.ButtonClickEvent);
-  assert(event.name === 'show-keys-validation' || 'show-keys');
+  assert(event.name === 'show-keys-validation' || event.name === 'show-keys');
 
   switch (event.name) {
     case 'show-keys-validation':
