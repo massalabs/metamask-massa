@@ -24,7 +24,7 @@ export const HomePage: SnapComponent<HomePageProps> = ({
     <Container>
       <Box>
         <Heading>Massa Account</Heading>
-        <Card title="Address: " value={address} />
+        <Card title="Address: " value="" />
         <Copyable value={address} />
         <Card title="rpc url:" value={network} />
         <Card title="balance:" value="Mas" extra={balance.toString()} />
