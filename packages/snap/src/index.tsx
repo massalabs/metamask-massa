@@ -31,7 +31,6 @@ import {
   readSmartContract,
   getNetwork,
   setNetwork,
-  getNodeUrl,
   sellRolls,
   buyRolls,
   showAccountCredentials,
@@ -70,8 +69,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return readSmartContract(request.params as unknown as ReadSCParameters);
     case 'account.sendTransaction':
       return transfer(request.params as unknown as TransferParams);
-    case 'Provider.getNodeUrl':
-      return getNodeUrl();
     case 'account.sellRolls':
       return sellRolls(request.params as unknown as SellRollsParams);
     case 'account.buyRolls':
