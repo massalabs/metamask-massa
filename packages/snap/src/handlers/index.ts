@@ -5,7 +5,6 @@ export * from './transfer';
 export * from './get-balance';
 export * from './get-network';
 export * from './set-network';
-export * from './get-node-url';
 export * from './sell-rolls';
 export * from './buy-rolls';
 export * from './show-account-credentials';
