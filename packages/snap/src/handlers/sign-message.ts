@@ -3,7 +3,7 @@ import { panel, text } from '@metamask/snaps-sdk';
 import { getClientWallet } from '../accounts/clients';
 import { getHDAccount } from '../accounts/hd-deriver';
 import type { Handler } from './handler';
-import { getActiveChainId } from '../active-chain';
+import { getActiveNetwork } from '../active-chain';
 
 export type SignMessageParams = {
   data: number[];
@@ -53,7 +53,6 @@ export const signMessage: Handler<
     throw new Error(`Account not found: ${signingAddress}`);
   }
 
-  const chainId = await getActiveChainId();
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
@@ -68,6 +67,8 @@ export const signMessage: Handler<
   if (!confirm) {
     throw new Error('User denied signing message');
   }
+
+  const { chainId } = await getActiveNetwork();
 
   const sig = await wallet.signMessage(
     Buffer.from(data),

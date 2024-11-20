@@ -5,8 +5,11 @@ import { MetaMaskContext } from './MetamaskContext';
 
 import { defaultSnapOrigin } from '@/config';
 
-export type NetworkResponse = {
-  network: string; // chainId
+export type NetworkInfos = {
+  rpcUrl: string;
+  chainId: string;
+  minimalFees: string;
+  networkName: string;
 };
 
 /**
@@ -25,7 +28,7 @@ export const useNetwork = () => {
         },
       },
     });
-    return res as NetworkResponse;
+    return res as NetworkInfos;
   };
 
   useEffect(() => {

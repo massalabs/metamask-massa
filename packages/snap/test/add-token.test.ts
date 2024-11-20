@@ -16,15 +16,16 @@ describe('onRpcRequest', () => {
         })) as any
       ).response.result;
 
-      const response = request({
+      const response = await request({
         method: 'account.addToken',
         origin,
         params: {
+          //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           address: tokens[0]!,
         },
       });
 
-      expect(await response).toRespondWith({
+      expect(response).toRespondWith({
         address: tokens[0],
         accountAddress: defaultAccount.address,
       });
@@ -33,9 +34,7 @@ describe('onRpcRequest', () => {
         method: 'account.getTokens',
         origin,
       });
-      expect(((await getTokens).response as any).result.tokens).toEqual([
-        tokens[0],
-      ]);
+      expect((getTokens.response as any).result.tokens).toEqual([tokens[0]]);
     });
 
     it('should throw an error when address is not a string', async () => {

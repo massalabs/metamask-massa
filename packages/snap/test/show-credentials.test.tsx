@@ -1,7 +1,8 @@
 import { expect } from '@jest/globals';
-import { installSnap, SnapConfirmationInterface } from '@metamask/snaps-jest';
+import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
+import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
-import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 describe('onRpcRequest', () => {
   describe('show-credentials', () => {

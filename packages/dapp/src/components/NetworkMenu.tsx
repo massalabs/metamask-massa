@@ -8,7 +8,6 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
-import { useMemo } from 'react';
 
 import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
 import { invalidateOperations } from '@/hooks/useOperations';
@@ -28,18 +27,10 @@ export const NetworkMenu = () => {
   const { data: activeNetwork } = useNetwork();
   const setNetwork = useSetNetwork();
 
-  const activeNetworkDisplay = useMemo(() => {
-    if (activeNetwork === undefined) {
-      return;
-    }
-    return networkList.find((network) => network.url === activeNetwork.network)
-      ?.name;
-  }, [activeNetwork]);
-
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-        {activeNetworkDisplay ?? <Spinner />}
+        {activeNetwork?.networkName ?? <Spinner />}
       </MenuButton>
       <MenuList>
         {networkList.map((network) => (

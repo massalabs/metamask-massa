@@ -1,12 +1,8 @@
 import type { Client } from '@massalabs/massa-web3';
-import {
-  CHAIN_ID,
-  ClientFactory,
-  DefaultProviderUrls,
-} from '@massalabs/massa-web3';
+import { ClientFactory } from '@massalabs/massa-web3';
 import { useCallback, useEffect, useState } from 'react';
 
-import type { NetworkResponse } from './useNetwork';
+import type { NetworkInfos } from './useNetwork';
 import { useNetwork } from './useNetwork';
 
 /**
@@ -17,14 +13,10 @@ export const useMassaClient = () => {
   const { data: network } = useNetwork();
   const [client, setClient] = useState<Client>();
   const createClient = useCallback(
-    async (net: NetworkResponse) => {
+    async (net: NetworkInfos) => {
       const newClient = await ClientFactory.createDefaultClient(
-        net?.network === DefaultProviderUrls.MAINNET
-          ? DefaultProviderUrls.MAINNET
-          : DefaultProviderUrls.BUILDNET,
-        net?.network === DefaultProviderUrls.MAINNET
-          ? CHAIN_ID.MainNet
-          : CHAIN_ID.BuildNet,
+        net.rpcUrl as any,
+        BigInt(net.chainId),
       );
       setClient(newClient);
     },

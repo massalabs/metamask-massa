@@ -36,7 +36,7 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${account.address}`),
+          text(`**Recipient:** ${account.address as string}`),
           text('**Amount:** 1000000'),
           text('**Fee:** 1000000'),
         ]),
@@ -80,7 +80,7 @@ describe('onRpcRequest', () => {
       expect(ui).toRender(
         panel([
           text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${account.address}`),
+          text(`**Recipient:** ${account.address as string}`),
           text('**Amount:** 1000000'),
           text('**Fee:** 1000000'),
         ]),

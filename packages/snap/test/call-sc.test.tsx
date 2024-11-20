@@ -1,7 +1,6 @@
 import { expect } from '@jest/globals';
 import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
 import { installSnap } from '@metamask/snaps-jest';
-import { panel, text } from '@metamask/snaps-sdk';
 
 import { setNetwork } from './utils/setNetwork';
 import { DefaultProviderUrls } from '@massalabs/massa-web3';

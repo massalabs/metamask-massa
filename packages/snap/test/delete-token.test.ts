@@ -22,15 +22,16 @@ describe('onRpcRequest', () => {
 
       expect(defaultAccount).toBeDefined();
 
-      const response = request({
+      const response = await request({
         method: 'account.deleteToken',
         origin,
         params: {
+          //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           address: tokens[0]!,
         },
       });
 
-      expect(await response).toRespondWith({
+      expect(response).toRespondWith({
         response: 'OK',
       });
 
@@ -38,7 +39,7 @@ describe('onRpcRequest', () => {
         method: 'account.getTokens',
         origin,
       });
-      expect(((await getTokens).response as any).result.tokens).toHaveLength(0);
+      expect((getTokens.response as any).result.tokens).toHaveLength(0);
     });
 
     it('should return an error when the token does not exist', async () => {
