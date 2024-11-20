@@ -4,7 +4,7 @@ import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
 
 import { setNetwork } from './utils/setNetwork';
-import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {

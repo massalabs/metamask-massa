@@ -5,9 +5,8 @@ import {
   SECRET_KEY_PREFIX,
   KEYS_VERSION_NUMBER,
   ClientFactory,
-  DefaultProviderUrls,
-  CHAIN_ID,
 } from '@massalabs/massa-web3';
+import { getNetwork } from './handlers';
 
 /**
  * @description MassaAccount class to handle account and client related operations
@@ -60,9 +59,10 @@ export class MassaAccount {
    */
   private static async setWalletClient() {
     const account = await this.getAccount();
+    const network = await getNetwork();
     this.web3Client = await ClientFactory.createDefaultClient(
-      DefaultProviderUrls.BUILDNET,
-      CHAIN_ID.BuildNet,
+      network.network as any,
+      BigInt(network.chainId),
       true,
       account,
     );

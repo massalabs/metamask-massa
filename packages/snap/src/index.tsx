@@ -42,7 +42,7 @@ import {
   clearOperations,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
-import { toMAS } from '@massalabs/massa-web3';
+import { BUILDNET, DefaultProviderUrls, LABNET, MAINNET, toMAS } from '@massalabs/massa-web3';
 import { getHDAccount } from './accounts/hd-deriver';
 import { showKeysConfirmation, showKeys } from './components';
 import { HomePage } from './components/HomePage';
@@ -110,14 +110,14 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
  * @see https://docs.metamask.io/snaps/reference/exports/#onhomepage
  */
 export const onHomePage: OnHomePageHandler = async () => {
-  const network = await getNetwork();
+  const networkInfo = await getNetwork();
   const account = await getHDAccount();
   const balance = await getBalance({ address: account.address || '' });
 
   return {
     content: (
       <HomePage
-        network={network.network}
+        networkInfo={networkInfo}
         address={account.address || ''}
         balance={toMAS(balance.candidateBalance).toString()}
       />
@@ -135,8 +135,6 @@ export const onHomePage: OnHomePageHandler = async () => {
  * @see https://docs.metamask.io/snaps/reference/exports/#onuserinput
  */
 export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
-  assert(event.type === UserInputEventType.ButtonClickEvent);
-  assert(event.name === 'show-keys-validation' || event.name === 'show-keys');
 
   switch (event.name) {
     case 'show-keys-validation':
@@ -145,7 +143,25 @@ export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
     case 'show-keys':
       await showKeys(id);
       break;
-    default:
+    case 'network-change':
+      assert(event.type === UserInputEventType.InputChangeEvent);
+      let network = '';
+      switch (event.value) {
+        case MAINNET:
+          network = DefaultProviderUrls.MAINNET;
+          break;
+        case BUILDNET:
+          network = DefaultProviderUrls.BUILDNET;
+          break;
+        case LABNET:
+          network = DefaultProviderUrls.LABNET;
+          break;
+      }
+      await setNetwork({ network});
+      break;
+    case 'custom-network-form':
+      assert(event.type === UserInputEventType.FormSubmitEvent);
+      await setNetwork({ network: event.value["custom-rpc"] as string});
       break;
   }
 };

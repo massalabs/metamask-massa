@@ -1,6 +1,7 @@
 import { getHDAccount } from '../accounts/hd-deriver';
 import { ShowKeys } from './ShowKeys';
 import { ShowKeysConfirmation } from './ShowKeysConfirmation';
+import { SwitchNetwork } from './SwitchNetwork';
 
 export async function showKeysConfirmation() {
   await snap.request({

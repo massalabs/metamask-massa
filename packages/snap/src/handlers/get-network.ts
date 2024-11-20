@@ -6,7 +6,9 @@ import {
 import type { Handler } from './handler';
 
 export type GetNetworkResponse = {
-  network: string; // chainId
+  network: string; // rpc url
+  chainId: string;
+  minimalFees: string;
 };
 
 /**
