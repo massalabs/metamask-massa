@@ -60,7 +60,7 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
     params: {
       type: 'confirmation',
       content: (
-        <SwitchNetwork networkName={networkName || ''} rpcUrl={network} />
+        <SwitchNetwork networkName={networkName || 'Custom'} rpcUrl={network} />
       ),
     },
   });

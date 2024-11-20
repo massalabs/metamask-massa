@@ -2,7 +2,7 @@ import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 
 import { setNetwork } from './utils/setNetwork';
-import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 import { DefaultProviderUrls } from '@massalabs/massa-web3';
 
 describe('onRpcRequest', () => {

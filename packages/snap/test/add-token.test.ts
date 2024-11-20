@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-import { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
 
 const tokens = ['AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm'];
 

@@ -9,7 +9,5 @@ export type GetNodeUrlsResponse = string;
  * @returns The node urls for the current network
  */
 export const getNodeUrl: Handler<void, GetNodeUrlsResponse> = async () => {
-  const url = await getActiveRPC();
-
-  return url;
+  return getActiveRPC();
 };

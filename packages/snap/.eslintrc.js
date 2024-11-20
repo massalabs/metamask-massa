@@ -13,9 +13,8 @@ module.exports = {
         '@metamask/eslint-config-typescript',
       ],
     },
-
     {
-      files: ['*.test.ts'],
+      files: ['*.test.ts', '*.test.tsx'],
       rules: {
         '@typescript-eslint/unbound-method': 'off',
         '@typescript-eslint/no-shadow': [

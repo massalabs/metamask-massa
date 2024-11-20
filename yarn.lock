@@ -2162,8 +2162,8 @@ __metadata:
     "@metamask/snaps-jest": ^8.7.0
     "@metamask/snaps-sdk": ^6.10.0
     "@types/jest": ^29.5.12
-    "@types/react": 18.0.25
-    "@types/react-dom": 18.0.8
+    "@types/react": 18.2.14
+    "@types/react-dom": 18.2.4
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
     buffer: ^6.0.3
@@ -3687,12 +3687,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.0.8":
-  version: 18.0.8
-  resolution: "@types/react-dom@npm:18.0.8"
+"@types/react-dom@npm:18.2.4":
+  version: 18.2.4
+  resolution: "@types/react-dom@npm:18.2.4"
   dependencies:
     "@types/react": "*"
-  checksum: 522e5e949d05f35c6037a2290838c9c7ff92a9d06f7d96b993c7c3f5a86d8f3a6337e059c94e6fb0920227f445e5d1ce10fbfe3d9bbd95fb82a5539249d90646
+  checksum: 8301f35cf1cbfec8c723e9477aecf87774e3c168bd457d353b23c45064737213d3e8008b067c6767b7b08e4f2b3823ee239242a6c225fc91e7f8725ef8734124
   languageName: node
   linkType: hard
 
@@ -3715,14 +3715,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.0.25":
-  version: 18.0.25
-  resolution: "@types/react@npm:18.0.25"
+"@types/react@npm:18.2.14":
+  version: 18.2.14
+  resolution: "@types/react@npm:18.2.14"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 231d658c45abdef044a716b4502774f1585d8336d73b2f5bd68f181acbfc874b7a457686ecd29b415b43ed0922c309bab7e2cf96832d188a3f4f1b02f2af760a
+  checksum: a6a5e8cc78f486b9020d1ad009aa6c56943c68c7c6376e0f8399e9cbcd950b7b8f5d73f00200f5379f5e58d31d57d8aed24357f301d8e86108cd438ce6c8b3dd
   languageName: node
   linkType: hard
 
