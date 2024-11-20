@@ -1,19 +1,7 @@
-import {
-  CHAIN_ID_TO_NETWORK_NAME,
-  fromMAS,
-  IClientConfig,
-  ProviderType,
-  PublicApiClient,
-} from '@massalabs/massa-web3';
-import {
-  setActiveChainId,
-  setActiveMinimalFees,
-  setActiveRPC,
-} from '../active-chain';
+import { setActiveNetwork } from '../active-chain';
 import type { Handler } from './handler';
 import { SwitchNetwork } from '../components/SwitchNetwork';
-
-export const DEFAULT_MINIMAL_FEES = fromMAS('0.01').toString();
+import { fetchNetworkInfos } from '../network';
 
 export type SetNetworkParams = {
   network: string;
@@ -46,22 +34,13 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
 ) => {
   const network = coerceParams(params);
 
-  const config: IClientConfig = {
-    providers: [{ url: network, type: ProviderType.PUBLIC }],
-  };
-
-  const publicApi = new PublicApiClient(config);
-  const node_status = await publicApi.getNodeStatus();
-
-  const networkName = CHAIN_ID_TO_NETWORK_NAME[node_status.chain_id.toString()];
+  const networkInfos = await fetchNetworkInfos(network);
 
   const confirm = await snap.request({
     method: 'snap_dialog',
     params: {
       type: 'confirmation',
-      content: (
-        <SwitchNetwork networkName={networkName || 'Custom'} rpcUrl={network} />
-      ),
+      content: <SwitchNetwork {...networkInfos} />,
     },
   });
 
@@ -69,9 +48,7 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
     throw new Error('User denied calling network change');
   }
 
-  await setActiveRPC(network);
-  await setActiveChainId(node_status.chain_id);
-  await setActiveMinimalFees(node_status.minimal_fees ?? DEFAULT_MINIMAL_FEES);
+  await setActiveNetwork(networkInfos);
 
-  return { network: network };
+  return { network };
 };

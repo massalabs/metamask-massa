@@ -41,7 +41,13 @@ import {
   clearOperations,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
-import { BUILDNET, DefaultProviderUrls, LABNET, MAINNET, toMAS } from '@massalabs/massa-web3';
+import {
+  BUILDNET,
+  DefaultProviderUrls,
+  LABNET,
+  MAINNET,
+  toMAS,
+} from '@massalabs/massa-web3';
 import { getHDAccount } from './accounts/hd-deriver';
 import { showKeysConfirmation, showKeys } from './components';
 import { HomePage } from './components/HomePage';
@@ -132,7 +138,6 @@ export const onHomePage: OnHomePageHandler = async () => {
  * @see https://docs.metamask.io/snaps/reference/exports/#onuserinput
  */
 export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
-
   switch (event.name) {
     case 'show-keys-validation':
       await showKeysConfirmation();
@@ -154,11 +159,11 @@ export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
           network = DefaultProviderUrls.LABNET;
           break;
       }
-      await setNetwork({ network});
+      await setNetwork({ network });
       break;
     case 'custom-network-form':
       assert(event.type === UserInputEventType.FormSubmitEvent);
-      await setNetwork({ network: event.value["custom-rpc"] as string});
+      await setNetwork({ network: event.value['custom-rpc'] as string });
       break;
   }
 };

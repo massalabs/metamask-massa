@@ -6,11 +6,9 @@ import {
   Text,
   Bold,
 } from '@metamask/snaps-sdk/jsx';
+import type { NetworkInfos } from '../network';
 
-type SwitchNetworkProps = {
-  networkName: string;
-  rpcUrl: string;
-};
+type SwitchNetworkProps = NetworkInfos;
 
 export const SwitchNetwork: SnapComponent<SwitchNetworkProps> = ({
   networkName,

@@ -1,40 +1,27 @@
 import type { Client, WalletClient } from '@massalabs/massa-web3';
 import { ClientFactory, ProviderType } from '@massalabs/massa-web3';
 
-import { getActiveChainId, getActiveRPC } from '../active-chain';
 import { getHDAccount } from './hd-deriver';
+import { getActiveNetwork } from '../active-chain';
 
-/**
- *
- * @param address
- * @param chainId
- */
-export async function getClient(url?: string): Promise<Client | undefined> {
+export async function getClient(): Promise<Client | undefined> {
   const account = await getHDAccount();
-  const rpc = url ?? (await getActiveRPC());
-  const chain_id = await getActiveChainId();
+  const networkInfos = await getActiveNetwork();
 
   if (!account) {
     return undefined;
   }
 
-  return await ClientFactory.createCustomClient(
-    [{ url: rpc, type: ProviderType.PUBLIC }],
-    chain_id,
+  return ClientFactory.createCustomClient(
+    [{ url: networkInfos.rpcUrl, type: ProviderType.PUBLIC }],
+    BigInt(networkInfos.chainId),
     true,
     account,
   );
 }
 
-/**
- *
- * @param address
- * @param chainId
- */
-export async function getClientWallet(
-  url?: string,
-): Promise<WalletClient | undefined> {
-  const client = await getClient(url);
+export async function getClientWallet(): Promise<WalletClient | undefined> {
+  const client = await getClient();
   if (!client) {
     return undefined;
   }

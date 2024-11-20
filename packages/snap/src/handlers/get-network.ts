@@ -1,28 +1,13 @@
-import {
-  getActiveChainId,
-  getActiveMinimalFees,
-  getActiveRPC,
-} from '../active-chain';
+import { getActiveNetwork } from '../active-chain';
 import type { Handler } from './handler';
+import type { NetworkInfos } from '../network';
 
-export type GetNetworkResponse = {
-  network: string; // rpc url
-  chainId: string;
-  minimalFees: string;
-};
+export type GetNetworkResponse = NetworkInfos;
 
 /**
- * @description Get the current network url
- * @returns The network url as a string
+ * @description Get the current network infos
+ * @returns The network infos
  */
 export const getNetwork: Handler<void, GetNetworkResponse> = async () => {
-  const url = await getActiveRPC();
-  const chainId = await getActiveChainId();
-  const minimalFees = await getActiveMinimalFees();
-
-  return {
-    network: url,
-    chainId: chainId.toString(),
-    minimalFees,
-  };
+  return getActiveNetwork();
 };

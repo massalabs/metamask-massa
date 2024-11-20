@@ -1,4 +1,9 @@
-import { BUILDNET, CHAIN_ID_TO_NETWORK_NAME, LABNET, MAINNET } from '@massalabs/massa-web3';
+import {
+  BUILDNET,
+  CHAIN_ID_TO_NETWORK_NAME,
+  LABNET,
+  MAINNET,
+} from '@massalabs/massa-web3';
 import {
   SnapComponent,
   Container,
@@ -15,10 +20,10 @@ import {
   Field,
   Input,
 } from '@metamask/snaps-sdk/jsx';
-import { GetNetworkResponse } from 'src/handlers';
+import type { NetworkInfos } from '../network';
 
 type HomePageProps = {
-  networkInfo: GetNetworkResponse;
+  networkInfo: NetworkInfos;
   address: string;
   balance: string;
 };
@@ -36,7 +41,7 @@ export const HomePage: SnapComponent<HomePageProps> = ({
         <Copyable value={address} />
         <Card title="balance:" value="Mas" extra={balance.toString()} />
         <Heading>Network:</Heading>
-        <Card title="Current:" value={networkName} extra={networkInfo.network}/>
+        <Card title="Current:" value={networkName} extra={networkInfo.rpcUrl} />
         <Text>Select a network:</Text>
         <Dropdown name="network-change">
           <Option value={MAINNET}>Mainnet</Option>
