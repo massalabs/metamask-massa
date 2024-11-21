@@ -34,6 +34,20 @@ export const HomePage: SnapComponent<HomePageProps> = ({
   balance,
 }) => {
   const networkName = CHAIN_ID_TO_NETWORK_NAME[networkInfo.chainId] ?? 'Custom';
+
+  const networkList =
+    networkName === MAINNET
+      ? [MAINNET, BUILDNET, LABNET]
+      : [BUILDNET, MAINNET, LABNET];
+
+  const dropDown = (
+    <Dropdown name="network-change">
+      {networkList.map((network) => (
+        <Option value={network}>{network}</Option>
+      ))}
+    </Dropdown>
+  );
+
   return (
     <Container>
       <Box>
@@ -43,11 +57,7 @@ export const HomePage: SnapComponent<HomePageProps> = ({
         <Heading>Network:</Heading>
         <Card title="Current:" value={networkName} extra={networkInfo.rpcUrl} />
         <Text>Select a network:</Text>
-        <Dropdown name="network-change">
-          <Option value={MAINNET}>Mainnet</Option>
-          <Option value={BUILDNET}>Buildnet</Option>
-          <Option value={LABNET}>Labnet</Option>
-        </Dropdown>
+        {dropDown}
         <Form name="custom-network-form">
           <Field label="Custom Rpc Url">
             <Input name="custom-rpc" placeholder="http://localhost:33035" />
