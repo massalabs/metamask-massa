@@ -11,11 +11,11 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { fromMAS } from '@massalabs/massa-web3';
 import { useMemo, useRef, useState } from 'react';
 
 import { invalidateOperations } from '@/hooks/useOperations';
 import { useTransfer } from '@/hooks/useTransfer';
+import { Mas } from '@massalabs/massa-web3';
 
 export const TxModal = ({
   isOpen,
@@ -29,22 +29,16 @@ export const TxModal = ({
 
   const [recipientAddress, setReceiver] = useState<string>('');
   const [amount, setAmount] = useState<string>('0');
-  const [fee, setFee] = useState<string>('0');
+  const [fee, setFee] = useState<string>('');
   const transfer = useTransfer();
 
   const isFormValid = useMemo(() => {
-    if (recipientAddress === '' || amount === '' || fee === '') {
+    if (recipientAddress === '' || amount === '') {
       // TODO: Show error message
       return false;
     }
-    try {
-      BigInt(amount);
-      BigInt(fee);
-    } catch (error) {
-      return false;
-    }
     return true;
-  }, [recipientAddress, amount, fee]);
+  }, [recipientAddress, amount]);
 
   return (
     <Modal
@@ -101,8 +95,8 @@ export const TxModal = ({
             onClick={async () => {
               await transfer({
                 recipientAddress,
-                amount: fromMAS(amount).toString(),
-                fee: fromMAS(fee).toString(),
+                amount: Mas.fromString(amount).toString(),
+                fee: fee !== '' ? Mas.fromString(fee).toString() : undefined,
               });
               invalidateOperations();
               onClose(false);

@@ -1,3 +1,4 @@
+import { Address } from '@massalabs/massa-web3';
 import { StateManager } from './state-manager';
 
 // Account address -> OperationId[]
@@ -32,13 +33,13 @@ export async function getAccountOperations(address: string): Promise<string[]> {
  * @param operation - Operation id as a string prefixed with 'O'
  */
 export async function addAccountOperation(address: string, operation: string) {
-  if (!address || !address.startsWith('AU')) {
+  if (!Address.fromString(address).isEOA) {
     throw new Error(
-      'Invalid params: address must be a string and start with AU',
+      'Invalid params: address must be a EOA address (prefixed with AU)',
     );
   }
 
-  if (!operation || !operation.startsWith('O')) {
+  if (!operation.startsWith('O')) {
     throw new Error(
       'Invalid params: operation must be a string and start with O',
     );

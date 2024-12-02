@@ -21,10 +21,7 @@ export const showAccountCredentials: Handler<
 > = async (params) => {
   const account = await getHDAccount();
 
-  if (!account) {
-    throw new Error(`Not logged in to metamask. Please log in and try again.`);
-  }
-  if (params.address !== account.address) {
+  if (params.address !== account.address.toString()) {
     throw new Error(`Account not found: ${params.address}`);
   }
 
@@ -51,9 +48,9 @@ export const showAccountCredentials: Handler<
       type: 'alert',
       content: (
         <ShowKeys
-          address={account.address || ''}
-          publicKey={account.publicKey || ''}
-          secretKey={account.secretKey || ''}
+          address={account.address.toString()}
+          publicKey={account.publicKey.toString()}
+          secretKey={account.privateKey.toString()}
         />
       ),
     },

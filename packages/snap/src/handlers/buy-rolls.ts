@@ -1,13 +1,13 @@
-import type { IRollsData, WalletClient } from '@massalabs/massa-web3';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { getClientWallet } from '../accounts/clients';
 import type { Handler } from './handler';
 import { addAccountOperation } from '../operations';
-import { getHDAccount } from '../accounts/hd-deriver';
+import { getProvider } from '../accounts/provider';
+import { Mas } from '@massalabs/massa-web3';
+import { getActiveNetwork } from '../active-chain';
 
 export type BuyRollsParams = {
-  fee: string;
+  fee?: string;
   amount: string;
 };
 
@@ -15,18 +15,16 @@ export type BuyRollsResponse = {
   operationId: string;
 };
 
-const coerceParams = (params: BuyRollsParams): IRollsData => {
-  if (!params.fee || typeof params.fee !== 'string') {
-    throw new Error('Invalid params: fee must be a string');
-  }
+const validate = (params: BuyRollsParams) => {
   if (!params.amount || typeof params.amount !== 'string') {
     throw new Error('Invalid params: amount must be a string');
   }
-  return {
-    fee: BigInt(params.fee),
-    amount: BigInt(params.amount),
-  };
+  // optionnal parameters
+  if (params.fee && typeof params.fee !== 'string') {
+    throw new Error('Invalid params: fee must be a string');
+  }
 };
+
 /**
  * @description Buys rolls with the given amount and fee
  * @param params - The buy rolls parameters (fee and amount)
@@ -35,13 +33,11 @@ const coerceParams = (params: BuyRollsParams): IRollsData => {
 export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
   params,
 ) => {
-  const rollsData = coerceParams(params);
-  const wallet: WalletClient | undefined = await getClientWallet();
-  const account = await getHDAccount();
-
-  if (!account) {
-    throw new Error('Account not found or client not logged in');
-  }
+  validate(params);
+  const provider = await getProvider();
+  const networkInfos = await getActiveNetwork();
+  const amount = BigInt(params.amount);
+  const fee = BigInt(params.fee ? params.fee : networkInfos.minimalFees);
 
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -49,8 +45,8 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
       type: 'confirmation',
       content: panel([
         text('**Do you want to buy rolls ?**'),
-        text(`**Amount:** ${rollsData.amount.toString()}`),
-        text(`**Fee:** ${rollsData.fee.toString()}`),
+        text(`**Amount:** ${params.amount.toString()}`),
+        text(`**Fee:** ${Mas.toString(fee)} MAS`),
       ]),
     },
   });
@@ -59,13 +55,9 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
     throw new Error('User denied buy rolls');
   }
 
-  if (!wallet) {
-    throw new Error('Wallet not found');
-  }
+  const operation = await provider.buyRolls(amount, { fee });
 
-  const operationId = await wallet.buyRolls(rollsData);
+  await addAccountOperation(provider.address, operation.id);
 
-  await addAccountOperation(account.address!, operationId[0]!);
-
-  return { operationId: operationId[0]! };
+  return { operationId: operation.id };
 };

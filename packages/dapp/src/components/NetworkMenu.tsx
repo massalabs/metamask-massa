@@ -7,19 +7,23 @@ import {
   Button,
   Spinner,
 } from '@chakra-ui/react';
-import { CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
 
 import { invalidateNetwork, useNetwork } from '@/hooks/useNetwork';
 import { invalidateOperations } from '@/hooks/useOperations';
 import { useSetNetwork } from '@/hooks/useSetNetwork';
 import { invalidateTokens } from '@/hooks/useTokens';
+import { CHAIN_ID, NetworkName, PublicApiUrl } from '@massalabs/massa-web3';
 
 const networkList = [
-  { id: CHAIN_ID.MainNet, name: 'Mainnet', url: DefaultProviderUrls.MAINNET },
   {
-    id: CHAIN_ID.BuildNet,
-    name: 'Buildnet',
-    url: DefaultProviderUrls.BUILDNET,
+    id: CHAIN_ID.Mainnet,
+    name: NetworkName.Mainnet,
+    url: PublicApiUrl.Mainnet,
+  },
+  {
+    id: CHAIN_ID.Buildnet,
+    name: NetworkName.Buildnet,
+    url: PublicApiUrl.Buildnet,
   },
 ];
 

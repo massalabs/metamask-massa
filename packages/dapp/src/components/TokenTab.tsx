@@ -30,6 +30,7 @@ import { TokenRow } from './TokenRow';
 import { useAccountBalance } from '@/hooks/useAccountBalance';
 import { useActiveAccount } from '@/hooks/useActiveAccount';
 import { useTokens } from '@/hooks/useTokens';
+import { Mas } from '@massalabs/massa-web3';
 
 export type AccountToken = { name: string; address: string; decimals: number };
 
@@ -60,9 +61,7 @@ export const TokenTab = () => {
     if (isLoadingAccountBalance || !accountBalance) {
       return <Spinner />;
     }
-    return (
-      Number(BigInt(accountBalance.finalBalance) / BigInt(10 ** 6)) / 10 ** 3
-    );
+    return Mas.toString(BigInt(accountBalance.finalBalance));
   }, [accountBalance, isLoadingAccountBalance]);
 
   return (

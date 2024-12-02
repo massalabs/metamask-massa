@@ -2,16 +2,14 @@
 
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { AlertIcon, Link, Td, Tr } from '@chakra-ui/react';
-import type { IOperationData, ITransactionOpType } from '@massalabs/massa-web3';
-import type {
-  ICallSmartContractOpType,
-  IExecSmartContractOpType,
-  IRollBuyOpType,
-  IRollSellOpType,
-} from '@massalabs/massa-web3/dist/esm/interfaces/OperationTypes';
+import { rpcTypes } from '@massalabs/massa-web3';
 import { useMemo } from 'react';
 
-export const OperationRow = ({ operation }: { operation: IOperationData }) => {
+export const OperationRow = ({
+  operation,
+}: {
+  operation: rpcTypes.OperationInfo;
+}) => {
   const getStatusIcon = useMemo(() => {
     if (operation.op_exec_status === true) {
       return <CheckCircleIcon color={'green'} />;
@@ -22,28 +20,17 @@ export const OperationRow = ({ operation }: { operation: IOperationData }) => {
   }, [operation]);
 
   const getOperationType = useMemo(() => {
-    if (
-      (operation.operation.content.op as ITransactionOpType).Transaction !==
-      undefined
-    ) {
+    const { op } = operation.operation.content;
+
+    if (!!op.Transaction) {
       return 'Transaction';
-    } else if (
-      (operation.operation.content.op as ICallSmartContractOpType).CallSC !==
-      undefined
-    ) {
+    } else if (!!op.CallSC) {
       return 'Smart Contract Call';
-    } else if (
-      (operation.operation.content.op as IExecSmartContractOpType).ExecuteSC !==
-      undefined
-    ) {
+    } else if (!!op.ExecutSC) {
       return 'Smart Contract Execution';
-    } else if (
-      (operation.operation.content.op as IRollBuyOpType).RollBuy !== undefined
-    ) {
+    } else if (!!op.RollBuy) {
       return 'Roll Buy';
-    } else if (
-      (operation.operation.content.op as IRollSellOpType).RollSell !== undefined
-    ) {
+    } else if (!!op.RollSell) {
       return 'Roll Sell';
     }
     return 'Unknown';

@@ -1,6 +1,6 @@
-import { getClientWallet } from '../accounts/clients';
-import { getHDAccount } from '../accounts/hd-deriver';
+import { getProvider } from '../accounts/provider';
 import type { Handler } from './handler';
+import { Address } from '@massalabs/massa-web3';
 
 export type GetBalanceParams = {
   address: string;
@@ -11,17 +11,11 @@ export type GetBalanceResponse = {
   candidateBalance: string;
 };
 
-/**
- * @description Coerces the get balance parameters to the expected format
- * @param params - The get balance parameters
- * @returns The coerced parameters
- * @throws If the parameters are invalid
- */
-const coerceParams = (params: GetBalanceParams): string => {
+const validate = (params: GetBalanceParams) => {
   if (!params.address || typeof params.address !== 'string') {
     throw new Error('Invalid params: address must be a string');
   }
-  return params.address;
+  Address.fromString(params.address);
 };
 
 /**
@@ -33,20 +27,20 @@ const coerceParams = (params: GetBalanceParams): string => {
 export const getBalance: Handler<GetBalanceParams, GetBalanceResponse> = async (
   params,
 ) => {
-  const wallet = await getClientWallet();
-  const { address } = await getHDAccount();
-  const requestedAddress = coerceParams(params);
+  validate(params);
 
-  if (!wallet || !address) {
-    throw new Error(`Not logged in to metamask. Please log in and try again.`);
+  const provider = await getProvider();
+
+  if (provider.address !== params.address) {
+    throw new Error(`Account not found: ${params.address}`);
   }
-  if (address !== requestedAddress) {
-    throw new Error(`Account not found: ${requestedAddress}`);
-  }
-  const balance = await wallet.getAccountBalance(address);
+  const [final, candidate] = await Promise.all([
+    provider.balance(true),
+    provider.balance(false),
+  ]);
 
   return {
-    finalBalance: balance?.final?.toString() || '0',
-    candidateBalance: balance?.candidate?.toString() || '0',
+    finalBalance: final.toString(),
+    candidateBalance: candidate.toString(),
   };
 };

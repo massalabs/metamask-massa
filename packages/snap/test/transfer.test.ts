@@ -3,248 +3,249 @@ import type { SnapConfirmationInterface } from '@metamask/snaps-jest';
 import { installSnap } from '@metamask/snaps-jest';
 import { panel, text } from '@metamask/snaps-sdk';
 
-import { setNetwork } from './utils/setNetwork';
-import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
-import { DefaultProviderUrls } from '@massalabs/massa-web3';
+import type { GetActiveAccountResponse } from '../src/handlers/get-active-account';
 
-describe('onRpcRequest', () => {
-  describe('transfer', () => {
-    it('should return an operation id', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+describe('transfer', () => {
+  const origin = 'Jest';
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+  it('should return an operation id', async () => {
+    const { request } = await installSnap();
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          recipientAddress: account.address,
-          fee: '1000000000000000',
-          amount: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      const ui = (await response.getInterface()) as SnapConfirmationInterface;
-
-      expect(ui.type).toBe('confirmation');
-      expect(ui).toRender(
-        panel([
-          text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${account.address as string}`),
-          text('**Amount:** 1000000'),
-          text('**Fee:** 1000000'),
-        ]),
-      );
-
-      await ui.ok();
-      expect(await response).toRespondWith({
-        operationId: expect.any(String),
-      });
-
-      const operations = await request({
-        method: 'account.getOperations',
-        origin,
-      });
-      expect((operations.response as any).result.operations).toHaveLength(1);
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        fee: '1000000000000000',
+        amount: '1000000000000000',
+      },
     });
 
-    it('should throw an error if the user deny the request', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+    const ui = (await response.getInterface()) as SnapConfirmationInterface;
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
-        origin,
-        params: {
-          recipientAddress: account.address,
-          fee: '1000000000000000',
-          amount: '1000000000000000',
-        },
-      });
+    expect(ui.type).toBe('confirmation');
+    expect(ui).toRender(
+      panel([
+        text('**Do you want to send the following transaction?**'),
+        text(`**Recipient:** ${account.address}`),
+        text('**Amount:** 1000000 MAS'),
+        text('**Fee:** 1000000 MAS'),
+      ]),
+    );
 
-      const ui = (await response.getInterface()) as SnapConfirmationInterface;
-      expect(ui.type).toBe('confirmation');
-      expect(ui).toRender(
-        panel([
-          text('**Do you want to send the following transaction?**'),
-          text(`**Recipient:** ${account.address as string}`),
-          text('**Amount:** 1000000'),
-          text('**Fee:** 1000000'),
-        ]),
-      );
-
-      await ui.cancel();
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'User denied sending transaction',
-        stack: expect.any(String),
-      });
+    await ui.ok();
+    expect(await response).toRespondWith({
+      operationId: expect.any(String),
     });
 
-    it('should throw an error if the fee is not a string', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+    const operations = await request({
+      method: 'account.getOperations',
+      origin,
+    });
+    expect((operations.response as any).result.operations).toHaveLength(1);
+  });
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+  it('should return an operation id (fee missing)', async () => {
+    const { request } = await installSnap();
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          recipientAddress: account.address,
-          fee: 1000000,
-          amount: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: fee must be a string',
-        stack: expect.any(String),
-      });
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        amount: '1000000000000000',
+      },
     });
 
-    it('should throw an error if the amount is not a string', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+    const ui = (await response.getInterface()) as SnapConfirmationInterface;
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
-        origin,
-        params: {
-          recipientAddress: account.address,
-          fee: '1000000000000000',
-          amount: 1000000,
-        },
-      });
+    expect(ui.type).toBe('confirmation');
+    expect(ui).toRender(
+      panel([
+        text('**Do you want to send the following transaction?**'),
+        text(`**Recipient:** ${account.address}`),
+        text('**Amount:** 1000000 MAS'),
+        text('**Fee:** 0.01 MAS'),
+      ]),
+    );
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: amount must be a string',
-        stack: expect.any(String),
-      });
+    await ui.ok();
+    expect(await response).toRespondWith({
+      operationId: expect.any(String),
     });
 
-    it('should throw an error if the recipientAddress is not a string', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
+    const operations = await request({
+      method: 'account.getOperations',
+      origin,
+    });
+    expect((operations.response as any).result.operations).toHaveLength(1);
+  });
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+  it('should throw an error if the user deny the request', async () => {
+    const { request } = await installSnap();
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          recipientAddress: 123,
-          fee: '1000000000000000',
-          amount: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: recipientAddress must be a string',
-        stack: expect.any(String),
-      });
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        fee: '1000000000000000',
+        amount: '1000000000000000',
+      },
     });
 
-    it('should throw an error if the fee is missing', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+    const ui = (await response.getInterface()) as SnapConfirmationInterface;
+    expect(ui.type).toBe('confirmation');
+    expect(ui).toRender(
+      panel([
+        text('**Do you want to send the following transaction?**'),
+        text(`**Recipient:** ${account.address}`),
+        text('**Amount:** 1000000 MAS'),
+        text('**Fee:** 1000000 MAS'),
+      ]),
+    );
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+    await ui.cancel();
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'User denied sending transaction',
+      stack: expect.any(String),
+    });
+  });
+
+  it('should throw an error if the fee is not a string', async () => {
+    const { request } = await installSnap();
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          recipientAddress: account.address,
-          amount: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: fee must be a string',
-        stack: expect.any(String),
-      });
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        fee: 1000000,
+        amount: '1000000000000000',
+      },
     });
 
-    it('should throw an error if the amount is missing', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
-      const account: GetActiveAccountResponse = (
-        (await request({
-          method: 'account.getActive',
-          origin,
-        })) as any
-      ).response.result;
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'Invalid params: fee must be a string',
+      stack: expect.any(String),
+    });
+  });
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+  it('should throw an error if the amount is not a string', async () => {
+    const { request } = await installSnap();
+
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          recipientAddress: account.address,
-          fee: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: amount must be a string',
-        stack: expect.any(String),
-      });
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        fee: '1000000000000000',
+        amount: 1000000,
+      },
     });
 
-    it('should throw an error if the recipientAddress is missing', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'Invalid params: amount must be a string',
+      stack: expect.any(String),
+    });
+  });
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'account.sendTransaction',
+  it('should throw an error if the recipientAddress is not a string', async () => {
+    const { request } = await installSnap();
+
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: 123,
+        fee: '1000000000000000',
+        amount: '1000000000000000',
+      },
+    });
+
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'Invalid params: recipientAddress must be a string',
+      stack: expect.any(String),
+    });
+  });
+
+  it('should throw an error if the amount is missing', async () => {
+    const { request } = await installSnap();
+
+    const account: GetActiveAccountResponse = (
+      (await request({
+        method: 'account.getActive',
         origin,
-        params: {
-          fee: '1000000000000000',
-          amount: '1000000000000000',
-        },
-      });
+      })) as any
+    ).response.result;
 
-      expect(await response).toRespondWithError({
-        code: -32603,
-        message: 'Invalid params: recipientAddress must be a string',
-        stack: expect.any(String),
-      });
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        recipientAddress: account.address,
+        fee: '1000000000000000',
+      },
+    });
+
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'Invalid params: amount must be a string',
+      stack: expect.any(String),
+    });
+  });
+
+  it('should throw an error if the recipientAddress is missing', async () => {
+    const { request } = await installSnap();
+
+    const response = request({
+      method: 'account.sendTransaction',
+      origin,
+      params: {
+        fee: '1000000000000000',
+        amount: '1000000000000000',
+      },
+    });
+
+    expect(await response).toRespondWithError({
+      code: -32603,
+      message: 'Invalid params: recipientAddress must be a string',
+      stack: expect.any(String),
     });
   });
 });

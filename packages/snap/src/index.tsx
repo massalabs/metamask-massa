@@ -3,7 +3,6 @@ import {
   OnHomePageHandler,
   OnUserInputHandler,
   UserInputEventType,
-  type Json,
   type OnRpcRequestHandler,
 } from '@metamask/snaps-sdk';
 
@@ -41,16 +40,11 @@ import {
   clearOperations,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
-import {
-  BUILDNET,
-  DefaultProviderUrls,
-  LABNET,
-  MAINNET,
-  toMAS,
-} from '@massalabs/massa-web3';
-import { getHDAccount } from './accounts/hd-deriver';
+
 import { showKeysConfirmation, showKeys } from './components';
 import { HomePage } from './components/HomePage';
+import { Mas, NetworkName, PublicApiUrl } from '@massalabs/massa-web3';
+import { getProvider } from './accounts/provider';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -64,43 +58,39 @@ import { HomePage } from './components/HomePage';
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
     case 'account.balance':
-      return getBalance(request.params as unknown as GetBalanceParams);
+      return getBalance(request.params as GetBalanceParams);
     case 'account.sign':
-      return signMessage(
-        request.params as unknown as SignMessageParams,
-      ) as unknown as Promise<Json>;
+      return signMessage(request.params as SignMessageParams);
     case 'account.callSC':
-      return callSmartContract(request.params as unknown as CallSCParameters);
+      return callSmartContract(request.params as CallSCParameters);
     case 'account.readSC':
-      return readSmartContract(request.params as unknown as ReadSCParameters);
+      return readSmartContract(request.params as ReadSCParameters);
     case 'account.sendTransaction':
-      return transfer(request.params as unknown as TransferParams);
+      return transfer(request.params as TransferParams);
     case 'account.sellRolls':
-      return sellRolls(request.params as unknown as SellRollsParams);
+      return sellRolls(request.params as SellRollsParams);
     case 'account.buyRolls':
-      return buyRolls(request.params as unknown as BuyRollsParams);
+      return buyRolls(request.params as BuyRollsParams);
     case 'Provider.getNetwork':
       return getNetwork();
     case 'Provider.setNetwork':
-      return setNetwork(request.params as unknown as SetNetworkParams);
+      return setNetwork(request.params as SetNetworkParams);
     case 'account.showCredentials':
       return showAccountCredentials(
-        request.params as unknown as ShowAccountCredentialsParams,
+        request.params as ShowAccountCredentialsParams,
       );
     case 'account.getActive':
       return getActiveAccount();
     case 'account.addToken':
-      return addToken(request.params as unknown as AddTokenParams);
+      return addToken(request.params as AddTokenParams);
     case 'account.deleteToken':
-      return deleteToken(request.params as unknown as DeleteTokenParams);
+      return deleteToken(request.params as DeleteTokenParams);
     case 'account.getTokens':
-      return getTokens(request.params as unknown as GetTokensParams);
+      return getTokens(request.params as GetTokensParams);
     case 'account.getOperations':
-      return getOperations(request.params as unknown as GetOperationsParams);
+      return getOperations(request.params as GetOperationsParams);
     case 'account.clearOperations':
-      return clearOperations(
-        request.params as unknown as ClearOperationsParams,
-      );
+      return clearOperations(request.params as ClearOperationsParams);
     default:
       throw new Error('Method not found.');
   }
@@ -114,15 +104,16 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
  */
 export const onHomePage: OnHomePageHandler = async () => {
   const networkInfo = await getNetwork();
-  const account = await getHDAccount();
-  const balance = await getBalance({ address: account.address || '' });
+  const provider = await getProvider();
+  const address = provider.address;
+  const balance = await provider.balance(false);
 
   return {
     content: (
       <HomePage
         networkInfo={networkInfo}
-        address={account.address || ''}
-        balance={toMAS(balance.candidateBalance).toString()}
+        address={address}
+        balance={Mas.toString(balance)}
       />
     ),
   };
@@ -149,14 +140,11 @@ export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
       assert(event.type === UserInputEventType.InputChangeEvent);
       let network = '';
       switch (event.value) {
-        case MAINNET:
-          network = DefaultProviderUrls.MAINNET;
+        case NetworkName.Mainnet:
+          network = PublicApiUrl.Mainnet;
           break;
-        case BUILDNET:
-          network = DefaultProviderUrls.BUILDNET;
-          break;
-        case LABNET:
-          network = DefaultProviderUrls.LABNET;
+        case NetworkName.Buildnet:
+          network = PublicApiUrl.Buildnet;
           break;
       }
       await setNetwork({ network });

@@ -1,13 +1,9 @@
 import { panel, text } from '@metamask/snaps-sdk';
-
-import { getClientWallet } from '../accounts/clients';
-import { getHDAccount } from '../accounts/hd-deriver';
 import type { Handler } from './handler';
-import { getActiveNetwork } from '../active-chain';
+import { getProvider } from '../accounts/provider';
 
 export type SignMessageParams = {
-  data: number[];
-  address: string;
+  data: number[] | string;
 };
 
 export type SignMessageResponse = {
@@ -15,21 +11,13 @@ export type SignMessageResponse = {
   publicKey: string;
 };
 
-/**
- * @description Coerce the sign message parameters by ensuring the parameters are present and are the correct type
- * @param params - The sign message parameters
- * @returns The sign message parameters
- */
-const coerceParams = (params: SignMessageParams): SignMessageParams => {
+const validate = (params: SignMessageParams) => {
   if (!params.data) {
-    throw new Error('Data to sign is required!');
-  } else if (!Array.isArray(params.data)) {
-    throw new Error('Data must be an array!');
-  } else if (!params.address) {
-    throw new Error('Address to sign with is required!');
+    throw new Error('No data provided');
   }
-
-  return params;
+  if (!(Array.isArray(params.data) || typeof params.data === 'string')) {
+    throw new Error('Invalid data type. Must be a Uint8Array or a string');
+  }
 };
 
 /**
@@ -42,16 +30,8 @@ export const signMessage: Handler<
   SignMessageParams,
   SignMessageResponse
 > = async (params) => {
-  const { data, address: signingAddress } = coerceParams(params);
-  const wallet = await getClientWallet();
-  const { address } = await getHDAccount();
-
-  if (!wallet || !address) {
-    throw new Error(`Not logged in to metamask. Please log in and try again.`);
-  }
-  if (address !== signingAddress) {
-    throw new Error(`Account not found: ${signingAddress}`);
-  }
+  validate(params);
+  const provider = await getProvider();
 
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -59,7 +39,7 @@ export const signMessage: Handler<
       type: 'confirmation',
       content: panel([
         text('Do you want to sign the following message ?'),
-        text(data.toString()),
+        text(params.data.toString()),
       ]),
     },
   });
@@ -68,15 +48,7 @@ export const signMessage: Handler<
     throw new Error('User denied signing message');
   }
 
-  const { chainId } = await getActiveNetwork();
-
-  const sig = await wallet.signMessage(
-    Buffer.from(data),
-    BigInt(chainId),
-    address,
+  return provider.sign(
+    Array.isArray(params.data) ? Uint8Array.from(params.data) : params.data,
   );
-  return {
-    signature: sig.base58Encoded,
-    publicKey: sig.publicKey,
-  };
 };

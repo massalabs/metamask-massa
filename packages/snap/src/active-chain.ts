@@ -1,20 +1,20 @@
-import {
-  CHAIN_ID,
-  DefaultProviderUrls,
-  fromMAS,
-  MAINNET,
-} from '@massalabs/massa-web3';
 import { StateManager } from './state-manager';
 import { NetworkInfos } from './network';
+import {
+  CHAIN_ID,
+  Mas,
+  NetworkName,
+  PublicApiUrl,
+} from '@massalabs/massa-web3';
 
 const NETWORK_INFO_KEY = 'network_info';
 
-export const DEFAULT_MINIMAL_FEES = fromMAS('0.01').toString();
+export const DEFAULT_MINIMAL_FEES = Mas.fromString('0.01').toString();
 export const DEFAULT_NETWORK = {
-  rpcUrl: DefaultProviderUrls.MAINNET,
-  chainId: CHAIN_ID.MainNet.toString(),
+  rpcUrl: PublicApiUrl.Mainnet,
+  chainId: CHAIN_ID.Mainnet.toString(),
   minimalFees: DEFAULT_MINIMAL_FEES,
-  networkName: MAINNET,
+  networkName: NetworkName.Mainnet,
 };
 /**
  * @description Get the current network

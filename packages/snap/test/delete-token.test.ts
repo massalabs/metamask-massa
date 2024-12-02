@@ -1,17 +1,25 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 
-import { addTokens } from './utils/addTokens';
-import type { GetActiveAccountResponse } from 'src/handlers/get-active-account';
+import type { GetActiveAccountResponse } from '../src/handlers/get-active-account';
+import { TOKEN } from './utils/constants';
 
-const tokens = ['AS1sKBEGsqtm8vQhQzi7KJ4YhyaKTSkhJrLkRc7mQtPqme3VcFHm'];
+const origin = 'Jest';
 
 describe('onRpcRequest', () => {
   describe('delete-token', () => {
-    it('should delete a token for the account', async () => {
+    it('should add and delete a token for the account', async () => {
       const { request } = await installSnap();
-      await addTokens(request, tokens);
-      const origin = 'Jest';
+
+      const addResponse = await request({
+        method: 'account.addToken',
+        origin,
+        params: {
+          address: TOKEN,
+        },
+      });
+
+      expect(addResponse).toRespondWith({ response: 'OK' });
 
       const defaultAccount: GetActiveAccountResponse = (
         (await request({
@@ -26,8 +34,7 @@ describe('onRpcRequest', () => {
         method: 'account.deleteToken',
         origin,
         params: {
-          //eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          address: tokens[0]!,
+          address: TOKEN,
         },
       });
 
@@ -44,9 +51,7 @@ describe('onRpcRequest', () => {
 
     it('should return an error when the token does not exist', async () => {
       const { request } = await installSnap();
-      const origin = 'Jest';
 
-      await addTokens(request, tokens);
       const response = request({
         method: 'account.deleteToken',
         origin,
@@ -63,7 +68,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error when address is not a string', async () => {
       const { request } = await installSnap();
-      const origin = 'Jest';
       const response = request({
         method: 'account.deleteToken',
         origin,
@@ -81,7 +85,6 @@ describe('onRpcRequest', () => {
 
     it('should throw an error when address is missing', async () => {
       const { request } = await installSnap();
-      const origin = 'Jest';
       const response = request({
         method: 'account.deleteToken',
         origin,

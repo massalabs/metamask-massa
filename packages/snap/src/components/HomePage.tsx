@@ -1,10 +1,4 @@
 import {
-  BUILDNET,
-  CHAIN_ID_TO_NETWORK_NAME,
-  LABNET,
-  MAINNET,
-} from '@massalabs/massa-web3';
-import {
   SnapComponent,
   Container,
   Box,
@@ -21,6 +15,7 @@ import {
   Input,
 } from '@metamask/snaps-sdk/jsx';
 import type { NetworkInfos } from '../network';
+import { NetworkName } from '@massalabs/massa-web3';
 
 type HomePageProps = {
   networkInfo: NetworkInfos;
@@ -33,12 +28,10 @@ export const HomePage: SnapComponent<HomePageProps> = ({
   address,
   balance,
 }) => {
-  const networkName = CHAIN_ID_TO_NETWORK_NAME[networkInfo.chainId] ?? 'Custom';
-
   const networkList =
-    networkName === MAINNET
-      ? [MAINNET, BUILDNET, LABNET]
-      : [BUILDNET, MAINNET, LABNET];
+    networkInfo.networkName === NetworkName.Mainnet
+      ? [NetworkName.Mainnet, NetworkName.Buildnet]
+      : [NetworkName.Buildnet, NetworkName.Mainnet];
 
   const dropDown = (
     <Dropdown name="network-change">
@@ -55,7 +48,11 @@ export const HomePage: SnapComponent<HomePageProps> = ({
         <Copyable value={address} />
         <Card title="balance:" value="Mas" extra={balance.toString()} />
         <Heading>Network:</Heading>
-        <Card title="Current:" value={networkName} extra={networkInfo.rpcUrl} />
+        <Card
+          title="Current:"
+          value={networkInfo.networkName}
+          extra={networkInfo.rpcUrl}
+        />
         <Text>Select a network:</Text>
         {dropDown}
         <Form name="custom-network-form">

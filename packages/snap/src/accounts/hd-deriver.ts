@@ -1,24 +1,15 @@
-import type { IAccount } from '@massalabs/massa-web3';
-import {
-  utils,
-  KEYS_VERSION_NUMBER,
-  SECRET_KEY_PREFIX,
-  WalletClient,
-} from '@massalabs/massa-web3';
+import { Account, PrivateKey } from '@massalabs/massa-web3';
 import type { JsonSLIP10Node } from '@metamask/key-tree';
+import varint from 'varint';
 
-/**
- *
- */
-export async function getHDAccount(): Promise<IAccount> {
+const KEYS_VERSION_NUMBER = 0;
+
+export async function getHDAccount(): Promise<Account> {
   const secretKey = await retrieveSecretKey();
-  return WalletClient.getAccountFromSecretKey(secretKey);
+  return Account.fromPrivateKey(secretKey);
 }
 
-/**
- *
- */
-async function retrieveSecretKey(): Promise<string> {
+async function retrieveSecretKey(): Promise<PrivateKey> {
   const account = await retrieveSlip10Path();
 
   if (!account?.privateKey) {
@@ -27,18 +18,12 @@ async function retrieveSecretKey(): Promise<string> {
 
   const bytes = new TextEncoder().encode(account.privateKey.slice(0, 32));
 
-  const version = Uint8Array.from(
-    utils.crypto.varintEncode(KEYS_VERSION_NUMBER),
-  );
-  const encoded = utils.crypto.base58Encode(
-    Uint8Array.from([...version, ...bytes]),
-  );
-  return SECRET_KEY_PREFIX + encoded;
+  // add version number to the key bytes
+  const versionBytes = varint.encode(KEYS_VERSION_NUMBER);
+  const keyBytes = new Uint8Array([...versionBytes, ...bytes]);
+  return PrivateKey.fromBytes(keyBytes);
 }
 
-/**
- *
- */
 async function retrieveSlip10Path(): Promise<JsonSLIP10Node> {
   const entropy = await snap.request({
     method: 'snap_getBip32Entropy',
