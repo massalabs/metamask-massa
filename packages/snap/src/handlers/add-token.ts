@@ -1,26 +1,21 @@
-import { getHDAccount } from '../accounts/hd-deriver';
+import { Address } from '@massalabs/massa-web3';
 import { addAccountToken } from '../tokens';
 import type { Handler } from './handler';
+import { getProvider } from '../accounts/provider';
 
 export type AddTokenParams = {
   address: string;
 };
 
 export type AddTokenResponse = {
-  address: string;
-  accountAddress: string;
+  response: 'OK';
 };
-/**
- * @description Coerces the add token parameters to the correct types
- * @param params - The add token parameters
- * @returns The coerced add token parameters
- * @throws An error if the address is not a string
- */
-const coerceParams = (params: AddTokenParams): AddTokenParams => {
+
+const validate = (params: AddTokenParams) => {
   if (!params.address || typeof params.address !== 'string') {
     throw new Error('Invalid params: address must be a string');
   }
-  return params;
+  Address.fromString(params.address);
 };
 
 /**
@@ -32,17 +27,8 @@ const coerceParams = (params: AddTokenParams): AddTokenParams => {
 export const addToken: Handler<AddTokenParams, AddTokenResponse> = async (
   params,
 ) => {
-  const { address } = coerceParams(params);
-  const account = await getHDAccount();
-
-  if (!account) {
-    throw new Error('Not logged in to metamask. Please log in and try again.');
-  }
-
-  await addAccountToken(account.address!, address);
-
-  return {
-    address,
-    accountAddress: account.address!,
-  };
+  validate(params);
+  const provider = await getProvider();
+  await addAccountToken(provider.address, params.address);
+  return { response: 'OK' };
 };

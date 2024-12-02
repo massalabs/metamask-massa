@@ -1,14 +1,12 @@
-import type { IReadData } from '@massalabs/massa-web3';
-import { getClient } from '../accounts/clients';
-import { getHDAccount } from '../accounts/hd-deriver';
+import { Address, ReadSCParams } from '@massalabs/massa-web3';
 import type { Handler } from './handler';
-import { SnapError } from '@metamask/snaps-sdk';
+import { getProvider } from '../accounts/provider';
 
 export type ReadSCParameters = {
   fee?: string;
   functionName: string;
   at: string;
-  args: number[];
+  args?: number[];
   coins?: string;
   maxGas?: string;
   caller?: string;
@@ -21,50 +19,35 @@ export type ReadSCResponse = {
   };
 };
 
-/**
- * Coerce the call smart contract parameters by ensuring the parameters are present and are the correct type
- * @param params - The call smart contract parameters
- * @returns The call smart contract parameters
- * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
- */
-const coerceParams = (params: ReadSCParameters): IReadData => {
+const validate = (params: ReadSCParameters) => {
   // mandatory parameters
   if (!params.functionName || typeof params.functionName !== 'string') {
     throw new Error('Invalid params: functionName must be a string');
-  } else if (!params.at || typeof params.at !== 'string') {
+  }
+  if (!params.at || typeof params.at !== 'string') {
     throw new Error('Invalid params: at must be a string');
-  } else if (!params.args || !Array.isArray(params.args)) {
-    throw new Error('Invalid params: args must be an array');
-    // optionnal parameters
-  } else if (params?.fee && typeof params.fee !== 'string') {
+  }
+  Address.fromString(params.at);
+
+  // optionnal parameters
+  if (params.args && !Array.isArray(params.args)) {
+    throw new Error('Invalid params: args must be an Uint8Array');
+  }
+  if (params.fee && typeof params.fee !== 'string') {
     throw new Error('Invalid params: fee must be a string');
-  } else if (params?.coins && typeof params.coins !== 'string') {
+  }
+  if (params.coins && typeof params.coins !== 'string') {
     throw new Error('Invalid params: coins must be a string');
-  } else if (params?.maxGas && typeof params.maxGas !== 'string') {
+  }
+  if (params.maxGas && typeof params.maxGas !== 'string') {
     throw new Error('Invalid params: maxGas must be a string');
-  } else if (params?.caller && typeof params.caller !== 'string') {
+  }
+  if (params.caller && typeof params.caller !== 'string') {
     throw new Error('Invalid params: caller must be a string');
   }
-
-  const req = {
-    targetAddress: params.at,
-    targetFunction: params.functionName,
-    parameter: params.args,
-  } as IReadData;
-
-  if (params.fee) {
-    req.fee = BigInt(params.fee);
-  }
-  if (params.coins) {
-    req.coins = BigInt(params.coins);
-  }
-  if (params.maxGas) {
-    req.maxGas = BigInt(params.maxGas);
-  }
   if (params.caller) {
-    req.callerAddress = params.caller;
+    Address.fromString(params.caller);
   }
-  return req;
 };
 /**
  * @description Calls a smart contract with the given parameters
@@ -77,20 +60,32 @@ export const readSmartContract: Handler<
   ReadSCParameters,
   ReadSCResponse
 > = async (params) => {
-  const client = await getClient();
-  const account = await getHDAccount();
-  const callData = coerceParams(params);
+  validate(params);
+  const provider = await getProvider();
 
-  if (!account || !client) {
-    throw new SnapError('Client not found or not logged in');
+  const readSCParams: ReadSCParams = {
+    func: params.functionName,
+    target: params.at,
+    parameter: Uint8Array.from(params.args ?? []),
+  };
+  if (params.fee) {
+    readSCParams.fee = BigInt(params.fee);
+  }
+  if (params.coins) {
+    readSCParams.coins = BigInt(params.coins);
+  }
+  if (params.maxGas) {
+    readSCParams.maxGas = BigInt(params.maxGas);
+  }
+  if (params.caller) {
+    readSCParams.caller = params.caller;
   }
 
-  const res = await client.smartContracts().readSmartContract(callData);
-
+  const res = await provider.readSC(readSCParams);
   return {
-    data: Array.from(res.returnValue),
+    data: Array.from(res.value),
     infos: {
-      gasCost: res.info.gas_cost,
+      gasCost: res.info.gasCost,
     },
   };
 };

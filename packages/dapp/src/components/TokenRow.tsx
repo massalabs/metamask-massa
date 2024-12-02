@@ -2,7 +2,7 @@
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton, Td, Tr } from '@chakra-ui/react';
-import { Args, bytesToStr, bytesToU256 } from '@massalabs/massa-web3';
+import { Args, bytesToStr, U256 } from '@massalabs/massa-web3';
 import { useEffect, useState, useCallback } from 'react';
 
 import { useActiveAccount } from '@/hooks/useActiveAccount';
@@ -34,7 +34,7 @@ export const TokenRow = ({ token }: { token: string }) => {
       console.warn(`No response from readSC ${readData.functionName}`);
       return;
     }
-    const decimals = new Args(res.data).nextU8();
+    const decimals = new Args(Uint8Array.from(res.data!)).nextU8();
 
     readData.functionName = 'symbol';
     res = await readSC(readData);
@@ -45,15 +45,16 @@ export const TokenRow = ({ token }: { token: string }) => {
     const symbol = bytesToStr(Uint8Array.from(res.data!));
     setTokenName(symbol);
 
-    const serAddr = new Args().addString(account.address).serialize();
-    readData.args = serAddr;
+    readData.args = Array.from(
+      new Args().addString(account.address).serialize(),
+    );
     readData.functionName = 'balanceOf';
     res = await readSC(readData);
     if (!res) {
       console.warn(`No response from readSC ${readData.functionName}`);
       return;
     }
-    const rBalance = bytesToU256(Uint8Array.from(res.data!));
+    const rBalance = U256.fromBytes(Uint8Array.from(res.data!));
     const balanceNormalized =
       Number(rBalance / BigInt(10 ** (Number(decimals) - 3))) / 10 ** 3;
 

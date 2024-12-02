@@ -1,45 +1,40 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 
-import { setNetwork } from './utils/setNetwork';
-import { BUILDNET, CHAIN_ID, DefaultProviderUrls } from '@massalabs/massa-web3';
+import { NETWORK } from './utils/constants';
+import { CHAIN_ID, NetworkName, PublicApiUrl } from '@massalabs/massa-web3';
 import { DEFAULT_MINIMAL_FEES } from '../src/active-chain';
+import { setNetwork } from './utils/setNetwork';
 
-describe('onRpcRequest', () => {
-  describe('set-network', () => {
-    it('should set the network to buildnet', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
+const origin = 'Jest';
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'Provider.getNetwork',
-        origin,
-      });
+describe('set-network', () => {
+  it('should get default Network', async () => {
+    const { request } = await installSnap();
 
-      expect(await response).toRespondWith({
-        rpcUrl: DefaultProviderUrls.BUILDNET,
-        chainId: CHAIN_ID.BuildNet.toString(),
-        networkName: BUILDNET,
-        minimalFees: DEFAULT_MINIMAL_FEES,
-      });
+    const response = request({
+      method: 'Provider.getNetwork',
+      origin,
     });
-    it('should set the network from default to buildnet', async () => {
-      const { request } = await installSnap();
-      const origin = 'Jest';
 
-      await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
-      const response = request({
-        method: 'Provider.getNetwork',
-        origin,
-      });
-
-      expect(await response).toRespondWith({
-        rpcUrl: DefaultProviderUrls.BUILDNET,
-        chainId: CHAIN_ID.BuildNet.toString(),
-        networkName: BUILDNET,
-        minimalFees: DEFAULT_MINIMAL_FEES,
-      });
+    expect(await response).toRespondWith({
+      chainId: CHAIN_ID.Mainnet.toString(),
+      networkName: NetworkName.Mainnet,
+      rpcUrl: PublicApiUrl.Mainnet,
+      minimalFees: DEFAULT_MINIMAL_FEES,
     });
+  });
+
+  it('should set the network to buildnet', async () => {
+    const { request } = await installSnap();
+
+    await setNetwork(request, PublicApiUrl.Buildnet);
+
+    const response = request({
+      method: 'Provider.getNetwork',
+      origin,
+    });
+
+    expect(await response).toRespondWith(NETWORK);
   });
 });

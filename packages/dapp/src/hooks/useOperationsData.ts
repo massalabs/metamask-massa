@@ -1,7 +1,7 @@
-import type { IOperationData } from '@massalabs/massa-web3';
 import { useCallback, useEffect, useState } from 'react';
 
 import { useMassaClient } from './useMassaClient';
+import { rpcTypes } from '@massalabs/massa-web3';
 
 /**
  * @description Hook that calls the massa client to get the operations data
@@ -9,7 +9,9 @@ import { useMassaClient } from './useMassaClient';
  * @returns The operations data (@see `IOperationData` for more information)
  */
 export const useOperationsData = (operationIds: string[]) => {
-  const [operationsData, setOperationsData] = useState<IOperationData[]>([]);
+  const [operationsData, setOperationsData] = useState<
+    rpcTypes.OperationInfo[]
+  >([]);
   const client = useMassaClient();
 
   const setOperationsInfos = useCallback(async () => {
@@ -17,7 +19,7 @@ export const useOperationsData = (operationIds: string[]) => {
       return;
     }
     try {
-      const res = await client.publicApi().getOperations(operationIds);
+      const res = await client.getOperations(operationIds);
       setOperationsData(res);
     } catch (error) {
       console.error(error);

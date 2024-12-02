@@ -1,9 +1,9 @@
 import {
-  CHAIN_ID_TO_NETWORK_NAME,
-  fromMAS,
-  ProviderType,
-  PublicApiClient,
+  getNetworkNameByChainId,
+  Mas,
+  Web3Provider,
 } from '@massalabs/massa-web3';
+import { getHDAccount } from './accounts/hd-deriver';
 
 export type NetworkInfos = {
   rpcUrl: string;
@@ -12,19 +12,19 @@ export type NetworkInfos = {
   networkName: string;
 };
 
-export async function fetchNetworkInfos(url: string): Promise<NetworkInfos> {
-  const client = new PublicApiClient({
-    providers: [{ url, type: ProviderType.PUBLIC }],
-  });
+export async function fetchNetworkInfosFromUrl(
+  rpcUrl: string,
+): Promise<NetworkInfos> {
+  const account = await getHDAccount();
+  const provider = Web3Provider.fromRPCUrl(rpcUrl, account);
+  const networkInfo = await provider.getNodeStatus();
 
-  const node_status = await client.getNodeStatus();
-
-  const networkName = CHAIN_ID_TO_NETWORK_NAME[node_status.chain_id.toString()];
+  const networkName = getNetworkNameByChainId(BigInt(networkInfo.chainId));
 
   return {
-    rpcUrl: client.clientConfig.providers[0]!.url!,
-    chainId: node_status.chain_id.toString(),
-    minimalFees: fromMAS(node_status.minimal_fees!).toString(),
+    rpcUrl,
+    chainId: networkInfo.chainId.toString(),
+    minimalFees: Mas.fromString(networkInfo.minimalFees!).toString(),
     networkName: networkName ?? 'Custom',
   };
 }

@@ -1,12 +1,13 @@
 import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
 import { setNetwork } from './utils/setNetwork';
-import { Args, DefaultProviderUrls, u256ToBytes } from '@massalabs/massa-web3';
+import { Args, PublicApiUrl, U256 } from '@massalabs/massa-web3';
 
 describe('read-sc', () => {
+  const origin = 'Jest';
+
   it('should call readSC', async () => {
     const { request } = await installSnap();
-    const origin = 'Jest';
 
     const baseParams = {
       fee: '100000000',
@@ -21,7 +22,7 @@ describe('read-sc', () => {
       maxGas: 10000000n.toString(),
     };
 
-    await setNetwork(request, DefaultProviderUrls.BUILDNET); // BuildNet
+    await setNetwork(request, PublicApiUrl.Buildnet);
     const response = request({
       method: 'account.readSC',
       origin,
@@ -29,7 +30,7 @@ describe('read-sc', () => {
     });
 
     expect(await response).toRespondWith({
-      data: Array.from(u256ToBytes(0n)),
+      data: Array.from(U256.toBytes(0n)),
       infos: { gasCost: 2100000 },
     });
   });

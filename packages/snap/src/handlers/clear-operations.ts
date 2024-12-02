@@ -17,13 +17,6 @@ export const clearOperations: Handler<
   ClearOperationsResponse
 > = async () => {
   const account = await getHDAccount();
-
-  if (!account) {
-    return {
-      response: 'ERROR',
-      message: `Not logged in to metamask. Please log in and try again.`,
-    };
-  }
-  await clearAccountOperations(account.address!);
+  await clearAccountOperations(account.address.toString());
   return { response: 'OK' };
 };

@@ -27,10 +27,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "@massalabs/massa-web3": "^4.0.3",
+    "@massalabs/massa-web3": "^5.0.1-dev",
     "@metamask/key-tree": "^9.0.0",
     "@metamask/snaps-sdk": "^6.10.0",
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "varint": "^6.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
@@ -44,6 +45,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.4",
+    "@types/varint": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.45.0",

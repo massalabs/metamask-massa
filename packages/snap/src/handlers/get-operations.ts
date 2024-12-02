@@ -17,14 +17,9 @@ export const getOperations: Handler<
   GetOperationsParams,
   GetOperationsResponse
 > = async () => {
-  const account = await getHDAccount();
+  const { address } = await getHDAccount();
 
-  if (!account) {
-    throw new Error(
-      `Account not found: please log into the metamask and try again.`,
-    );
-  }
   return {
-    operations: await getAccountOperations(account.address!),
+    operations: await getAccountOperations(address.toString()),
   };
 };

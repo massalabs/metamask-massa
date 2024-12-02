@@ -20,9 +20,9 @@ export async function showKeys(id: string) {
       id,
       ui: (
         <ShowKeys
-          address={account.address || ''}
-          publicKey={account.publicKey || ''}
-          secretKey={account.secretKey || ''}
+          address={account.address.toString()}
+          publicKey={account.publicKey.toString()}
+          secretKey={account.privateKey.toString()}
         />
       ),
     },

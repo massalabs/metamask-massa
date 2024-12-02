@@ -3,6 +3,7 @@ import type {
   SnapConfirmationInterface,
   SnapRequest,
 } from '@metamask/snaps-jest';
+import { scheduler } from 'node:timers/promises';
 
 export const setNetwork = async (
   request: (opt: RequestOptions) => SnapRequest,
@@ -19,5 +20,5 @@ export const setNetwork = async (
 
   const ui = (await req.getInterface()) as SnapConfirmationInterface;
   await ui.ok();
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await scheduler.wait(50);
 };

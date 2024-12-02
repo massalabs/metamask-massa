@@ -11,16 +11,10 @@ export type DeleteTokenResponse = {
   message?: string;
 };
 
-/**
- * @description Coerces the delete token parameters to the correct types
- * @param params - The delete token parameters
- * @returns The response of the operation
- */
-const coerceParams = (params: DeleteTokenParams): DeleteTokenParams => {
+const validate = (params: DeleteTokenParams) => {
   if (!params.address || typeof params.address !== 'string') {
     throw new Error('Invalid params: address must be a string');
   }
-  return params;
 };
 
 /**
@@ -32,11 +26,11 @@ export const deleteToken: Handler<
   DeleteTokenParams,
   DeleteTokenResponse
 > = async (params) => {
-  const { address } = coerceParams(params);
-  const account = (await getHDAccount()).address!;
-  const res = await removeAccountToken(account, address);
+  validate(params);
+  const { address } = await getHDAccount();
+  const ok = await removeAccountToken(address.toString(), params.address);
 
-  if (res) {
+  if (ok) {
     return { response: 'OK' };
   }
   return { response: 'ERROR', message: 'Token not found' };

@@ -1,7 +1,7 @@
 import { setActiveNetwork } from '../active-chain';
 import type { Handler } from './handler';
 import { SwitchNetwork } from '../components/SwitchNetwork';
-import { fetchNetworkInfos } from '../network';
+import { fetchNetworkInfosFromUrl } from '../network';
 
 export type SetNetworkParams = {
   network: string;
@@ -11,17 +11,10 @@ export type SetNetworkResponse = {
   network: string; // url
 };
 
-/**
- * @description Coerce the network parameter
- * @param params - The network parameters
- * @returns The network url as a bigint
- */
-const coerceParams = (params: SetNetworkParams): string => {
+const validate = (params: SetNetworkParams) => {
   if (!params.network || typeof params.network !== 'string') {
     throw new Error('Invalid params: network must be a string');
   }
-
-  return params.network;
 };
 
 /**
@@ -32,9 +25,9 @@ const coerceParams = (params: SetNetworkParams): string => {
 export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
   params,
 ) => {
-  const network = coerceParams(params);
+  validate(params);
 
-  const networkInfos = await fetchNetworkInfos(network);
+  const networkInfos = await fetchNetworkInfosFromUrl(params.network);
 
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -50,5 +43,5 @@ export const setNetwork: Handler<SetNetworkParams, SetNetworkResponse> = async (
 
   await setActiveNetwork(networkInfos);
 
-  return { network };
+  return { network: params.network };
 };

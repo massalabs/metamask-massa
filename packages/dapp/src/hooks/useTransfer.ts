@@ -7,7 +7,7 @@ import { defaultSnapOrigin } from '@/config';
 export type TransferParams = {
   recipientAddress: string;
   amount: string;
-  fee: string;
+  fee?: string;
 };
 
 export type TransferResponse = {

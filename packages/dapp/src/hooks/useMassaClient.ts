@@ -1,9 +1,8 @@
-import type { Client } from '@massalabs/massa-web3';
-import { ClientFactory } from '@massalabs/massa-web3';
 import { useCallback, useEffect, useState } from 'react';
 
 import type { NetworkInfos } from './useNetwork';
 import { useNetwork } from './useNetwork';
+import { JsonRPCClient } from '@massalabs/massa-web3';
 
 /**
  * @description Hook that creates a massa client from 'massa-web3' using the current network (updates when the network changes)
@@ -11,14 +10,10 @@ import { useNetwork } from './useNetwork';
  */
 export const useMassaClient = () => {
   const { data: network } = useNetwork();
-  const [client, setClient] = useState<Client>();
+  const [client, setClient] = useState<JsonRPCClient>();
   const createClient = useCallback(
     async (net: NetworkInfos) => {
-      const newClient = await ClientFactory.createDefaultClient(
-        net.rpcUrl as any,
-        BigInt(net.chainId),
-      );
-      setClient(newClient);
+      setClient(new JsonRPCClient(net.rpcUrl));
     },
     [setClient],
   );

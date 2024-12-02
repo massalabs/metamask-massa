@@ -1,4 +1,4 @@
-import { toMAS } from '@massalabs/massa-web3';
+import { Mas } from '@massalabs/massa-web3';
 import {
   SnapComponent,
   Container,
@@ -36,16 +36,20 @@ export const CallSc: SnapComponent<CallScProps> = (params: CallScProps) => {
           </Text>
           <Text>
             <Bold>Coins: </Bold>
-            {toMAS(params.coins).toString()} MAS
+            {Mas.toString(BigInt(params.coins))} MAS
           </Text>
           <Text>
             <Bold>Fee: </Bold>
-            {toMAS(params.fee).toString()} MAS
+            {Mas.toString(BigInt(params.fee))} MAS
           </Text>
-          <Text>
-            <Bold>Arguments: </Bold>
-            {params.args.toString()}
-          </Text>
+          {params.args.length ? (
+            <Text>
+              <Bold>Arguments: </Bold>
+              {params.args.toString()}
+            </Text>
+          ) : (
+            <> </>
+          )}
         </Section>
       </Box>
     </Container>

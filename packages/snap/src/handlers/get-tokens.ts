@@ -17,12 +17,8 @@ export const getTokens: Handler<
   GetTokensParams,
   GetTokensResponse
 > = async () => {
-  const account = await getHDAccount();
-
-  if (!account) {
-    throw new Error(`Not logged in to metamask. Please log in and try again.`);
-  }
+  const { address } = await getHDAccount();
   return {
-    tokens: await getAccountTokens(account.address!),
+    tokens: await getAccountTokens(address.toString()),
   };
 };

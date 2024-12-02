@@ -1,16 +1,16 @@
-import type { ICallData } from '@massalabs/massa-web3';
-import { getClient } from '../accounts/clients';
-import { getHDAccount } from '../accounts/hd-deriver';
+import { getProvider } from '../accounts/provider';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
 import { CallSc } from '../components/CallSc';
+import { Address, CallSCParams } from '@massalabs/massa-web3';
+import { getActiveNetwork } from '../active-chain';
 
 export type CallSCParameters = {
-  fee: string;
+  fee?: string;
   functionName: string;
   at: string;
-  args: number[];
-  coins: string;
+  args?: number[];
+  coins?: string;
   maxGas?: string;
 };
 
@@ -18,41 +18,30 @@ export type CallSCResponse = {
   operationId: string;
 };
 
-/**
- * Coerce the call smart contract parameters by ensuring the parameters are present and are the correct type
- * @param params - The call smart contract parameters
- * @returns The call smart contract parameters
- * @throws If the nickname, fee, functionName, at, args, or coins is missing or not a string
- */
-const coerceParams = (params: CallSCParameters): ICallData => {
+const validate = (params: CallSCParameters) => {
   // mandatory parameters
-  if (!params.fee || typeof params.fee !== 'string') {
-    throw new Error('Invalid params: fee must be a string');
-  } else if (!params.functionName || typeof params.functionName !== 'string') {
+
+  if (!params.functionName || typeof params.functionName !== 'string') {
     throw new Error('Invalid params: functionName must be a string');
-  } else if (!params.at || typeof params.at !== 'string') {
+  }
+  if (!params.at || typeof params.at !== 'string') {
     throw new Error('Invalid params: at must be a string');
-  } else if (!params.args || !Array.isArray(params.args)) {
+  }
+  Address.fromString(params.at);
+
+  // optionnal parameters
+  if (params.args && !Array.isArray(params.args)) {
     throw new Error('Invalid params: args must be an array');
-    // optionnal parameters
-  } else if (params?.coins && typeof params.coins !== 'string') {
+  }
+  if (params.fee && typeof params.fee !== 'string') {
+    throw new Error('Invalid params: fee must be a string');
+  }
+  if (params?.coins && typeof params.coins !== 'string') {
     throw new Error('Invalid params: coins must be a string');
-  } else if (params?.maxGas && typeof params.maxGas !== 'string') {
+  }
+  if (params?.maxGas && typeof params.maxGas !== 'string') {
     throw new Error('Invalid params: maxGas must be a string');
   }
-  const req = {
-    fee: BigInt(params.fee),
-    targetAddress: params.at,
-    targetFunction: params.functionName,
-    parameter: params.args,
-  } as ICallData;
-  if (params.maxGas) {
-    req.maxGas = BigInt(params.maxGas);
-  }
-  if (params.coins) {
-    req.coins = BigInt(params.coins);
-  }
-  return req;
 };
 /**
  * @description Calls a smart contract with the given parameters
@@ -65,13 +54,11 @@ export const callSmartContract: Handler<
   CallSCParameters,
   CallSCResponse
 > = async (params) => {
-  const client = await getClient();
-  const account = await getHDAccount();
-  const callData = coerceParams(params);
+  validate(params);
+  const provider = await getProvider();
 
-  if (!account || !client) {
-    throw new Error('Client not found or not logged in');
-  }
+  const networkInfos = await getActiveNetwork();
+  const fee = params.fee ? params.fee : networkInfos.minimalFees;
 
   const confirm = await snap.request({
     method: 'snap_dialog',
@@ -79,11 +66,11 @@ export const callSmartContract: Handler<
       type: 'confirmation',
       content: (
         <CallSc
-          fee={params.fee}
+          fee={fee}
           functionName={params.functionName}
           at={params.at}
-          args={params.args}
-          coins={params.coins}
+          args={params.args ?? []}
+          coins={params.coins ?? '0'}
         />
       ),
     },
@@ -92,9 +79,22 @@ export const callSmartContract: Handler<
   if (!confirm) {
     throw new Error('User denied calling smart contract');
   }
-  const operationId = await client.smartContracts().callSmartContract(callData);
-  await addAccountOperation(account.address!, operationId);
+  const callSCParams: CallSCParams = {
+    func: params.functionName,
+    target: params.at,
+    parameter: Uint8Array.from(params.args ?? []),
+    fee: BigInt(fee),
+  };
+
+  if (params.coins) {
+    callSCParams.coins = BigInt(params.coins);
+  }
+  if (params.maxGas) {
+    callSCParams.maxGas = BigInt(params.maxGas);
+  }
+  const operation = await provider.callSC(callSCParams);
+  await addAccountOperation(provider.address, operation.id);
   return {
-    operationId,
+    operationId: operation.id,
   };
 };

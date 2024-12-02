@@ -30,26 +30,26 @@ export async function getAccountTokens(address: string): Promise<string[]> {
  * @param address - Account address as a string prefixed with 'AU'
  * @param token - Token smart contract address as a string prefixed with 'AS'
  */
-export async function addAccountToken(address: string, token: string) {
-  if (!address || !address.startsWith('AU')) {
+export async function addAccountToken(account: string, token: string) {
+  if (!account.startsWith('AU')) {
     throw new Error(
       'Invalid params: address must be a string and start with AU',
     );
   }
 
-  if (!token || !token.startsWith('AS')) {
+  if (!token.startsWith('AS')) {
     throw new Error('Invalid params: token must be a string and start with AS');
   }
 
   const accountsTokens: AccountsTokens =
     (await StateManager.getState('accountTokens')) || {};
-  const tokens = accountsTokens[address] || [];
+  const tokens = accountsTokens[account] || [];
 
-  if (tokens.find((t) => t === token)) {
+  if (tokens.some((t) => t === token)) {
     return;
   }
   tokens.push(token);
-  accountsTokens[address] = tokens;
+  accountsTokens[account] = tokens;
   await StateManager.setState('accountTokens', accountsTokens);
 }
 
@@ -63,13 +63,13 @@ export async function removeAccountToken(
   account: string,
   tokenAddress: string,
 ) {
-  if (!account || !account.startsWith('AU')) {
+  if (!account.startsWith('AU')) {
     throw new Error(
       'Invalid params: address must be a string and start with AU',
     );
   }
 
-  if (!tokenAddress || !tokenAddress.startsWith('AS')) {
+  if (!tokenAddress.startsWith('AS')) {
     throw new Error('Invalid params: token must be a string and start with AS');
   }
 
