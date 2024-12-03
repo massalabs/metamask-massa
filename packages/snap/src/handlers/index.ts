@@ -1,5 +1,4 @@
 export * from './call-smart-contract';
-export * from './read-smart-contract';
 export * from './sign-message';
 export * from './transfer';
 export * from './get-balance';

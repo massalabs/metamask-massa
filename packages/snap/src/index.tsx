@@ -10,7 +10,6 @@ import type {
   SignMessageParams,
   TransferParams,
   CallSCParameters,
-  ReadSCParameters,
   SetNetworkParams,
   SellRollsParams,
   BuyRollsParams,
@@ -27,7 +26,6 @@ import {
   transfer,
   signMessage,
   callSmartContract,
-  readSmartContract,
   getNetwork,
   setNetwork,
   sellRolls,
@@ -63,8 +61,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return signMessage(request.params as SignMessageParams);
     case 'account.callSC':
       return callSmartContract(request.params as CallSCParameters);
-    case 'account.readSC':
-      return readSmartContract(request.params as ReadSCParameters);
     case 'account.sendTransaction':
       return transfer(request.params as TransferParams);
     case 'account.sellRolls':
