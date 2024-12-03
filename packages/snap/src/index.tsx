@@ -20,6 +20,7 @@ import type {
   GetOperationsParams,
   ClearOperationsParams,
   GetBalanceParams,
+  DeploySCParameters,
 } from './handlers';
 import {
   getBalance,
@@ -36,6 +37,7 @@ import {
   getTokens,
   getOperations,
   clearOperations,
+  deployContract,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
 
@@ -61,6 +63,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return signMessage(request.params as SignMessageParams);
     case 'account.callSC':
       return callSmartContract(request.params as CallSCParameters);
+    case 'account.deploySC':
+      return deployContract(request.params as DeploySCParameters);
     case 'account.sendTransaction':
       return transfer(request.params as TransferParams);
     case 'account.sellRolls':

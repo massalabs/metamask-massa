@@ -31,6 +31,8 @@ describe('call-sc', () => {
       params: baseParams,
     });
 
+    await response.getInterface();
+
     const ui = (await response.getInterface()) as SnapConfirmationInterface;
 
     expect(ui.type).toBe('confirmation');

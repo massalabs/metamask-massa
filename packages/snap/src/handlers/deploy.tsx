@@ -1,33 +1,28 @@
 import { getProvider } from '../accounts/provider';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
-import { CallSc } from '../components/CallSc';
-import { Address, CallSCParams } from '@massalabs/massa-web3';
+import { DeploySc } from '../components/DeploySc';
+import { DeploySCParams } from '@massalabs/massa-web3';
 import { getActiveNetwork } from '../active-chain';
 
-export type CallSCParameters = {
+export type DeploySCParameters = {
+  bytecode: number[];
   fee?: string;
-  functionName: string;
-  at: string;
   args?: number[];
   coins?: string;
+  maxCoins?: string;
   maxGas?: string;
 };
 
-export type CallSCResponse = {
+export type DeploySCResponse = {
   operationId: string;
 };
 
-const validate = (params: CallSCParameters) => {
+const validate = (params: DeploySCParameters) => {
   // mandatory parameters
-
-  if (!params.functionName || typeof params.functionName !== 'string') {
-    throw new Error('Invalid params: functionName must be a string');
+  if (!params.bytecode || !Array.isArray(params.bytecode)) {
+    throw new Error('Invalid params: bytecode must be an array');
   }
-  if (!params.at || typeof params.at !== 'string') {
-    throw new Error('Invalid params: at must be a string');
-  }
-  Address.fromString(params.at);
 
   // optionnal parameters
   if (params.args && !Array.isArray(params.args)) {
@@ -42,16 +37,19 @@ const validate = (params: CallSCParameters) => {
   if (params?.maxGas && typeof params.maxGas !== 'string') {
     throw new Error('Invalid params: maxGas must be a string');
   }
+  if (params?.maxCoins && typeof params.maxCoins !== 'string') {
+    throw new Error('Invalid params: maxCoins must be a string');
+  }
 };
 /**
- * @description Calls a smart contract with the given parameters
- * @param params - CallSCParameters
+ * @description Deploy a smart contract
+ * @param params - DeploySCParameters
  * @returns The operation id
  * @throws If the user denies the transaction
  */
-export const callSmartContract: Handler<
-  CallSCParameters,
-  CallSCResponse
+export const deployContract: Handler<
+  DeploySCParameters,
+  DeploySCResponse
 > = async (params) => {
   validate(params);
   const provider = await getProvider();
@@ -64,12 +62,11 @@ export const callSmartContract: Handler<
     params: {
       type: 'confirmation',
       content: (
-        <CallSc
+        <DeploySc
           fee={fee}
-          functionName={params.functionName}
-          at={params.at}
           args={params.args ?? []}
           coins={params.coins ?? '0'}
+          maxCoins={params.maxCoins ?? 'none'}
         />
       ),
     },
@@ -78,22 +75,22 @@ export const callSmartContract: Handler<
   if (!confirm) {
     throw new Error('User denied calling smart contract');
   }
-  const callSCParams: CallSCParams = {
-    func: params.functionName,
-    target: params.at,
+  const deploySCParams: DeploySCParams = {
     parameter: Uint8Array.from(params.args ?? []),
+    byteCode: Uint8Array.from(params.bytecode),
     fee: BigInt(fee),
   };
 
   if (params.coins) {
-    callSCParams.coins = BigInt(params.coins);
+    deploySCParams.coins = BigInt(params.coins);
   }
   if (params.maxGas) {
-    callSCParams.maxGas = BigInt(params.maxGas);
+    deploySCParams.maxGas = BigInt(params.maxGas);
   }
-  const operation = await provider.callSC(callSCParams);
-  await addAccountOperation(provider.address, operation.id);
+  // bypass protected attribute of deploy function
+  const operationId: string = await (provider as any).deploy(deploySCParams);
+  await addAccountOperation(provider.address, operationId);
   return {
-    operationId: operation.id,
+    operationId,
   };
 };

@@ -47,9 +47,7 @@ export const CallSc: SnapComponent<CallScProps> = (params: CallScProps) => {
               <Bold>Arguments: </Bold>
               {params.args.toString()}
             </Text>
-          ) : (
-            <> </>
-          )}
+          ) : null}
         </Section>
       </Box>
     </Container>
