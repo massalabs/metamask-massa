@@ -1,6 +1,6 @@
 {
   "name": "@massalabs/metamask-snap",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Metamask snap for Massa wallet.",
   "repository": {
     "type": "git",
