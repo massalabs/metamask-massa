@@ -87,6 +87,9 @@ export const deployContract: Handler<
   if (params.maxGas) {
     deploySCParams.maxGas = BigInt(params.maxGas);
   }
+  if (params.maxCoins) {
+    deploySCParams.maxCoins = BigInt(params.maxCoins);
+  }
   // bypass protected attribute of deploy function
   const operationId: string = await (provider as any).deploy(deploySCParams);
   await addAccountOperation(provider.address, operationId);
