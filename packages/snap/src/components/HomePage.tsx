@@ -5,7 +5,6 @@ import {
   Heading,
   Card,
   Copyable,
-  Footer,
   Button,
   Dropdown,
   Option,
@@ -47,6 +46,16 @@ export const HomePage: SnapComponent<HomePageProps> = ({
         <Heading>Massa Account:</Heading>
         <Copyable value={address} />
         <Card title="balance:" value="Mas" extra={balance.toString()} />
+        <Heading>Send MAS:</Heading>
+        <Form name="send-mas-form">
+          <Field label="Amount (MAS)">
+            <Input name="send-amount" />
+          </Field>
+          <Field label="Recipient">
+            <Input name="send-recipient" />
+          </Field>
+          <Button type="submit">Send</Button>
+        </Form>
         <Heading>Network:</Heading>
         <Card
           title="Current:"
@@ -61,10 +70,9 @@ export const HomePage: SnapComponent<HomePageProps> = ({
           </Field>
           <Button type="submit">Submit</Button>
         </Form>
-      </Box>
-      <Footer>
+        <Heading>Backup:</Heading>
         <Button name="show-keys-validation">Show key pair</Button>
-      </Footer>
+      </Box>
     </Container>
   );
 };

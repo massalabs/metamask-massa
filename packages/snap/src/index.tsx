@@ -153,6 +153,15 @@ export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
       assert(event.type === UserInputEventType.FormSubmitEvent);
       await setNetwork({ network: event.value['custom-rpc'] as string });
       break;
+    case 'send-mas-form':
+      assert(event.type === UserInputEventType.FormSubmitEvent);
+      const amount = Mas.fromString(event.value['send-amount'] as string);
+      const params: TransferParams = {
+        amount: amount.toString(),
+        recipientAddress: event.value['send-recipient'] as string,
+      };
+      await transfer(params);
+      break;
   }
 };
 
