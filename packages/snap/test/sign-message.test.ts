@@ -31,9 +31,9 @@ describe('sign-message', () => {
 
     await ui.ok();
     expect(await response).toRespondWith({
-      publicKey: 'P12BYyRbBF72Ft1N87e5JaVg4Ua7LkmTGBSm6hhQC7M5L2KNJiSt',
+      publicKey: 'P1EZLnAGanjtHBNx3LMMXCtqG6rEd3kBmSyr8UdzUW3foT2ahvK',
       signature:
-        '1R34YLo2jZUANsehSLddauxjgDhTQUr1MNnP6u3Q14V2Xg2ZHiVsqa5JqRvxjSgPjtSx8dFYrYTSb7ogM9vC8zNXDtC2gp',
+        '1M8emRndyG5Qsj94CX2A4nGWuUVuzENFuBiC3NDvH75u5o3TonHHHEUgFJ3uJWkokGHEHJnN5UcNXSJTrKcHWESYKnqG4c',
     });
   });
 
@@ -59,9 +59,9 @@ describe('sign-message', () => {
 
     await ui.ok();
     expect(await response).toRespondWith({
-      publicKey: 'P12BYyRbBF72Ft1N87e5JaVg4Ua7LkmTGBSm6hhQC7M5L2KNJiSt',
+      publicKey: 'P1EZLnAGanjtHBNx3LMMXCtqG6rEd3kBmSyr8UdzUW3foT2ahvK',
       signature:
-        '1R34YLo2jZUANsehSLddauxjgDhTQUr1MNnP6u3Q14V2Xg2ZHiVsqa5JqRvxjSgPjtSx8dFYrYTSb7ogM9vC8zNXDtC2gp',
+        '1M8emRndyG5Qsj94CX2A4nGWuUVuzENFuBiC3NDvH75u5o3TonHHHEUgFJ3uJWkokGHEHJnN5UcNXSJTrKcHWESYKnqG4c',
     });
   });
 });
