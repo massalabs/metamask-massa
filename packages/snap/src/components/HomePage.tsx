@@ -12,6 +12,7 @@ import {
   Form,
   Field,
   Input,
+  Divider,
 } from '@metamask/snaps-sdk/jsx';
 import type { NetworkInfos } from '../network';
 import { NetworkName } from '@massalabs/massa-web3';
@@ -56,12 +57,14 @@ export const HomePage: SnapComponent<HomePageProps> = ({
           </Field>
           <Button type="submit">Send</Button>
         </Form>
+        <Divider />
         <Heading>Network:</Heading>
         <Card
           title="Current:"
           value={networkInfo.networkName}
           extra={networkInfo.rpcUrl}
         />
+        <Divider />
         <Text>Select a network:</Text>
         {dropDown}
         <Form name="custom-network-form">
@@ -70,6 +73,7 @@ export const HomePage: SnapComponent<HomePageProps> = ({
           </Field>
           <Button type="submit">Submit</Button>
         </Form>
+        <Divider />
         <Heading>Backup:</Heading>
         <Button name="show-keys-validation">Show key pair</Button>
       </Box>
