@@ -43,7 +43,7 @@ export const DeploySc: SnapComponent<DeployScProps> = ({
           </Text>
           {args.length ? (
             <Text>
-              <Bold>Constructor arguments: </Bold>
+              <Bold>Constructor calldata: </Bold>
               {args.toString()}
             </Text>
           ) : null}

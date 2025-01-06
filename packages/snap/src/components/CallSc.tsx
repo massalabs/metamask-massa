@@ -44,7 +44,7 @@ export const CallSc: SnapComponent<CallScProps> = (params: CallScProps) => {
           </Text>
           {params.args.length ? (
             <Text>
-              <Bold>Arguments: </Bold>
+              <Bold>Calldata: </Bold>
               {params.args.toString()}
             </Text>
           ) : null}
