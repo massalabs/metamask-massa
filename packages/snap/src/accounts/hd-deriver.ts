@@ -29,7 +29,7 @@ async function retrieveSlip10Path(): Promise<JsonSLIP10Node> {
     method: 'snap_getBip32Entropy',
     params: {
       curve: 'ed25519',
-      path: ['m', "44'", "3'"],
+      path: ['m', "44'", "632'"],
     },
   });
   return entropy;
