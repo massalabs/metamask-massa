@@ -2,6 +2,8 @@
 
 Welcome to the MetaMask Snap for Massa! This Snap enables seamless integration of MetaMask with the Massa layer 1 protocol, providing users with convenient access to Massa's features directly through MetaMask.
 
+This repository contains the MetaMask Snap for Massa and an example dApp to demonstrate its usage.
+
 # Powered by
 
 Astro-Devs Labs
@@ -620,13 +622,18 @@ The MetaMask Snap for Massa supports the following operations:
 
 For detailed information about each operation, including parameters and responses, refer to the corresponding DTOs in the codebase.
 
-## Installation
+## Developer setup and companion dApp
 
-To use the MetaMask Snap for Massa, follow these steps:
+The following command will build the snap from local code.
+It will also build the companion dApp that serve as an example of snap usage.
 
-1. Install MetaMask: If you haven't already, install the MetaMask browser extension for your preferred browser.
-2. Add Massa Network: Open MetaMask and add the Massa network to your network list. You'll need to provide the network details including RPC endpoint, chain ID, symbol, and block explorer URL.
-3. Install MetaMask Snap: Install the MetaMask Snap for Massa by visiting the MetaMask Snap Store and searching for "Massa". Click on the Snap and follow the installation prompts.
+```sh
+yarn install
+yarn build
+yarn start
+```
+
+navigate to http://localhost:8000
 
 ## Contributing
 
