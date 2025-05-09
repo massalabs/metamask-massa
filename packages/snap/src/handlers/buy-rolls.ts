@@ -3,8 +3,8 @@ import { panel, text } from '@metamask/snaps-sdk';
 import type { Handler } from './handler';
 import { addAccountOperation } from '../operations';
 import { getProvider } from '../accounts/provider';
-import { Mas } from '@massalabs/massa-web3';
 import { getActiveNetwork } from '../active-chain';
+import { formatMas } from '@massalabs/massa-web3';
 
 export type BuyRollsParams = {
   fee?: string;
@@ -46,7 +46,7 @@ export const buyRolls: Handler<BuyRollsParams, BuyRollsResponse> = async (
       content: panel([
         text('**Do you want to buy rolls ?**'),
         text(`**Amount:** ${params.amount.toString()}`),
-        text(`**Fee:** ${Mas.toString(fee)} MAS`),
+        text(`**Fee:** ${formatMas(fee)} MAS`),
       ]),
     },
   });

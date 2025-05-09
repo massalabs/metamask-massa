@@ -4,6 +4,7 @@ import type { Handler } from './handler';
 import { DeploySc } from '../components/DeploySc';
 import { DeploySCParams } from '@massalabs/massa-web3';
 import { getActiveNetwork } from '../active-chain';
+import type { CallSCResponse } from './call-smart-contract';
 
 export type DeploySCParameters = {
   bytecode: number[];
@@ -14,9 +15,7 @@ export type DeploySCParameters = {
   maxGas?: string;
 };
 
-export type DeploySCResponse = {
-  operationId: string;
-};
+export type DeploySCResponse = CallSCResponse;
 
 const validate = (params: DeploySCParameters) => {
   // mandatory parameters
@@ -73,7 +72,7 @@ export const deployContract: Handler<
   });
 
   if (!confirm) {
-    throw new Error('User denied calling smart contract');
+    throw new Error('User denied deploying smart contract');
   }
   const deploySCParams: DeploySCParams = {
     parameter: Uint8Array.from(params.args ?? []),

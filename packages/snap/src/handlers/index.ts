@@ -1,5 +1,6 @@
 export * from './call-smart-contract';
 export * from './deploy';
+export * from './execute-bytecode';
 export * from './sign-message';
 export * from './transfer';
 export * from './get-balance';

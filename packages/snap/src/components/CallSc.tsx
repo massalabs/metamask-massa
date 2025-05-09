@@ -1,4 +1,4 @@
-import { Mas } from '@massalabs/massa-web3';
+import { formatMas } from '@massalabs/massa-web3';
 import {
   SnapComponent,
   Container,
@@ -36,11 +36,11 @@ export const CallSc: SnapComponent<CallScProps> = (params: CallScProps) => {
           </Text>
           <Text>
             <Bold>Coins: </Bold>
-            {Mas.toString(BigInt(params.coins))} MAS
+            {formatMas(BigInt(params.coins))} MAS
           </Text>
           <Text>
             <Bold>Fee: </Bold>
-            {Mas.toString(BigInt(params.fee))} MAS
+            {formatMas(BigInt(params.fee))} MAS
           </Text>
           {params.args.length ? (
             <Text>

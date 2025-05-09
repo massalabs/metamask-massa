@@ -2,14 +2,14 @@ import { StateManager } from './state-manager';
 import { NetworkInfos } from './network';
 import {
   CHAIN_ID,
-  Mas,
   NetworkName,
+  parseMas,
   PublicApiUrl,
 } from '@massalabs/massa-web3';
 
 const NETWORK_INFO_KEY = 'network_info';
 
-export const DEFAULT_MINIMAL_FEES = Mas.fromString('0.01').toString();
+export const DEFAULT_MINIMAL_FEES = parseMas('0.01').toString();
 export const DEFAULT_NETWORK = {
   rpcUrl: PublicApiUrl.Mainnet,
   chainId: CHAIN_ID.Mainnet.toString(),
