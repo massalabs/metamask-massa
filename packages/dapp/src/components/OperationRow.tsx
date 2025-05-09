@@ -26,7 +26,7 @@ export const OperationRow = ({
       return 'Transaction';
     } else if (!!op.CallSC) {
       return 'Smart Contract Call';
-    } else if (!!op.ExecutSC) {
+    } else if (!!op.ExecuteSC) {
       return 'Smart Contract Execution';
     } else if (!!op.RollBuy) {
       return 'Roll Buy';

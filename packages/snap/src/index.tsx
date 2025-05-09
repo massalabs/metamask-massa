@@ -21,6 +21,7 @@ import type {
   ClearOperationsParams,
   GetBalanceParams,
   DeploySCParameters,
+  ExecuteSCParameters,
 } from './handlers';
 import {
   getBalance,
@@ -38,13 +39,20 @@ import {
   getOperations,
   clearOperations,
   deployContract,
+  executeSC,
 } from './handlers';
 import { getActiveAccount } from './handlers/get-active-account';
 
 import { showKeysConfirmation, showKeys } from './components';
 import { HomePage } from './components/HomePage';
-import { Mas, NetworkName, PublicApiUrl } from '@massalabs/massa-web3';
+import {
+  formatMas,
+  NetworkName,
+  parseMas,
+  PublicApiUrl,
+} from '@massalabs/massa-web3';
 import { getProvider } from './accounts/provider';
+
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -65,6 +73,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return callSmartContract(request.params as CallSCParameters);
     case 'account.deploySC':
       return deployContract(request.params as DeploySCParameters);
+    case 'account.executeSC':
+      return executeSC(request.params as ExecuteSCParameters);
     case 'account.sendTransaction':
       return transfer(request.params as TransferParams);
     case 'account.sellRolls':
@@ -113,7 +123,7 @@ export const onHomePage: OnHomePageHandler = async () => {
       <HomePage
         networkInfo={networkInfo}
         address={address}
-        balance={Mas.toString(balance)}
+        balance={formatMas(balance)}
       />
     ),
   };
@@ -155,7 +165,7 @@ export const onUserInput: OnUserInputHandler = async ({ event, id }) => {
       break;
     case 'send-mas-form':
       assert(event.type === UserInputEventType.FormSubmitEvent);
-      const amount = Mas.fromString(event.value['send-amount'] as string);
+      const amount = parseMas(event.value['send-amount'] as string);
       const params: TransferParams = {
         amount: amount.toString(),
         recipientAddress: event.value['send-recipient'] as string,

@@ -1,7 +1,7 @@
 import { panel, text } from '@metamask/snaps-sdk';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
-import { Address, Mas } from '@massalabs/massa-web3';
+import { Address, formatMas } from '@massalabs/massa-web3';
 import { getProvider } from '../accounts/provider';
 import { getActiveNetwork } from '../active-chain';
 
@@ -53,8 +53,8 @@ export const transfer: Handler<TransferParams, TransferResponse> = async (
       content: panel([
         text('**Do you want to send the following transaction?**'),
         text(`**Recipient:** ${params.recipientAddress}`),
-        text(`**Amount:** ${Mas.toString(amount)} MAS`),
-        text(`**Fee:** ${Mas.toString(fee)} MAS`),
+        text(`**Amount:** ${formatMas(amount)} MAS`),
+        text(`**Fee:** ${formatMas(fee)} MAS`),
       ]),
     },
   });

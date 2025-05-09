@@ -4,7 +4,7 @@ import type { Handler } from './handler';
 import { addAccountOperation } from '../operations';
 import { getProvider } from '../accounts/provider';
 import { getActiveNetwork } from '../active-chain';
-import { Mas } from '@massalabs/massa-web3';
+import { formatMas } from '@massalabs/massa-web3';
 
 export type SellRollsParams = {
   fee: string;
@@ -45,7 +45,7 @@ export const sellRolls: Handler<SellRollsParams, SellRollsResponse> = async (
       content: panel([
         text('**Do you want to sell rolls ?**'),
         text(`**Amount:** ${params.amount}`),
-        text(`**Fee:** ${Mas.toString(fee)} MAS`),
+        text(`**Fee:** ${formatMas(fee)} MAS`),
       ]),
     },
   });

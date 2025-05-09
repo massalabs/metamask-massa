@@ -7,7 +7,7 @@
     "url": "https://github.com/massalabs/metamask-massa.git"
   },
   "source": {
-    "shasum": "A1Stf73pE5v9KTJZNo875Gspjnps5j/MhRfc6u9d2H0=",
+    "shasum": "xBmIrfsBFFOvu4WojQWEJnwkiC0lTEhs1gU5NeCePWc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -37,5 +37,6 @@
       }
     ]
   },
+  "platformVersion": "6.22.1",
   "manifestVersion": "0.1"
 }

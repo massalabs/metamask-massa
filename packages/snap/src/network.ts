@@ -1,6 +1,6 @@
 import {
   getNetworkNameByChainId,
-  Mas,
+  parseMas,
   Web3Provider,
 } from '@massalabs/massa-web3';
 import { getHDAccount } from './accounts/hd-deriver';
@@ -24,7 +24,7 @@ export async function fetchNetworkInfosFromUrl(
   return {
     rpcUrl,
     chainId: networkInfo.chainId.toString(),
-    minimalFees: Mas.fromString(networkInfo.minimalFees!).toString(),
+    minimalFees: parseMas(networkInfo.minimalFees!).toString(),
     networkName: networkName ?? 'Custom',
   };
 }
