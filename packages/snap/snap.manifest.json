@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A snap to manage Massa accounts",
   "proposedName": "Massa",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/massalabs/metamask-massa.git"
   },
   "source": {
-    "shasum": "YHpuPgcWIrqX4rGKPlPImWVUNyC7RnVz6JTvJtzjt6E=",
+    "shasum": "ZP9Nh4+vhw1Lv3ReNrzKUMQfNsK/SRlYXy43C7VyPl4=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
