@@ -2,7 +2,7 @@ import { getProvider } from '../accounts/provider';
 import { addAccountOperation } from '../operations';
 import type { Handler } from './handler';
 import { DeploySc } from '../components/DeploySc';
-import { DeploySCParams } from '@massalabs/massa-web3';
+import { DeploySCParams, Operation } from '@massalabs/massa-web3';
 import { getActiveNetwork } from '../active-chain';
 import type { CallSCResponse } from './call-smart-contract';
 
@@ -90,9 +90,9 @@ export const deployContract: Handler<
     deploySCParams.maxCoins = BigInt(params.maxCoins);
   }
   // bypass protected attribute of deploy function
-  const operationId: string = await (provider as any).deploy(deploySCParams);
-  await addAccountOperation(provider.address, operationId);
+  const operation: Operation = await (provider as any).deploy(deploySCParams);
+  await addAccountOperation(provider.address, operation.id);
   return {
-    operationId,
+    operationId: operation.id,
   };
 };
