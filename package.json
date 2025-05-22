@@ -25,6 +25,9 @@
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
     "test": "yarn workspace @massalabs/metamask-snap run test"
   },
+  "resolutions": {
+    "@metamask/snaps-sdk": "6.22.0"
+  },
   "devDependencies": {
     "@lavamoat/allow-scripts": "^3.0.0",
     "@lavamoat/preinstall-always-fail": "^2.0.0",
